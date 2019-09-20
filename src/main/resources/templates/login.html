@@ -31,6 +31,23 @@
       
       <!-- .hero -->
       <section class="hero is-primary is-fullheight">
+        <!-- .hero-head -->
+      <nav class="hero-head">
+          <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+              <div class="column left">
+                  <figure class="image">
+                      <img th:src="@{/images/CSCParts_logo.png}" style="width: auto; height: auto;">
+                  </figure>
+              </div>
+              
+              <div class="column right">
+                  <figure class="navbar-item image">
+                      <img th:src="@{/images/logo.png}" style="width:203px; height: 203px;">
+                  </figure>
+              </div>
+          </div>
+      </nav>
+      <!-- /.hero-head -->
         <div class="hero-body">
           <div class="container">
             <div class="columns is-centered">
@@ -63,7 +80,7 @@
                     </label>
                   </div>
                   <div class="field">
-                    <button class="button is-success" name="Submit" value="Login" type="Submit" th:text="Login">
+                    <button class="button" style="background-color: #000000;color:white" name="Submit" value="Login" type="Submit" th:text="Login">
                       Login
                     </button>
                   </div>

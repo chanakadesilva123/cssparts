@@ -38,17 +38,17 @@
 }
 /* background */
 .hero {
-  background: black url(../images/home-2.jpg) center / cover;
+  background: black url(../images/background.jpg) center / cover;
 }
 
 @media (max-width: 1024px) {
   .hero {
-    background: black url(../images/home-2.jpg) center / cover;
+    background: black url(../images/background.jpg) center / cover;
   }
 }
 @media (max-width: 768px) {
   .hero {
-    background: black url(../images/home-2.jpg) center / cover;
+    background: black url(../images/background.jpg) center / cover;
   }
 }
 
