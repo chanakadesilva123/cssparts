@@ -30,6 +30,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    
+	public User findUserByUserName(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
@@ -37,5 +42,4 @@ public class UserService {
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return userRepository.save(user);
     }
-
 }

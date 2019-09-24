@@ -7,17 +7,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.Immutable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Immutable
+@Table(name = "X_VW_OS_SALESENTERED_DAY")
+public class DailySalesEntered {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private int id;
-    @Column(name = "role")
-    private String role;
+    @Column(name = "SALESENTEREDTOTAL")
+    private Double total;
 }
