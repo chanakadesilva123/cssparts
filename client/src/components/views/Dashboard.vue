@@ -3,19 +3,6 @@
       <div>
      <span class="headline">DASHBOARD</span><span class="outline"> Overview of Sales, Products & Targets</span>
      <v-row>
-      <!-- /.col -->
-      <v-col cols="12" md="4" lg="2">
-        <v-card color="teal" dark class="mt-50" height="50">
-            <v-list-item>
-              <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Invoiced (MTD)</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-chip>
-                <v-chip color="orange" label text-color="white">{{salesInvoicedMTD}}</v-chip>
-              </v-list-item-chip>
-            </v-list-item>
-        </v-card>
-      </v-col>
       <v-col cols="12" md="4" lg="2">
         <v-card color="info" dark class="mt-50" height="50">
             <v-list-item>
@@ -24,6 +11,42 @@
               </v-list-item-content>
               <v-list-item-chip>
                 <v-chip color="error" label text-color="white" >{{salesInvoicedDaily}}</v-chip>
+              </v-list-item-chip>
+            </v-list-item>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="4" lg="2">
+        <v-card color="error" dark class="mt-50" height="50">
+            <v-list-item>
+              <v-list-item-content class="align-self-center">
+                <v-list-item-title class="subtitle-2">Sales Entered (Daily)</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-chip>
+                <v-chip color="info" label text-color="white" >{{salesEnteredDaily}}</v-chip>
+              </v-list-item-chip>
+            </v-list-item>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="4" lg="2">
+        <v-card color="teal" dark class="mt-50" height="50">
+            <v-list-item>
+              <v-list-item-content class="align-self-center">
+                <v-list-item-title class="subtitle-1">Sales Orders QTY (Daily)</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-chip>
+                <v-chip color="orange" label text-color="white" >{{salesOrdersQtyDaily}}</v-chip>
+              </v-list-item-chip>
+            </v-list-item>
+        </v-card>
+      </v-col>
+      <v-col cols="12" md="4" lg="2">
+        <v-card color="teal" dark class="mt-50" height="50">
+            <v-list-item>
+              <v-list-item-content class="align-self-center">
+                <v-list-item-title class="subtitle-2">Sales Invoiced (MTD)</v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-chip>
+                <v-chip color="orange" label text-color="white">{{salesInvoicedMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
         </v-card>
@@ -40,20 +63,6 @@
             </v-list-item>
         </v-card>
       </v-col>
-
-      <v-col cols="12" md="4" lg="2">
-        <v-card color="error" dark class="mt-50" height="50">
-            <v-list-item>
-              <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Entered (Daily)</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-chip>
-                <v-chip color="info" label text-color="white" >{{salesEnteredDaily}}</v-chip>
-              </v-list-item-chip>
-            </v-list-item>
-        </v-card>
-      </v-col>
-
       <v-col cols="12" md="4" lg="2">
         <v-card color="orange" dark class="mt-50" height="50">
             <v-list-item>
@@ -66,21 +75,7 @@
             </v-list-item>
         </v-card>
       </v-col>
-
-      <v-col cols="12" md="4" lg="2">
-        <v-card color="teal" dark class="mt-50" height="50">
-            <v-list-item>
-              <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-1">Sales Orders QTY (Daily)</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-chip>
-                <v-chip color="orange" label text-color="white" >{{salesOrdersQtyDaily}}</v-chip>
-              </v-list-item-chip>
-            </v-list-item>
-        </v-card>
-      </v-col>
     </v-row>
-    <!-- /.row -->
     <v-row>
       <v-col cols="12" md="6" lg="6">
        <v-card tile>
@@ -97,7 +92,7 @@
               <v-card-title>
                   <span class="subtitle-2">Sales/Target Overview(MTD)</span>
                   <v-spacer/>
-                  <span class="overline">{{targetAchieved}}% Achieved - {{remainingDays}} Days Remain.</span>
+                  <span class="overline">{{targetAchieved}}% Achieved - {{remainingDays}} Days Remaining.</span>
               </v-card-title>
               <v-card-text>
                 <canvas id="salesTargetDoughnut"></canvas>

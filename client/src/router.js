@@ -5,6 +5,7 @@ import Dashboard from "./components/views/Dashboard.vue";
 Vue.use(Router);
 
 const router = new Router({
+  base: "/dashboard",
   mode: "history",
   routes: [
     {

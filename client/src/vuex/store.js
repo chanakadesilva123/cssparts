@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    base: "/",
+    base: "/dashboard",
     apiUrl: "/api/"
   },
   actions: {
@@ -14,7 +14,7 @@ export default new Vuex.Store({
       console.log("getCurrencyValue->sqlView=", sqlView);
       return axios({
         method: "get",
-        url: "/api/dashboard/fetch_currency_value",
+        url: this.state.base+"/api/dashboard/fetch_currency_value",
         params: { sqlView: sqlView }
       });
     },
@@ -22,14 +22,14 @@ export default new Vuex.Store({
         console.log("getQuntityValue->sqlView=", sqlView);
         return axios({
           method: "get",
-          url: "/api/dashboard/fetch_quntity_value",
+          url: this.state.base+"/api/dashboard/fetch_quntity_value",
           params: { sqlView: sqlView }
         });
       },
       getSalesTarget({ commit }) {
         return axios({
           method: "get",
-          url: "/api/dashboard/fetch_sales_target"
+          url: this.state.base+"/api/dashboard/fetch_sales_target"
         });
       }
   }
