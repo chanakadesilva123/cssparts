@@ -1,7 +1,14 @@
 <template>
 <v-container>
       <div>
+    <v-row>
+      <v-col cols="12" md="6" lg="6">
      <span class="headline">DASHBOARD</span><span class="outline"> Overview of Sales, Products & Targets</span>
+      </v-col>
+      <v-col cols="12" md="6" lg="6" class="text-right">
+     <span class="overline text-right">LAST UPDATED : {{this.$store.state.lastUpdated}}</span>
+     </v-col>
+    </v-row>
      <v-row>
       <v-col cols="12" md="4" lg="2">
         <v-card color="info" dark class="mt-50" height="50">

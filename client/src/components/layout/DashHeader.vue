@@ -16,7 +16,18 @@
 
 <script>
 export default {
+data () {
+	return {
+    polling: null,
+  }
+},
   methods: {
+    pollData () {
+		this.polling = setInterval(() => {
+      this.$store.dispatch("setLastUpdatedTime");
+			this.$router.go();
+		}, 3600000)
+	},
     doLogout() {
       this.$router.push({ name: "logout" });
       this.$router.go();
@@ -24,6 +35,13 @@ export default {
     doReload() {
       this.$router.go();
     }
+  },
+  beforeDestroy () {
+    console.log('this.polling',this.polling);
+    clearInterval(this.polling)
+  },
+  created () {
+	this.pollData()
   }
 };
 </script>

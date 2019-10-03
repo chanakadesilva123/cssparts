@@ -12,7 +12,7 @@
 	<artifactId>dashboard</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-	<name>demo</name>
+	<name>cscparts</name>
 	<description>CSCParts - Dashboard</description>
 
 	<properties>
