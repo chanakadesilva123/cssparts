@@ -27,3 +27,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+### Used installs
+npm i vue-google-charts (https://github.com/devstark-com/vue-google-charts?ref=madewithvuejs.com)
+npm i vuetify

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
@@ -8,11 +10,14 @@ export default new Vuex.Store({
   state: {
     base: "/dashboard",
     apiUrl: "/api/",
-    lastUpdated:new Date
+    lastUpdated:new Date,
+    thisMonth: (new Date).toLocaleString('default', { month: 'long' }),
+    thisDay: (new Date).toLocaleDateString()
   },
   mutations: {
     SET_LAST_UPDATED_TIME(state, now) {
       state.lastUpdated = now;
+      state.thisMonth = now.toLocaleString('default', { month: 'long' });
     }
   },
   actions: {
@@ -34,12 +39,12 @@ export default new Vuex.Store({
           url: this.state.base+"/api/dashboard/fetch_quntity_value",
           params: { sqlView: sqlView }
         });
-      },
-      getSalesTarget({ commit }) {
+    },
+    getSalesTarget({ commit }) {
         return axios({
           method: "get",
           url: this.state.base+"/api/dashboard/fetch_sales_target"
         });
-      }
+    }
   }
 })

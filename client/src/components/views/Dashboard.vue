@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-side-effects-in-computed-properties */
 <template>
 <v-container>
       <div>
@@ -17,7 +18,7 @@
                 <v-list-item-title class="subtitle-2">Sales Invoiced (Daily)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip>
-                <v-chip color="error" label text-color="white" >{{salesInvoicedDaily}}</v-chip>
+                <v-chip color="error" label text-color="white" >${{salesInvoicedDaily}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
         </v-card>
@@ -29,7 +30,7 @@
                 <v-list-item-title class="subtitle-2">Sales Entered (Daily)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip>
-                <v-chip color="info" label text-color="white" >{{salesEnteredDaily}}</v-chip>
+                <v-chip color="info" label text-color="white" >${{salesEnteredDaily}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
         </v-card>
@@ -53,7 +54,7 @@
                 <v-list-item-title class="subtitle-2">Sales Invoiced (MTD)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip>
-                <v-chip color="orange" label text-color="white">{{salesInvoicedMTD}}</v-chip>
+                <v-chip color="orange" label text-color="white">${{salesInvoicedMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
         </v-card>
@@ -65,7 +66,7 @@
                 <v-list-item-title class="subtitle-2">Sales Entered (MTD)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip>
-                <v-chip color="primary" label text-color="white" >{{salesEnteredMTD}}</v-chip>
+                <v-chip color="primary" label text-color="white" >${{salesEnteredMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
         </v-card>
@@ -185,7 +186,7 @@
 </template>
 <script>
 import Chart from 'chart.js';
-
+/* eslint-disable no-console */
 export default {
   name: 'Dashboard',
   data() {
@@ -214,10 +215,10 @@ export default {
       return this.salesTarget.map(salesTarget => salesTarget.period);
     },
     salesNumbers() {
-      return this.salesTarget.map(salesTarget => salesTarget.sales.toFixed(2));
+      return this.salesTarget.map(salesTarget => salesTarget.sales?salesTarget.sales.toFixed(2):0);
     },
     targetNumbers() {
-      return this.salesTarget.map(salesTarget => salesTarget.target.toFixed(2));
+      return this.salesTarget.map(salesTarget => salesTarget.target?salesTarget.target.toFixed(2):0);
     },
     salesTargetMTD() {
       let arraySalesTargetMTD = [];
@@ -229,7 +230,8 @@ export default {
         if(salesTargetMTDData[0]!=null && salesTargetMTDData[0].sales>0 && salesTargetMTDData[0]!=null && salesTargetMTDData[0].target>0)
         {
         let pecentage=((salesTargetMTDData[0].sales/salesTargetMTDData[0].target) * 100).toFixed(2);
-        this.targetAchieved=pecentage;
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.targetAchieved = pecentage;
         console.log("getSalesTarget pecentage="+pecentage);
         arraySalesTargetMTD.push(pecentage,(100 - pecentage).toFixed(2));
         }

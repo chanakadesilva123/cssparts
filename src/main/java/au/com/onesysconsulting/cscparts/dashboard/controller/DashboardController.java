@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -62,6 +63,18 @@ public class DashboardController {
                 status = true;
                 message = "SUCCESS";
             }
+            if(sqlView.equalsIgnoreCase("salesQuotesDaily"))
+            {
+                value = dashboardService.findSalesQuotesDaily();
+                status = true;
+                message = "SUCCESS";
+            }
+            if(sqlView.equalsIgnoreCase("salesQuotesMTD"))
+            {
+                value = dashboardService.findSalesQuotesMTD();
+                status = true;
+                message = "SUCCESS";
+            }
         }
         else{
             message = "INVALID INPUT PARAM or INPUT PARAM EMPTY";
@@ -69,7 +82,10 @@ public class DashboardController {
         Map<String,String> result = new HashMap<String,String>();
         result.put("message", message);
         result.put("status", String.valueOf(status));
-        result.put("value", NumberFormat.getCurrencyInstance().format(value));
+        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        result.put("value", formatter.format(value));
         LOG.info("getCurrencyValue->value=" + value);
         Gson gson = new Gson();
         return gson.toJson(result);
