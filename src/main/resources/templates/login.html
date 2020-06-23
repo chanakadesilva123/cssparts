@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+          <head><link rel="stylesheet" th:href="@{/css/normalize.css}">
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <link rel=icon href=../img/favicon.ico>
+              <title>CSSParts - Dashboard</title>
+              <link rel="stylesheet" 
+              th:href="@{/css/bulma.min.css}">
+              <script defer th:src="@{/js/all.js}"></script>
+              <!-- <link rel="stylesheet" href="styles/debug.css"> -->
+              <link rel="stylesheet" th:href="@{/css/helpers.css}">
+              <link rel="stylesheet" th:href="@{/css/grid.css}">
+              <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+              <script type="text/javascript">
+              $(document).ready(function() {
+             
+            });
+            function showModal() {
+                console.log('showModal');
+                $(".modal").addClass("is-active");  
+              }
+              function closeModal() {
+                $(".modal").removeClass("is-active");
+              }
+
+              </script>
+          </head>
+          <body>
+      
+      <!-- .hero -->
+      <section class="hero is-primary is-fullheight">
+        <!-- .hero-head -->
+      <nav class="hero-head">
+          <div class="columns is-mobile is-marginless heading has-text-weight-bold">
+              <div class="column left">
+                  <figure class="image">
+                      <img th:src="@{/img/CSCParts_logo.png}" style="width: auto; height: auto;">
+                  </figure>
+              </div>
+              
+              <div class="column right">
+                  <figure class="navbar-item image">
+                      <img th:src="@{/img/logo.png}" style="width:203px; height: 203px;">
+                  </figure>
+              </div>
+          </div>
+      </nav>
+      <!-- /.hero-head -->
+        <div class="hero-body">
+          <div class="container">
+            <div class="columns is-centered">
+              <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+                <form th:action="@{/login}" method="POST" class="box">
+                  <div class="field">
+                    <label for="" class="label">Login name</label>
+                    <div class="control has-icons-left">
+                        <input type="input" id="userName" name="userName" th:placeholder="userName"
+                        class="input" required/>
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-user"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="" class="label">Password</label>
+                    <div class="control has-icons-left">
+                      <input class="input" type="password" th:placeholder="Password"
+                        id="password" name="password" required/>
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-lock"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="" class="checkbox">
+                      <input type="checkbox">
+                     Remember me
+                    </label>
+                  </div>
+                  <div class="field">
+                    <button class="button" style="background-color: #000000;color:white" name="Submit" value="Login" type="Submit" th:text="Login">
+                      Login
+                    </button>
+                  </div>
+                  <div align="center" th:if="${param.error}">
+                    <p style="font-size: 20; color: #FF1C19;">Login name or Password invalid, please verify</p>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+          </body>
+      </html>

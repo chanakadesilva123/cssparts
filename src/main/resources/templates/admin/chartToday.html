@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="../css/bootstrap.css">
+
+<link rel=icon href=../img/favicon.ico>
+<title>CSCParts - Dashboard</title>
+
+  </head>
+  <body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: black;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <a class="navbar-brand" href="#"><img src="../img/logo.c90ecd5a.png" height="30" alt="mdb logo"></a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            
+          </ul>
+          <div>
+            <span class="mr-40"><a href="#"></a><i class="fas fa-home"></i></a></span>
+            <span class="mr-40"><a href="#"><i class="fas fa-chart-pie "></i></a></span>
+            <span class="mr-40"><a href="/logout"><i class="fas fa-sign-out-alt"></i></i></a></span>
+           
+          </div>
+        </div>
+      </nav>
+      </header>
+      <main role="main">
+        <section class="text-left px-2 mt-5">
+          <span class="h2">DASHBOARD</span><span class="h5" th:text="${'Quotes , Orders & Invoices -  Today ('+toDay+')'}"></span>
+        </section>
+        <div class="album py-5 px-2 bg-light">
+          <div class="row">
+              <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header h3">Quotes</div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5" id="guage_div_quotes" ></div>
+                    <div class="col-md-7 card-body" style="padding-top: 20px;">
+                      <button type="button" class="btn btn-primary" th:title="${'Total : $' + salesQuotesDaily}"><span th:text="${'Total : $ ' + salesQuotesDaily}"></span></button>
+                      <button type="button" class="btn btn-success" th:title="${'Target : $' + salesTargetDaily}"><span th:text="${'Target : $ ' + salesTargetDaily}"></span></button>
+                      <div class="table-responsive mt-2">
+                      <table class="table table-sm table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Qty</th>
+                            <td th:text="${salesQuotesQtyDaily}"></td>
+                            <td>50</td>
+                         </tr>
+                          <tr>
+                            <th scope="row">Avg $</th>
+                            <td>910</td>
+                            <td>1000</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Avg GP %</th>
+                            <td>45</td>
+                            <td>65</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    </div>
+                    <div id="graph_div_quotes" style="width: 500px; height: 500px;"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header h3">Orders</div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5" id="guage_div_orders" ></div>
+                    <div class="col-md-7 card-body" style="padding-top: 20px;">
+                      <button type="button" class="btn btn-warning" th:title="${'Total : $' + salesOrderedDaily}"><span th:text="${'Total : $ ' + salesOrderedDaily}"></span></button>
+                      <button type="button" class="btn btn-success" th:title="${'Target : $' + salesTargetDaily}"><span th:text="${'Target : $ ' + salesTargetDaily}"></span></button>
+                      <div class="table-responsive mt-2">
+                      <table class="table table-sm table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Qty</th>
+                            <td th:text="${salesOrderedQtyDaily}"></td>
+                            <td>50</td>
+                         </tr>
+                          <tr>
+                            <th scope="row">Avg $</th>
+                            <td>910</td>
+                            <td>1000</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Avg GP %</th>
+                            <td>45</td>
+                            <td>65</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    </div>
+                    <div id="graph_div_orders" style="width: 500px; height: 500px;"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header h3">Invoices</div>
+                  <div class="row no-gutters">
+                    <div class="col-md-5" id="guage_div_invoices" ></div>
+                    <div class="col-md-7 card-body" style="padding-top: 20px;">
+                      <button type="button" class="btn btn-danger" th:title="${'Total : $' + salesInvoicedDaily}"><span th:text="${'Total : $ ' + salesInvoicedDaily}"></span></button>
+                      <button type="button" class="btn btn-success" th:title="${'Target : $' + salesTargetDaily}"><span th:text="${'Target : $ ' + salesTargetDaily}"></span></button>
+                      <div class="table-responsive mt-2">
+                      <table class="table table-sm table-bordered">
+                        <thead>
+                          <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Actual</th>
+                            <th scope="col">Target</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">Qty</th>
+                            <td th:text="${salesInvoicedQtyDaily}"></td>
+                            <td>50</td>
+                         </tr>
+                          <tr>
+                            <th scope="row">Avg $</th>
+                            <td>910</td>
+                            <td>1000</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Avg GP %</th>
+                            <td>45</td>
+                            <td>65</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
+                    </div>
+                    <div id="graph_div_invoices" style="width: 500px; height: 500px;"></div>
+                </div>
+              </div>
+              </div>
+              </div>
+         
+      </main>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery -->
+<script type="text/javascript" src="../js/jquery.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<!-- Google chart -->
+<script type="text/javascript" src="../js/loader.js"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  var salesOrderedDaily = /*[[${salesOrderedDaily}]]*/ '0';
+  var salesInvoicedDaily = /*[[${salesInvoicedDaily}]]*/ '0';
+  var salesQuotesDaily = /*[[${salesQuotesDaily}]]*/ '0';
+  var salesTargetDaily = /*[[${salesTargetDaily}]]*/ '0';
+  console.log('salesOrderedDaily-->'+salesOrderedDaily);
+  console.log('salesInvoicedDaily-->'+salesInvoicedDaily);
+  console.log('salesQuotesDaily-->'+salesQuotesDaily);
+  console.log('salesTargetDaily-->'+salesTargetDaily);
+
+  var targetAchievedOrders = /*[[${targetAchievedOrders}]]*/ 0;
+  var targetAchievedQuotes = /*[[${targetAchievedQuotes}]]*/ 0;
+  var targetAchievedInvoices = /*[[${targetAchievedInvoices}]]*/ 0;
+  console.log('targetAchievedOrders-->'+targetAchievedOrders);
+  console.log('targetAchievedQuotes-->'+targetAchievedQuotes);
+  console.log('targetAchievedInvoices-->'+targetAchievedInvoices);
+  
+
+/*]]>*/
+  google.charts.load('current', {packages: ['corechart','gauge','bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    // Define the chart to be drawn.
+    var dataQuotes = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Quotes', {v:targetAchievedQuotes,f:targetAchievedQuotes+'%'}]
+        ]);
+
+    var optionsQuotes = {
+          width: 800,
+          height: 240,
+          redColor:'#0069D9',
+          redFrom: 0,
+          redTo: targetAchievedQuotes,
+          greenFrom:targetAchievedQuotes,
+          greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chartQuotes = new google.visualization.Gauge(document.getElementById('guage_div_quotes'));
+
+        chartQuotes.draw(dataQuotes, optionsQuotes);
+        // Define the chart to be drawn.
+    var dataOrders = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Orders', {v:targetAchievedOrders,f:targetAchievedOrders+'%'}]
+        ]);
+
+    var optionsOrders = {
+          width: 800,
+          height: 240,
+          yellowFrom: 0,
+          yellowTo: targetAchievedOrders,
+          greenFrom:targetAchievedOrders,
+          greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chartOrders = new google.visualization.Gauge(document.getElementById('guage_div_orders'));
+
+        chartOrders.draw(dataOrders, optionsOrders);
+            // Define the chart to be drawn.
+    var dataInvoices = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Invoices', {v:targetAchievedInvoices,f:targetAchievedInvoices+'%'}]
+        ]);
+
+    var optionsInvoices = {
+          width: 800,
+          height: 240,
+          redFrom: 0,
+          redTo: targetAchievedInvoices,
+          greenFrom:targetAchievedInvoices,
+          greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chartInvoices = new google.visualization.Gauge(document.getElementById('guage_div_invoices'));
+
+        chartInvoices.draw(dataInvoices, optionsInvoices);
+
+       
+        var dataGraphInvoices = google.visualization.arrayToDataTable([
+          ['Date', 'Sales', 'Target'],
+          ['01-June', 8000, 9000],
+          ['02-June', 24000, 20000],
+          ['03-June', 30000, 29000],
+          ['04-June', 50000, 55000],
+          ['05-June', 60000, 50000]
+        ]);
+
+        var dataGraphInvoicesOptions = {
+          width: 500,
+          title: 'Sales vs Target',
+         trendlines: {
+            0: {
+              type: 'linear',
+              labelInLegend: 'Sales line',
+              visibleInLegend: true,
+              color: 'green'
+            },
+            1: {
+              type: 'linear',
+              labelInLegend: 'Target line',
+              visibleInLegend: true,
+              color: 'green'
+            }
+          }
+        };
+        var graphInvoices = new google.visualization.AreaChart(graph_div_invoices);
+        graphInvoices.draw(dataGraphInvoices, dataGraphInvoicesOptions);
+          
+        var dataGraphOrders = google.visualization.arrayToDataTable([
+          ['Date', 'Sales', 'Target'],
+          ['01-June', 8000, 9000],
+          ['02-June', 24000, 20000],
+          ['03-June', 30000, 29000],
+          ['04-June', 50000, 55000],
+          ['05-June', 60000, 50000]
+        ]);
+
+        var dataGraphOrdersOptions = {
+          width: 500,
+          title: 'Sales vs Target',
+         trendlines: {
+            0: {
+              type: 'linear',
+              labelInLegend: 'Sales line',
+              visibleInLegend: true,
+              color: 'green'
+            },
+            1: {
+              type: 'linear',
+              labelInLegend: 'Target line',
+              visibleInLegend: true,
+              color: 'green'
+            }
+          }
+        };
+        var graphOrders = new google.visualization.AreaChart(graph_div_orders);
+        graphOrders.draw(dataGraphOrders, dataGraphOrdersOptions);
+            
+        var dataGraphQuotes = google.visualization.arrayToDataTable([
+          ['Date', 'Sales', 'Target'],
+          ['01-June', 8000, 9000],
+          ['02-June', 24000, 20000],
+          ['03-June', 30000, 29000],
+          ['04-June', 50000, 55000],
+          ['05-June', 60000, 50000]
+        ]);
+
+        var dataGraphQuotesOptions = {
+          width: 500,
+          title: 'Sales vs Target',
+         trendlines: {
+            0: {
+              type: 'linear',
+              labelInLegend: 'Sales line',
+              visibleInLegend: true,
+              color: 'green'
+            },
+            1: {
+              type: 'linear',
+              labelInLegend: 'Target line',
+              visibleInLegend: true,
+              color: 'green'
+            }
+          }
+        };
+        var graphQuotes = new google.visualization.AreaChart(graph_div_quotes);
+        graphQuotes.draw(dataGraphQuotes, dataGraphQuotesOptions);
+  }
+  
+    </script>
+</script>
+  </body>
+    </html>
