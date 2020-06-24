@@ -8,7 +8,7 @@ import Last3MonthsCharts from "./components/views/Last3MonthsCharts.vue";
 Vue.use(Router);
 
 const router = new Router({
-  base: "",
+  base: "/dashboard",
   mode: "history",
   routes: [
     {

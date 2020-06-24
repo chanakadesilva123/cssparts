@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    base: "",
+    base: "/dashboard",
     apiUrl: "/api/",
     lastUpdated:new Date,
     thisMonth: (new Date).toLocaleString('default', { month: 'long' }),

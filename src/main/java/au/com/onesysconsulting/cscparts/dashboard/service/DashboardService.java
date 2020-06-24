@@ -17,9 +17,13 @@ import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesEntered;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoiced;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoicedQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrderQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetOrders;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredRepository;
@@ -28,9 +32,13 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedR
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrderQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyOrdersTargetRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyQuotesTargetRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesEnteredRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrderQtyRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesTargetRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesTargetRepository;
@@ -53,10 +61,13 @@ public class DashboardService {
     private DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository;
     private DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository;
     private DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository;
-    
+    private MonthlyQuotesTargetRepository monthlyQuotesTargetRepository;
+    private MonthlyOrdersTargetRepository monthlyOrdersTargetRepository;
+    private MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository;
+    private MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository;
     
     @Autowired
-    public DashboardService(MonthlySalesInvoicedRepository monthlySalesInvoicedRepository,DailySalesInvoicedRepository dailySalesInvoicedRepository,MonthlySalesEnteredRepository monthlySalesEnteredRepository,DailySalesEnteredRepository dailySalesEnteredRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository)
+    public DashboardService(MonthlySalesInvoicedRepository monthlySalesInvoicedRepository,DailySalesInvoicedRepository dailySalesInvoicedRepository,MonthlySalesEnteredRepository monthlySalesEnteredRepository,DailySalesEnteredRepository dailySalesEnteredRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlyQuotesTargetRepository monthlyQuotesTargetRepository,MonthlyOrdersTargetRepository monthlyOrdersTargetRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository)
     {
         this.monthlySalesInvoicedRepository = monthlySalesInvoicedRepository;
         this.dailySalesInvoicedRepository = dailySalesInvoicedRepository;
@@ -71,6 +82,10 @@ public class DashboardService {
         this.dailySalesEnteredQtyRepository = dailySalesEnteredQtyRepository;
         this.dailySalesQuotesQtyRepository = dailySalesQuotesQtyRepository;
         this.dailySalesInvoicedQtyRepository = dailySalesInvoicedQtyRepository;
+        this.monthlyQuotesTargetRepository = monthlyQuotesTargetRepository;
+        this.monthlyOrdersTargetRepository = monthlyOrdersTargetRepository;
+        this.monthlySalesInvoicedQtyRepository = monthlySalesInvoicedQtyRepository;
+        this.monthlySalesQuotesQtyRepository = monthlySalesQuotesQtyRepository;
     }
 
     public double findSalesInvoicedMTD()
@@ -164,6 +179,16 @@ public class DashboardService {
         }
         return 0;
     }
+    public int findSalesInvoicedQtyMTD() {
+		List<MonthlySalesInvoicedQty> monthlySalesInvoicedQtyList = this.monthlySalesInvoicedQtyRepository.findAll();
+        if(monthlySalesInvoicedQtyList!=null && monthlySalesInvoicedQtyList.size()>0 && monthlySalesInvoicedQtyList.get(0)!=null && monthlySalesInvoicedQtyList.get(0).getTotal()!=null && !monthlySalesInvoicedQtyList.get(0).getTotal().isNaN())
+        {
+            return monthlySalesInvoicedQtyList.get(0).getTotal().intValue();
+        }
+       
+            return 0;
+        
+	}
     public int findSalesInvoicedQtyDaily() {
 		List<DailySalesInvoicedQty> dailySalesInvoicedQtyList = this.dailySalesInvoicedQtyRepository.findAll();
         if(dailySalesInvoicedQtyList!=null && dailySalesInvoicedQtyList.size()>0 && dailySalesInvoicedQtyList.get(0)!=null && dailySalesInvoicedQtyList.get(0).getTotal()!=null && !dailySalesInvoicedQtyList.get(0).getTotal().isNaN())
@@ -177,6 +202,14 @@ public class DashboardService {
         if(dailySalesQuotesQtyList!=null && dailySalesQuotesQtyList.size()>0 && dailySalesQuotesQtyList.get(0)!=null && dailySalesQuotesQtyList.get(0).getTotal()!=null && !dailySalesQuotesQtyList.get(0).getTotal().isNaN())
         {
             return dailySalesQuotesQtyList.get(0).getTotal().intValue();
+        }
+        return 0;
+    }
+    public int findSalesQuotesQtyMTD() {
+		List<MonthlySalesQuotesQty> monthlySalesQuotesQtyList = this.monthlySalesQuotesQtyRepository.findAll();
+        if(monthlySalesQuotesQtyList!=null && monthlySalesQuotesQtyList.size()>0 && monthlySalesQuotesQtyList.get(0)!=null && monthlySalesQuotesQtyList.get(0).getTotal()!=null && !monthlySalesQuotesQtyList.get(0).getTotal().isNaN())
+        {
+            return monthlySalesQuotesQtyList.get(0).getTotal().intValue();
         }
         return 0;
 	}
@@ -199,6 +232,33 @@ public class DashboardService {
             return monthlyTraget/noOfDaysInCurrentMonth;
         }
         return 0D;
+       
+    }
+    public double findSalesTargetMTD() {
+		List<MonthlySalesTarget> monthlySalesTargetList = this.findMonthlySalesTarget();
+        if(monthlySalesTargetList!=null && monthlySalesTargetList.size()>0 && monthlySalesTargetList.get(0)!=null && monthlySalesTargetList.get(0).getTarget()!=null && !monthlySalesTargetList.get(0).getTarget().isNaN())
+        {
+            return monthlySalesTargetList.get(0).getTarget().doubleValue();
+        }
+        return 0D;
+       
+    }
+    public MonthlyTargetQuotes findQuotesTargetMTD() {
+		List<MonthlyTargetQuotes> monthlyQuotesTargetList = this.monthlyQuotesTargetRepository.findAll();
+        if(monthlyQuotesTargetList!=null && monthlyQuotesTargetList.size()>0 && monthlyQuotesTargetList.get(0)!=null && monthlyQuotesTargetList.get(0).getTargetQty()!=null && !monthlyQuotesTargetList.get(0).getTargetQty().isNaN())
+        {
+            return monthlyQuotesTargetList.get(0);
+        }
+        return null;
+       
+    }
+    public MonthlyTargetOrders findOrdersTargetMTD() {
+		List<MonthlyTargetOrders> monthlyOrdersTargetList = this.monthlyOrdersTargetRepository.findAll();
+        if(monthlyOrdersTargetList!=null && monthlyOrdersTargetList.size()>0 && monthlyOrdersTargetList.get(0)!=null && monthlyOrdersTargetList.get(0).getTargetQty()!=null && !monthlyOrdersTargetList.get(0).getTargetQty().isNaN())
+        {
+            return monthlyOrdersTargetList.get(0);
+        }
+        return null;
        
     }
 }
