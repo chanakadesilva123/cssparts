@@ -22,8 +22,7 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrderQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetOrders;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetQuotes;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredRepository;
@@ -32,8 +31,6 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedR
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrderQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyOrdersTargetRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyQuotesTargetRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesEnteredRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedRepository;
@@ -41,6 +38,7 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrderQt
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesTargetRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyTargetsRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesTargetRepository;
 
 @Service("dashboardService")
@@ -61,13 +59,12 @@ public class DashboardService {
     private DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository;
     private DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository;
     private DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository;
-    private MonthlyQuotesTargetRepository monthlyQuotesTargetRepository;
-    private MonthlyOrdersTargetRepository monthlyOrdersTargetRepository;
     private MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository;
     private MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository;
-    
+    private MonthlyTargetsRepository monthlyTargetsRepository;
+
     @Autowired
-    public DashboardService(MonthlySalesInvoicedRepository monthlySalesInvoicedRepository,DailySalesInvoicedRepository dailySalesInvoicedRepository,MonthlySalesEnteredRepository monthlySalesEnteredRepository,DailySalesEnteredRepository dailySalesEnteredRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlyQuotesTargetRepository monthlyQuotesTargetRepository,MonthlyOrdersTargetRepository monthlyOrdersTargetRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository)
+    public DashboardService(MonthlySalesInvoicedRepository monthlySalesInvoicedRepository,DailySalesInvoicedRepository dailySalesInvoicedRepository,MonthlySalesEnteredRepository monthlySalesEnteredRepository,DailySalesEnteredRepository dailySalesEnteredRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository)
     {
         this.monthlySalesInvoicedRepository = monthlySalesInvoicedRepository;
         this.dailySalesInvoicedRepository = dailySalesInvoicedRepository;
@@ -82,10 +79,9 @@ public class DashboardService {
         this.dailySalesEnteredQtyRepository = dailySalesEnteredQtyRepository;
         this.dailySalesQuotesQtyRepository = dailySalesQuotesQtyRepository;
         this.dailySalesInvoicedQtyRepository = dailySalesInvoicedQtyRepository;
-        this.monthlyQuotesTargetRepository = monthlyQuotesTargetRepository;
-        this.monthlyOrdersTargetRepository = monthlyOrdersTargetRepository;
         this.monthlySalesInvoicedQtyRepository = monthlySalesInvoicedQtyRepository;
         this.monthlySalesQuotesQtyRepository = monthlySalesQuotesQtyRepository;
+        this.monthlyTargetsRepository = monthlyTargetsRepository;
     }
 
     public double findSalesInvoicedMTD()
@@ -221,15 +217,13 @@ public class DashboardService {
 		return this.monthlySalesTargetRepository.findAll();
 	}
 
-    public double findSalesTargetDaily() {
-		List<MonthlySalesTarget> monthlySalesTargetList = this.findMonthlySalesTarget();
-        if(monthlySalesTargetList!=null && monthlySalesTargetList.size()>0 && monthlySalesTargetList.get(0)!=null && monthlySalesTargetList.get(0).getTarget()!=null && !monthlySalesTargetList.get(0).getTarget().isNaN())
+    public double findDailyTarget(Double monthlyTraget) {
+		if(monthlyTraget!=null && !monthlyTraget.isNaN())
         {
-            double monthlyTraget = monthlySalesTargetList.get(0).getTarget().doubleValue();
             Calendar calendar = Calendar.getInstance();
             int noOfDaysInCurrentMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-            LOG.info("noOfDaysInCurrentMonth="+noOfDaysInCurrentMonth+", monthlyTraget="+monthlyTraget);
-            return monthlyTraget/noOfDaysInCurrentMonth;
+            LOG.info("noOfDaysInCurrentMonth="+noOfDaysInCurrentMonth+", monthlyTraget="+monthlyTraget.doubleValue());
+            return monthlyTraget.doubleValue()/noOfDaysInCurrentMonth;
         }
         return 0D;
        
@@ -243,22 +237,8 @@ public class DashboardService {
         return 0D;
        
     }
-    public MonthlyTargetQuotes findQuotesTargetMTD() {
-		List<MonthlyTargetQuotes> monthlyQuotesTargetList = this.monthlyQuotesTargetRepository.findAll();
-        if(monthlyQuotesTargetList!=null && monthlyQuotesTargetList.size()>0 && monthlyQuotesTargetList.get(0)!=null && monthlyQuotesTargetList.get(0).getTargetQty()!=null && !monthlyQuotesTargetList.get(0).getTargetQty().isNaN())
-        {
-            return monthlyQuotesTargetList.get(0);
-        }
-        return null;
-       
+    public MonthlyTargets findMonthlyTargets(int monthNo) {
+		return this.monthlyTargetsRepository.findByMonth(monthNo);
     }
-    public MonthlyTargetOrders findOrdersTargetMTD() {
-		List<MonthlyTargetOrders> monthlyOrdersTargetList = this.monthlyOrdersTargetRepository.findAll();
-        if(monthlyOrdersTargetList!=null && monthlyOrdersTargetList.size()>0 && monthlyOrdersTargetList.get(0)!=null && monthlyOrdersTargetList.get(0).getTargetQty()!=null && !monthlyOrdersTargetList.get(0).getTargetQty().isNaN())
-        {
-            return monthlyOrdersTargetList.get(0);
-        }
-        return null;
-       
-    }
+
 }

@@ -13,11 +13,11 @@
      <v-row>
       <v-col cols="12" md="4" lg="2">
         <v-card color="info" dark class="mt-50" height="50">
-            <v-list-item>
-              <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Invoiced (Daily)</v-list-item-title>
+            <v-list-item class="text-center">
+              <v-list-item-content>
+                <v-list-item-title class="caption">Sales Invoiced <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="error" label text-color="white" >${{salesInvoicedDaily}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
@@ -25,11 +25,11 @@
       </v-col>
       <v-col cols="12" md="4" lg="2">
         <v-card color="error" dark class="mt-50" height="50">
-            <v-list-item>
+            <v-list-item class="text-center">
               <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Entered (Daily)</v-list-item-title>
+                <v-list-item-title class="caption">Sales Entered <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="info" label text-color="white" >${{salesEnteredDaily}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
@@ -37,11 +37,11 @@
       </v-col>
       <v-col cols="12" md="4" lg="2">
         <v-card color="teal" dark class="mt-50" height="50">
-            <v-list-item>
+            <v-list-item class="text-center">
               <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-1">Sales Orders QTY (Daily)</v-list-item-title>
+                <v-list-item-title class="caption">Sales Orders QTY <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="orange" label text-color="white" >{{salesOrdersQtyDaily}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
@@ -49,11 +49,11 @@
       </v-col>
       <v-col cols="12" md="4" lg="2">
         <v-card color="teal" dark class="mt-50" height="50">
-            <v-list-item>
+            <v-list-item class="text-center">
               <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Invoiced (MTD)</v-list-item-title>
+                <v-list-item-title class="caption">Sales Invoiced <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="orange" label text-color="white">${{salesInvoicedMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
@@ -61,11 +61,11 @@
       </v-col>
       <v-col cols="12" md="4" lg="2">
        <v-card color="success" dark class="mt-50" height="50">
-            <v-list-item>
+            <v-list-item class="text-center">
               <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-2">Sales Entered (MTD)</v-list-item-title>
+                <v-list-item-title class="caption">Sales Entered <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="primary" label text-color="white" >${{salesEnteredMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
@@ -73,11 +73,11 @@
       </v-col>
       <v-col cols="12" md="4" lg="2">
         <v-card color="orange" dark class="mt-50" height="50">
-            <v-list-item>
+            <v-list-item class="text-center">
               <v-list-item-content class="align-self-center">
-                <v-list-item-title class="subtitle-1">Sales Orders QTY (MTD)</v-list-item-title>
+                <v-list-item-title class="caption">Sales Orders QTY <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
-              <v-list-item-chip>
+              <v-list-item-chip class="mb-3">
                 <v-chip color="error" label text-color="white" >{{salesOrdersQtyMTD}}</v-chip>
               </v-list-item-chip>
             </v-list-item>
