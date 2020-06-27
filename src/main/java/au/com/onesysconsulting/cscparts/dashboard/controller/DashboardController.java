@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoices;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrders;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotes;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoices;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.service.DashboardService;
 
@@ -41,37 +46,43 @@ public class DashboardController {
         {
             if(sqlView.equalsIgnoreCase("salesInvoicedMTD"))
             {
-                value = dashboardService.findSalesInvoicedMTD();
+                MonthlySalesInvoices monthlySalesInvoices = dashboardService.findSalesInvoicesMTD();
+                value = monthlySalesInvoices!=null && monthlySalesInvoices.getTotal()!=null?monthlySalesInvoices.getTotal().doubleValue():0D;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesInvoicedDaily"))
             {
-                value = dashboardService.findSalesInvoicedDaily();
+                DailySalesInvoices dailySalesInvoices = dashboardService.findSalesInvoicesDaily();
+                value = dailySalesInvoices!=null && dailySalesInvoices.getTotal()!=null?dailySalesInvoices.getTotal().doubleValue():0D;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesEnteredMTD"))
             {
-                value = dashboardService.findSalesEnteredMTD();
+                MonthlySalesOrders monthlySalesOrders = dashboardService.findSalesOrdersMTD();
+                value = monthlySalesOrders!=null && monthlySalesOrders.getTotal()!=null?monthlySalesOrders.getTotal().doubleValue():0D;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesEnteredDaily"))
             {
-                value = dashboardService.findSalesEnteredDaily();
+                DailySalesOrders dailySalesOrders = dashboardService.findSalesOrdersDaily();
+                value = dailySalesOrders!=null && dailySalesOrders.getTotal()!=null?dailySalesOrders.getTotal().doubleValue():0D;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesQuotesDaily"))
             {
-                value = dashboardService.findSalesQuotesDaily();
+                
+                DailySalesQuotes dailySalesQuotes = dashboardService.findSalesQuotesDaily();
+                value = dailySalesQuotes!=null && dailySalesQuotes.getTotal()!=null?dailySalesQuotes.getTotal().doubleValue():0D;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesQuotesMTD"))
             {
-                value = dashboardService.findSalesQuotesMTD();
+                value = dashboardService.findSalesQuotesMTD().getTotal().doubleValue();
                 status = true;
                 message = "SUCCESS";
             }

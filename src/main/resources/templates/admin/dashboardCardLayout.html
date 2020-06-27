@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="cardFields(totalValue, targetValue, qtyValue, qtyTarget,avgValue,avgTarget,avgProfitValue,avgProfitTarget)">
+        <div class="d-flex justify-content-center">
+            <button type="button" class="col-md-5 btn btn-primary btn-sm mr-2" th:title="${'Total : $' + totalValue}"><span th:text="${'Total : $ ' + totalValue}"></span></button>
+            <button type="button" class="col-md-5 btn btn-success btn-sm" th:title="${'Target : $' + targetValue}"><span th:text="${'Target : $ ' + targetValue}"></span></button>
+        </div>
+        <div class="d-flex justify-content-center small mt-2 ml-4 mr-4">
+            <table class="table table-sm table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"> </th>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Qty</th>
+                  <td th:text="${qtyValue}"></td>
+                  <td th:text="${qtyTarget}"></td>
+               </tr>
+                <tr>
+                  <th scope="row">Avg $</th>
+                  <td th:text="${avgValue}"></td>
+                  <td th:text="${avgTarget}"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Avg GP %</th>
+                  <td th:text="${avgProfitValue}"></td>
+                  <td th:text="${avgProfitTarget}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>  
+  </html>

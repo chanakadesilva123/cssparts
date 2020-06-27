@@ -8,16 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesEntered;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesEnteredQty;
-import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoiced;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoicedQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrderQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotesQty;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesEntered;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoiced;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoicedQty;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrderQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
@@ -25,15 +25,15 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedQtyRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrderQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesEnteredRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedQtyRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrderQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesRepository;
@@ -46,10 +46,10 @@ public class DashboardService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DashboardService.class);
 
-    private MonthlySalesInvoicedRepository monthlySalesInvoicedRepository;
-    private DailySalesInvoicedRepository dailySalesInvoicedRepository;
-    private MonthlySalesEnteredRepository monthlySalesEnteredRepository;
-    private DailySalesEnteredRepository dailySalesEnteredRepository;
+    private MonthlySalesInvoicesRepository monthlySalesInvoicesRepository;
+    private DailySalesInvoicesRepository dailySalesInvoicesRepository;
+    private MonthlySalesOrdersRepository monthlySalesOrdersRepository;
+    private DailySalesOrdersRepository dailySalesOrdersRepository;
     private DailySalesQuotesRepository dailySalesQuotesRepository;
     private MonthlySalesQuotesRepository monthlySalesQuotesRepository;
     private MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository;
@@ -64,12 +64,12 @@ public class DashboardService {
     private MonthlyTargetsRepository monthlyTargetsRepository;
 
     @Autowired
-    public DashboardService(MonthlySalesInvoicedRepository monthlySalesInvoicedRepository,DailySalesInvoicedRepository dailySalesInvoicedRepository,MonthlySalesEnteredRepository monthlySalesEnteredRepository,DailySalesEnteredRepository dailySalesEnteredRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository)
+    public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,DailySalesInvoicesRepository dailySalesInvoicesRepository,MonthlySalesOrdersRepository monthlySalesOrdersRepository,DailySalesOrdersRepository dailySalesOrdersRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository)
     {
-        this.monthlySalesInvoicedRepository = monthlySalesInvoicedRepository;
-        this.dailySalesInvoicedRepository = dailySalesInvoicedRepository;
-        this.monthlySalesEnteredRepository = monthlySalesEnteredRepository;
-        this.dailySalesEnteredRepository = dailySalesEnteredRepository;
+        this.monthlySalesInvoicesRepository = monthlySalesInvoicesRepository;
+        this.dailySalesInvoicesRepository = dailySalesInvoicesRepository;
+        this.monthlySalesOrdersRepository = monthlySalesOrdersRepository;
+        this.dailySalesOrdersRepository = dailySalesOrdersRepository;
         this.dailySalesQuotesRepository = dailySalesQuotesRepository;
         this.monthlySalesQuotesRepository = monthlySalesQuotesRepository;
         this.dailySalesOrderQtyRepository = dailySalesOrderQtyRepository;
@@ -84,67 +84,89 @@ public class DashboardService {
         this.monthlyTargetsRepository = monthlyTargetsRepository;
     }
 
-    public double findSalesInvoicedMTD()
+    public MonthlySalesInvoices findSalesInvoicesMTD()
     {
-        List<MonthlySalesInvoiced> monthlySalesInvoicedList = this.monthlySalesInvoicedRepository.findAll();
+        List<MonthlySalesInvoices> monthlySalesInvoicedList = this.monthlySalesInvoicesRepository.findAll();
         if(monthlySalesInvoicedList!=null && monthlySalesInvoicedList.size()>0 && monthlySalesInvoicedList.get(0)!=null && monthlySalesInvoicedList.get(0).getTotal()!=null && !monthlySalesInvoicedList.get(0).getTotal().isNaN())
         {
-            return monthlySalesInvoicedList.get(0).getTotal().doubleValue();
+            return monthlySalesInvoicedList.get(0);
         }
-        
-            return 0D;
+        MonthlySalesInvoices monthlySalesInvoices = new MonthlySalesInvoices();
+        monthlySalesInvoices.setTotal(0D);
+        monthlySalesInvoices.setQuantity(0D);
+        monthlySalesInvoices.setProfit(0D);
+        return monthlySalesInvoices;
         
     }
-    public double findSalesInvoicedDaily()
+    public DailySalesInvoices findSalesInvoicesDaily()
     {
-        List<DailySalesInvoiced> dailySalesInvoicedList = this.dailySalesInvoicedRepository.findAll();
+        List<DailySalesInvoices> dailySalesInvoicedList = this.dailySalesInvoicesRepository.findAll();
         if(dailySalesInvoicedList!=null && dailySalesInvoicedList.size()>0 && dailySalesInvoicedList.get(0)!=null && dailySalesInvoicedList.get(0).getTotal()!=null && !dailySalesInvoicedList.get(0).getTotal().isNaN())
         {
-            return dailySalesInvoicedList.get(0).getTotal().doubleValue();
+            return dailySalesInvoicedList.get(0);
         }
-        
-            return 0D;
+        DailySalesInvoices dailySalesInvoices = new DailySalesInvoices();
+        dailySalesInvoices.setTotal(0D);
+        dailySalesInvoices.setQuantity(0D);
+        dailySalesInvoices.setProfit(0D);
+        return dailySalesInvoices;
         
     }
 
-	public double findSalesEnteredMTD() {
-		List<MonthlySalesEntered> monthlySalesEnteredList = this.monthlySalesEnteredRepository.findAll();
-        if(monthlySalesEnteredList!=null && monthlySalesEnteredList.size()>0 && monthlySalesEnteredList.get(0)!=null && monthlySalesEnteredList.get(0).getTotal()!=null && !monthlySalesEnteredList.get(0).getTotal().isNaN())
+	public MonthlySalesOrders findSalesOrdersMTD() {
+		List<MonthlySalesOrders> monthlySalesOrdersList = this.monthlySalesOrdersRepository.findAll();
+        if(monthlySalesOrdersList!=null && monthlySalesOrdersList.size()>0 && monthlySalesOrdersList.get(0)!=null && monthlySalesOrdersList.get(0).getTotal()!=null && !monthlySalesOrdersList.get(0).getTotal().isNaN())
         {
-            return monthlySalesEnteredList.get(0).getTotal().doubleValue();
+            return monthlySalesOrdersList.get(0);
         }
         
-            return 0D;
+        MonthlySalesOrders monthlySalesOrders = new MonthlySalesOrders();
+        monthlySalesOrders.setTotal(0D);
+        monthlySalesOrders.setQuantity(0D);
+        monthlySalesOrders.setProfit(0D);
+        return monthlySalesOrders;
         
 	}
 
-	public double findSalesEnteredDaily() {
-		List<DailySalesEntered> dailySalesEnteredList = this.dailySalesEnteredRepository.findAll();
-        if(dailySalesEnteredList!=null && dailySalesEnteredList.size()>0 && dailySalesEnteredList.get(0)!=null && dailySalesEnteredList.get(0).getTotal()!=null && !dailySalesEnteredList.get(0).getTotal().isNaN())
+	public DailySalesOrders findSalesOrdersDaily() {
+		List<DailySalesOrders> dailySalesOrdersList = this.dailySalesOrdersRepository.findAll();
+        if(dailySalesOrdersList!=null && dailySalesOrdersList.size()>0 && dailySalesOrdersList.get(0)!=null && dailySalesOrdersList.get(0).getTotal()!=null && !dailySalesOrdersList.get(0).getTotal().isNaN())
         {
-            return dailySalesEnteredList.get(0).getTotal().doubleValue();
+            return dailySalesOrdersList.get(0);
         }
-        return 0D;
-       
-    }
+        
+        DailySalesOrders dailySalesOrders = new DailySalesOrders();
+        dailySalesOrders.setTotal(0D);
+        dailySalesOrders.setQuantity(0D);
+        dailySalesOrders.setProfit(0D);
+        return dailySalesOrders;
+        
+	}
     
-    public double findSalesQuotesDaily() {
+    public DailySalesQuotes findSalesQuotesDaily() {
 		List<DailySalesQuotes> dailySalesQuotesList = this.dailySalesQuotesRepository.findAll();
         if(dailySalesQuotesList!=null && dailySalesQuotesList.size()>0 && dailySalesQuotesList.get(0)!=null && dailySalesQuotesList.get(0).getTotal()!=null && !dailySalesQuotesList.get(0).getTotal().isNaN())
         {
-            return dailySalesQuotesList.get(0).getTotal().doubleValue();
+            return dailySalesQuotesList.get(0);
         }
-        return 0D;
-       
+        DailySalesQuotes dailySalesQuotes = new DailySalesQuotes();
+        dailySalesQuotes.setTotal(0D);
+        dailySalesQuotes.setQuantity(0D);
+        dailySalesQuotes.setProfit(0D);
+        return dailySalesQuotes;
     }
     
-    public double findSalesQuotesMTD() {
+    public MonthlySalesQuotes findSalesQuotesMTD() {
 		List<MonthlySalesQuotes> monthlySalesQuotesList = this.monthlySalesQuotesRepository.findAll();
         if(monthlySalesQuotesList!=null && monthlySalesQuotesList.size()>0 && monthlySalesQuotesList.get(0)!=null && monthlySalesQuotesList.get(0).getTotal()!=null && !monthlySalesQuotesList.get(0).getTotal().isNaN())
         {
-            return monthlySalesQuotesList.get(0).getTotal().doubleValue();
+            return monthlySalesQuotesList.get(0);
         }
-        return 0D;
+        MonthlySalesQuotes monthlySalesQuotes = new MonthlySalesQuotes();
+        monthlySalesQuotes.setTotal(0D);
+        monthlySalesQuotes.setQuantity(0D);
+        monthlySalesQuotes.setProfit(0D);
+        return monthlySalesQuotes;
        
 	}
 

@@ -11,7 +11,7 @@
 	<groupId>au.com.onesysconsulting.cscparts</groupId>
 	<artifactId>dashboard</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 	<name>cscparts</name>
 	<description>CSCParts - Dashboard</description>
 
@@ -96,6 +96,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
         </plugins>
     </build>

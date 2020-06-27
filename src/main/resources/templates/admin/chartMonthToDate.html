@@ -34,133 +34,33 @@
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                   <div class="card-header h3">Quotes</div>
-                  <div class="row no-gutters">
-                    <div class="col-md-5" id="guage_div_quotes" ></div>
-                    <div class="col-md-7 card-body" style="padding-top: 20px;">
-                      <button type="button" class="btn btn-primary btn-sm" th:title="${'Total : $' + salesQuotesMTD}"><span th:text="${'Total : $ ' + salesQuotesMTD}"></span></button>
-                      <button type="button" class="btn btn-success btn-sm" th:title="${'Target : $' + salesQuotesTargetMonthly}"><span th:text="${'Target : $ ' + salesQuotesTargetMonthly}"></span></button>
-                      <div class="table-responsive mt-2 ml-4 mr-2 small">
-                      <table class="table table-sm table-bordered">
-                        <thead>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="col"> </th>
-                            <th class="col-3" scope="col">Actual</th>
-                            <th class="col-3" scope="col">Target</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Qty</th>
-                            <td class="col-3" th:text="${salesQuotesQtyMTD}"></td>
-                            <td class="col-3" th:text="${salesQuotesTargetQtyMonthly}"></td>
-                         </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg $</th>
-                            <td class="col-3" th:text="${averageMonthlyQuotes}"></td>
-                            <td class="col-3" th:text="${averageMonthlyQuotesTarget}"></td>
-                          </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg GP %</th>
-                            <td class="col-3">45</td>
-                            <td class="col-3">65</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    </div>
-                    </div>
-                    <div id="graph_div_quotes" style="width: 500px; height: 500px;"></div>
-                </div>
+                      <div class="card-body d-flex justify-content-center" id="guage_div_quotes"></div>
+                      <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesQuotesMTD}, targetValue=${salesQuotesTargetMonthly}, qtyValue=${salesQuotesQtyMTD}, qtyTarget=${salesQuotesTargetQtyMonthly},avgValue=${averageMonthlyQuotes},avgTarget=${averageMonthlyQuotesTarget},avgProfitValue=${averageMonthlyQuotesProfit},avgProfitTarget=${averageMonthlyQuotesProfitTarget})"> </div>
+                      <div id="graph_div_quotes" class="d-flex justify-content-center"></div>
+                  </div>
               </div>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                   <div class="card-header h3">Orders</div>
-                  <div class="row no-gutters">
-                    <div class="col-md-5" id="guage_div_orders" ></div>
-                    <div class="col-md-7 card-body" style="padding-top: 20px;">
-                      <button type="button" class="btn btn-warning btn-sm" th:title="${'Total : $' + salesOrderedMTD}"><span th:text="${'Total : $ ' + salesOrderedMTD}"></span></button>
-                      <button type="button" class="btn btn-success btn-sm" th:title="${'Target : $' + salesOrderedTargetMonthly}"><span th:text="${'Target : $ ' + salesOrderedTargetMonthly}"></span></button>
-                      <div class="table-responsive mt-2 ml-4 mr-2 small">
-                      <table class="table table-sm table-bordered">
-                        <thead>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="col"> </th>
-                            <th class="col-3" scope="col">Actual</th>
-                            <th class="col-3" scope="col">Target</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Qty</th>
-                            <td class="col-3" th:text="${salesOrderedQtyMTD}"></td>
-                            <td class="col-3" th:text="${salesOrderedTargetQtyMonthly}"></td>
-                         </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg $</th>
-                            <td class="col-3" th:text="${averageMonthlyOrders}"></td>
-                            <td class="col-3" th:text="${averageMonthlyOrdersTarget}"></td>
-                          </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg GP %</th>
-                            <td class="col-3">45</td>
-                            <td class="col-3">65</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    </div>
-                    </div>
-                    <div id="graph_div_orders" style="width: 500px; height: 500px;"></div>
-                </div>
+                      <div class="card-body d-flex justify-content-center" id="guage_div_orders"></div>
+                      <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesOrderedMTD}, targetValue=${salesOrderedTargetMonthly}, qtyValue=${salesOrderedQtyMTD}, qtyTarget=${salesOrderedTargetQtyMonthly},avgValue=${averageMonthlyOrders},avgTarget=${averageMonthlyOrdersTarget},avgProfitValue=${averageMonthlyOrdersProfit},avgProfitTarget=${averageMonthlyOrdersProfitTarget})"> </div>
+                      <div id="graph_div_orders" class="d-flex justify-content-center"></div>
+                  </div>
               </div>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                   <div class="card-header h3">Invoices</div>
-                  <div class="row no-gutters">
-                    <div class="col-md-5" id="guage_div_invoices" ></div>
-                    <div class="col-md-7 card-body" style="padding-top: 20px;">
-                      <button type="button" class="btn btn-danger btn-sm" th:title="${'Total : $' + salesInvoicedMTD}"><span th:text="${'Total : $ ' + salesInvoicedMTD}"></span></button>
-                      <button type="button" class="btn btn-success btn-sm" th:title="${'Target : $' + salesInvoicedTargetMonthly}"><span th:text="${'Target : $ ' + salesInvoicedTargetMonthly}"></span></button>
-                      <div class="table-responsive mt-2 ml-4 mr-2 small">
-                      <table class="table table-sm table-bordered">
-                        <thead>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="col"> </th>
-                            <th class="col-3" scope="col">Actual</th>
-                            <th class="col-3" scope="col">Target</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Qty</th>
-                            <td class="col-3" th:text="${salesInvoicedQtyMTD}"></td>
-                            <td class="col-3" th:text="${salesInvoicedTargetQtyMonthly}"></td>
-                         </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg $</th>
-                            <td class="col-3" th:text="${averageMonthlyInvoices}"></td>
-                            <td class="col-3" th:text="${averageMonthlyInvoicesTarget}"></td>
-                          </tr>
-                          <tr class="d-flex">
-                            <th class="col-3" scope="row">Avg GP %</th>
-                            <td class="col-3">45</td>
-                            <td class="col-3">65</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    </div>
-                    </div>
-                    <div id="graph_div_invoices" style="width: 500px; height: 500px;"></div>
-                </div>
+                      <div class="card-body d-flex justify-content-center" id="guage_div_invoices"></div>
+                      <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesInvoicedMTD}, targetValue=${salesInvoicedTargetMonthly}, qtyValue=${salesInvoicedQtyMTD}, qtyTarget=${salesInvoicedTargetQtyMonthly},avgValue=${averageMonthlyInvoices},avgTarget=${averageMonthlyInvoicesTarget},avgProfitValue=${averageMonthlyInvoicesProfit},avgProfitTarget=${averageMonthlyInvoicesProfitTarget})"> </div>
+                      <div id="graph_div_invoices" class="d-flex justify-content-center"></div>
+                  </div>
               </div>
-              </div>
-              </div>
+            </div>
+          </div>
               </div>
             </main>
             </div>
          </div>
-        </div>
         <!-- Footer -->
         <footer class="footer mt-auto py-3">
           <div th:replace="footerLayout :: footer"> </div>

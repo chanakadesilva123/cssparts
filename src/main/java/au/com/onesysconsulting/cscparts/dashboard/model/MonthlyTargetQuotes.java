@@ -15,15 +15,15 @@ import org.springframework.data.annotation.Immutable;
 @NoArgsConstructor
 @Entity
 @Immutable
-@Table(name = "X_VW_OS_MTD_QTOTE_TARGET")
+@Table(name = "X_VW_OS_MTD_QUOTE_TARGET")
 public class MonthlyTargetQuotes {
     @Id
     @Column(name = "PERIOD_NO")
     private int periodNo;
     @Column(name = "PERIOD_NAME")
     private String period;
-    @Column(name = "MTD_QTOTE_QTY")
+    @Column(name = "MTD_QUOTE_QTY")
     private Double targetQty;
-    @Column(name = "MTD_QTOTE_VAL")
+    @Column(name = "MTD_QUOTE_VAL")
     private Double targetValue;
 }

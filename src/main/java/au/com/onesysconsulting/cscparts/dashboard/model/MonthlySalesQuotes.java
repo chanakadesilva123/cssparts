@@ -15,9 +15,13 @@ import org.springframework.data.annotation.Immutable;
 @NoArgsConstructor
 @Entity
 @Immutable
-@Table(name = "X_VW_OS_QUOTES_MTD")
+@Table(name = "X_VW_OS_SALEQUOTES_MTD")
 public class MonthlySalesQuotes {
     @Id
-    @Column(name = "SALESENTEREDTOTAL")
+    @Column(name = "QUOTETOTAL")
     private Double total;
+    @Column(name = "QUOTEQTY")
+    private Double quantity;
+    @Column(name = "QUOTEPROFIT")
+    private Double profit;
 }
