@@ -27,18 +27,18 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-1">
               <div class="col-md-12">
         <section class="text-left px-2 mt-2">
-          <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  This Month ('+thisMonth+' '+thisYear+')'}"></span>
+          <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  Last Three Month ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
         </section>
         <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesMTD},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetMonthly},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyMTD}, qtyTarget=${salesQuotesTargetQtyMonthly},avgValue=${averageMonthlyQuotes},avgTarget=${averageMonthlyQuotesTarget},avgProfitValue=${averageMonthlyQuotesProfit},avgProfitTarget=${averageMonthlyQuotesProfitTarget},graphDiv='graph_div_quotes')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},graphDiv='graph_div_quotes')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedMTD},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetMonthly},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyMTD}, qtyTarget=${salesOrderedTargetQtyMonthly},avgValue=${averageMonthlyOrders},avgTarget=${averageMonthlyOrdersTarget},avgProfitValue=${averageMonthlyOrdersProfit},avgProfitTarget=${averageMonthlyOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedMTD},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetMonthly},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyMTD}, qtyTarget=${salesInvoicedTargetQtyMonthly},avgValue=${averageMonthlyInvoices},avgTarget=${averageMonthlyInvoicesTarget},avgProfitValue=${averageMonthlyInvoicesProfit},avgProfitTarget=${averageMonthlyInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
               </div>
             </div>
           </div>
@@ -64,14 +64,14 @@
   
   /*<![CDATA[*/
 
-  var salesOrderedMTD = /*[[${salesOrderedMTD}]]*/ '0';
-  var salesInvoicedMTD = /*[[${salesInvoicedMTD}]]*/ '0';
-  var salesQuotesMTD = /*[[${salesQuotesMTD}]]*/ '0';
-  var salesTargetMTD = /*[[${salesTargetMTD}]]*/ '0';
-  console.log('salesOrderedMTD-->'+salesOrderedMTD);
-  console.log('salesInvoicedMTD-->'+salesInvoicedMTD);
-  console.log('salesQuotesMTD-->'+salesQuotesMTD);
-  console.log('salesTargetMTD-->'+salesTargetMTD);
+  var salesOrderedLastThreeMonths = /*[[${salesOrderedLastThreeMonths}]]*/ '0';
+  var salesInvoicedLastThreeMonths = /*[[${salesInvoicedLastThreeMonths}]]*/ '0';
+  var salesQuotesLastThreeMonths = /*[[${salesQuotesLastThreeMonths}]]*/ '0';
+  var salesTargetLastThreeMonths = /*[[${salesTargetLastThreeMonths}]]*/ '0';
+  console.log('salesOrderedLastThreeMonths-->'+salesOrderedLastThreeMonths);
+  console.log('salesInvoicedLastThreeMonths-->'+salesInvoicedLastThreeMonths);
+  console.log('salesQuotesLastThreeMonths-->'+salesQuotesLastThreeMonths);
+  console.log('salesTargetLastThreeMonths-->'+salesTargetLastThreeMonths);
 
   var targetAchievedOrders = /*[[${targetAchievedOrders}]]*/ 0;
   var targetAchievedQuotes = /*[[${targetAchievedQuotes}]]*/ 0;

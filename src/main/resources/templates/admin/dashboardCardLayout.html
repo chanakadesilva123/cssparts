@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="cardFields(totalValue, targetValue, qtyValue, qtyTarget,avgValue,avgTarget,avgProfitValue,avgProfitTarget)">
-        <div class="d-flex justify-content-center">
-            <button type="button" class="col-md-5 btn btn-primary btn-sm mr-2" th:title="${'Total : $' + totalValue}"><span th:text="${'Total : $ ' + totalValue}"></span></button>
-            <button type="button" class="col-md-5 btn btn-success btn-sm" th:title="${'Target : $' + targetValue}"><span th:text="${'Target : $ ' + targetValue}"></span></button>
+<div class="card mb-4 shadow-sm" th:fragment="cardFields(cardTitle,guageDiv,totalValue, totalStyle,targetValue,targetStyle,qtyValue, qtyTarget,avgValue,avgTarget,avgProfitValue,avgProfitTarget,graphDiv)">
+    <div class="card-header h3"  th:text="${cardTitle}"></div>
+        <div class="card-body d-flex justify-content-center" th:id="${guageDiv}"></div>
+               <div class="d-flex justify-content-center">
+            <button type="button" class="col-md-5 btn btn-sm mr-2" th:style="${totalStyle}" th:title="${'Total : $' + totalValue}"><span th:text="${'Total : $ ' + totalValue}"></span></button>
+            <button type="button" class="col-md-5 btn btn-sm" th:style="${targetStyle}" th:title="${'Target : $' + targetValue}"><span th:text="${'Target : $ ' + targetValue}"></span></button>
         </div>
         <div class="d-flex justify-content-center small mt-2 ml-4 mr-4">
             <table class="table table-sm table-bordered">
@@ -33,5 +35,6 @@
               </tbody>
             </table>
           </div>
-        </div>  
+          <div th:id="${graphDiv}" class="d-flex justify-content-center"></div>
+         </div>  
   </html>

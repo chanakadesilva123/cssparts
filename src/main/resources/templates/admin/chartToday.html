@@ -32,29 +32,14 @@
                 <div class="album py-3 px-2 bg-light">
                   <div class="row">
                       <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                          <div class="card-header h3">Quotes</div>
-                              <div class="card-body d-flex justify-content-center" id="guage_div_quotes"></div>
-                              <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesQuotesDaily}, targetValue=${salesQuotesTargetDaily}, qtyValue=${salesQuotesQtyDaily}, qtyTarget=${salesQuotesTargetQtyDaily},avgValue=${averageDailyQuotes},avgTarget=${averageDailyQuotesTarget},avgProfitValue=${averageDailyQuotesProfit},avgProfitTarget=${averageDailyQuotesProfitTarget})"> </div>
-                            <div id="graph_div_quotes" class="d-flex justify-content-center"></div>
-                          </div>
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesDaily},totalStyle='background-color: #00bfff;',targetValue=${salesQuotesTargetDaily},targetStyle='background-color: #ff85e6;',qtyValue=${salesQuotesQtyDaily}, qtyTarget=${salesQuotesTargetQtyDaily},avgValue=${averageDailyQuotes},avgTarget=${averageDailyQuotesTarget},avgProfitValue=${averageDailyQuotesProfit},avgProfitTarget=${averageDailyQuotesProfitTarget},graphDiv='graph_div_quotes')"></div>
                       </div>
                       <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-header h3">Orders</div>
-                                <div class="card-body d-flex justify-content-center" id="guage_div_orders"></div>
-                                <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesOrderedDaily}, targetValue=${salesOrderedTargetDaily}, qtyValue=${salesOrderedQtyDaily}, qtyTarget=${salesOrderedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyOrdersProfit},avgProfitTarget=${averageDailyOrdersProfitTarget})"> </div>
-                                <div id="graph_div_orders" class="d-flex justify-content-center"></div>
-                              </div>
-                          </div>
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedDaily},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetDaily},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyDaily}, qtyTarget=${salesOrderedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyOrdersProfit},avgProfitTarget=${averageDailyOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
+                      </div>
                       <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                          <div class="card-header h3">Invoices</div>
-                              <div class="card-body d-flex justify-content-center" id="guage_div_invoices"></div>
-                              <div th:replace="admin/dashboardCardLayout :: cardFields(totalValue=${salesInvoicedDaily}, targetValue=${salesInvoicedTargetDaily}, qtyValue=${salesInvoicedQtyDaily}, qtyTarget=${salesInvoicedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyInvoicesProfit},avgProfitTarget=${averageDailyInvoicesProfitTarget})"> </div>
-                              <div id="graph_div_invoices" class="d-flex justify-content-center"></div>
-                            </div>
-                          </div>   
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedDaily},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetDaily},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyDaily}, qtyTarget=${salesInvoicedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyInvoicesProfit},avgProfitTarget=${averageDailyInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
+                      </div>   
                   </div>
                 </div>
               </div>
@@ -111,12 +96,13 @@
     var optionsQuotes = {
           width: 800,
           height: 220,
-          redColor:'#0069D9',
+          redColor:'#00bfff',
           redFrom: 0,
           redTo: targetAchievedQuotes,
+          greenColor:'#ff85e6',
           greenFrom:targetAchievedQuotes,
           greenTo: 100,
-          minorTicks: 5,
+          minorTicks: 5
         };
 
         var chartQuotes = new google.visualization.Gauge(document.getElementById('guage_div_quotes'));
@@ -131,8 +117,10 @@
     var optionsOrders = {
           width: 800,
           height: 220,
+          yellowColor:'#f9ae06',
           yellowFrom: 0,
           yellowTo: targetAchievedOrders,
+          greenColor:'#fff67e',
           greenFrom:targetAchievedOrders,
           greenTo: 100,
           minorTicks: 5
@@ -150,8 +138,10 @@
     var optionsInvoices = {
           width: 800,
           height: 220,
+          redColor:'#0b4119',
           redFrom: 0,
           redTo: targetAchievedInvoices,
+          greenColor:'#92edaa',
           greenFrom:targetAchievedInvoices,
           greenTo: 100,
           minorTicks: 5
@@ -172,7 +162,7 @@
         ]);
 
         var dataGraphInvoicesOptions = {
-          width: 500,
+          width: 300,
           title: 'Sales vs Target',
          trendlines: {
             0: {
@@ -202,7 +192,7 @@
         ]);
 
         var dataGraphOrdersOptions = {
-          width: 500,
+          width: 300,
           title: 'Sales vs Target',
          trendlines: {
             0: {
@@ -232,7 +222,7 @@
         ]);
 
         var dataGraphQuotesOptions = {
-          width: 500,
+          width: 300,
           title: 'Sales vs Target',
          trendlines: {
             0: {
@@ -254,6 +244,5 @@
   }
   
     </script>
-</script>
-  </body>
+ </body>
     </html>
