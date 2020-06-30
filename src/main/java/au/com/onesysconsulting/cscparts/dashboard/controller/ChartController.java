@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,22 @@ public class ChartController {
     @Autowired
     private DashboardService dashboardService;
 
-    @RequestMapping(value = "/admin/chartToday", method = RequestMethod.GET)
-    public ModelAndView chartToday() {
+    @RequestMapping(value = "/screen/home", method = RequestMethod.GET)
+    public ModelAndView chartHome(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("userName","Welcome Full Screen");
+        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
+       
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
+        modelAndView.setViewName("admin/home");
+        return modelAndView;
+    }
 
-        LOG.info("chartToday");
+    @RequestMapping(value = {"/admin/chartToday","/screen/chartToday"}, method = RequestMethod.GET)
+    public ModelAndView chartToday(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        LOG.info("chartToday-->"+request.getServletPath());
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -182,11 +195,11 @@ public class ChartController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/chartMonthToDate", method = RequestMethod.GET)
-    public ModelAndView chartMonthToDate() {
+    @RequestMapping(value ={"/admin/chartMonthToDate","/screen/chartMonthToDate"}, method = RequestMethod.GET)
+    public ModelAndView chartMonthToDate(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-
-        LOG.info("chartMonthToDate");
+        LOG.info("chartMonthToDate-->"+request.getServletPath());
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -296,12 +309,15 @@ public class ChartController {
         modelAndView.addObject("thisYear",Calendar.getInstance().get(Calendar.YEAR));
 
         modelAndView.setViewName("admin/chartMonthToDate");
+        
         return modelAndView;
     }
-    @RequestMapping(value = "/admin/chartLastMonth", method = RequestMethod.GET)
-    public ModelAndView chartLastMonth() {
+    @RequestMapping(value = {"/admin/chartLastMonth","/screen/chartLastMonth"}, method = RequestMethod.GET)
+    public ModelAndView chartLastMonth(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-
+        LOG.info("chartLastMonth-->"+request.getServletPath());
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
+        
         LOG.info("chartLastMonth");
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
@@ -416,11 +432,12 @@ public class ChartController {
         modelAndView.setViewName("admin/chartLastMonth");
         return modelAndView;
     }
-    @RequestMapping(value = "/admin/chartLastThreeMonths", method = RequestMethod.GET)
-    public ModelAndView chartLastThreeMonths() {
+    @RequestMapping(value = {"/admin/chartLastThreeMonths","/screen/chartLastThreeMonths"}, method = RequestMethod.GET)
+    public ModelAndView chartLastThreeMonths(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-
-        LOG.info("chartLastThreeMonths");
+        LOG.info("chartLastThreeMonths-->"+request.getServletPath().startsWith("/screen/"));
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
+      
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);

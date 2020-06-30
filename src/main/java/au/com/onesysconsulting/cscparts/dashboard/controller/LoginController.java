@@ -1,5 +1,6 @@
 package au.com.onesysconsulting.cscparts.dashboard.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import au.com.onesysconsulting.cscparts.dashboard.model.User;
@@ -61,13 +62,15 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
+        boolean isFullScreen=((request.getParameterMap()!=null && request.getParameterMap().containsKey("isFullScreen")));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserName(auth.getName());
         modelAndView.addObject("userName",
                 "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getUserName() + ")");
         modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
+        modelAndView.addObject("isFullScreen", isFullScreen);
         modelAndView.setViewName("admin/home");
         return modelAndView;
     }

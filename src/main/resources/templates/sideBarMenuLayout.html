@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark collapse" th:fragment="sideBarMenu">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark collapse" th:fragment="sideBarMenu(homeListClass,todayListClass,thisMonthListClass,lastMonthListClass,last3MonthsListClass,homeLinkClass,todayLinkClass,thisMonthLinkClass,lastMonthLinkClass,last3MonthsLinkClass)">
     <div class="sidebar-sticky pt-3">
       <ul class="nav flex-column">
-        <li class="nav-item bg-info">
-          <a class="nav-link text-warning" th:href="@{/admin/home}" >
+        <li th:class="${homeListClass}">
+          <a th:class="${homeLinkClass}" th:href="@{/admin/home}" >
             <span class="fas fa-home fa-fw mr-3"></span>
             Home
           </a>
@@ -18,26 +18,26 @@
         </a>
       </h6>
       <ul class="nav flex-column mb-2">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/chartToday}">
+        <li th:class="${todayListClass}">
+          <a th:class="${todayLinkClass}" th:href="@{/admin/chartToday}">
             <span class="fas fa-chart-pie fa-fw mr-3"></span>
             Today
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/chartMonthToDate}">
+        <li th:class="${thisMonthListClass}">
+          <a th:class="${thisMonthLinkClass}" th:href="@{/admin/chartMonthToDate}">
             <span class="far fa-chart-bar fa-fw mr-3"></span>
             Current month
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/chartLastMonth}">
+        <li th:class="${lastMonthListClass}">
+          <a th:class="${lastMonthLinkClass}" th:href="@{/admin/chartLastMonth}">
             <span class="fas fa-chart-area fa-fw mr-3"></span>
             Last month
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/chartLastThreeMonths}">
+        <li th:class="${last3MonthsListClass}">
+          <a th:class="${last3MonthsLinkClass}" th:href="@{/admin/chartLastThreeMonths}">
             <span class="fas fa-chart-line fa-fw mr-3"></span>
             Last 3 months
           </a>

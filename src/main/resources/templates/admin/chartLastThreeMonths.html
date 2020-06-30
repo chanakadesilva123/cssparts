@@ -19,14 +19,16 @@
   <body>
     <header>
       <!-- Bootstrap NavBar -->
-      <div th:replace="headerLayout :: header"> </div>
+      <div th:replace="headerLayout :: header(isFullScreen=${isFullScreen})"> </div>
   </header>
   <div class="container-fluid">
     <div class="row">
-      <div th:replace="sideBarMenuLayout :: sideBarMenu"></div>
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-1">
+      <th:block th:if=${!isFullScreen}>
+      <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item bg-info',homeLinkClass='nav-link',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link text-warning')"></div>
+    </th:block>
+            <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-        <section class="text-left px-2 mt-2">
+        <section class="text-left px-2 mt-5">
           <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  Last Three Month ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
         </section>
         <div class="album py-3 px-2 bg-light">

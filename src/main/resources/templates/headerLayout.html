@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<nav class="navbar navbar-expand-md navbar-light" style="background-color: black;" th:fragment="header">
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: black;height: 55px;" th:fragment="header(isFullScreen)">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -8,6 +8,7 @@
         <a class="navbar-brand" th:href="@{/admin/home}"><img src="../img/logo.c90ecd5a.png" height="30" class="d-inline-block align-top" alt="OneSysConsulting"></a>
         <span class="menu-collapsed"></span>
     </a>
+    <th:block th:if=${!isFullScreen}>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
@@ -27,5 +28,15 @@
             </li><!-- Smaller devices menu END -->
         </ul>
     </div>
+    </th:block>
+    <th:block th:unless=${!isFullScreen}>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a><img src="../img/CSCParts_logo.png" class="d-inline-block align-top" alt="OneSysConsulting" style="width: auto;height: 100px;margin-top: 60px;"></a>
+            </li>
+        </ul>
+    </div>
+</th:block>
 </nav><!-- NavBar END -->
   </html>
