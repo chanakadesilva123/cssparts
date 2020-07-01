@@ -111,13 +111,15 @@ public class DashboardController {
         {
             if(sqlView.equalsIgnoreCase("salesOrdersQtyMTD"))
             {
-                value = dashboardService.findSalesOrdersQtyMTD();
+                MonthlySalesOrders monthlySalesOrders = dashboardService.findSalesOrdersMTD();
+                value = monthlySalesOrders!=null && monthlySalesOrders.getQuantity()!=null?monthlySalesOrders.getQuantity().intValue():0;
                 status = true;
                 message = "SUCCESS";
             }
             if(sqlView.equalsIgnoreCase("salesOrdersQtyDaily"))
             {
-                value = dashboardService.findSalesOrdersQtyDaily();
+                DailySalesOrders dailySalesOrders = dashboardService.findSalesOrdersDaily();
+                value = dailySalesOrders!=null && dailySalesOrders.getQuantity()!=null?dailySalesOrders.getQuantity().intValue():0;
                 status = true;
                 message = "SUCCESS";
             }

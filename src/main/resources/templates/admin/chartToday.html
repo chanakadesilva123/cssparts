@@ -4,7 +4,7 @@
     <meta charset=utf-8>
     <meta http-equiv=X-UA-Compatible content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta http-equiv="refresh" content="600"/>
     <!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 <!-- Google Fonts Roboto -->
@@ -34,13 +34,13 @@
                 <div class="album py-3 px-2 bg-light">
                   <div class="row">
                       <div class="col-md-4">
-                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesDaily},totalStyle='background-color: #00bfff;',targetValue=${salesQuotesTargetDaily},targetStyle='background-color: #ff85e6;',qtyValue=${salesQuotesQtyDaily}, qtyTarget=${salesQuotesTargetQtyDaily},avgValue=${averageDailyQuotes},avgTarget=${averageDailyQuotesTarget},avgProfitValue=${averageDailyQuotesProfit},avgProfitTarget=${averageDailyQuotesProfitTarget},graphDiv='graph_div_quotes')"></div>
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesDaily},totalStyle='background-color: #00bfff;',targetValue=${salesQuotesTargetDaily},targetStyle='background-color: #ff85e6;',qtyValue=${salesQuotesQtyDaily}, qtyTarget=${salesQuotesTargetQtyDaily},avgValue=${averageDailyQuotes},avgTarget=${averageDailyQuotesTarget},avgProfitValue=${averageDailyQuotesProfit},avgProfitTarget=${averageDailyQuotesProfitTarget},graphDiv='graph_div_quotes')"></div>
                       </div>
                       <div class="col-md-4">
-                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedDaily},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetDaily},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyDaily}, qtyTarget=${salesOrderedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyOrdersProfit},avgProfitTarget=${averageDailyOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedDaily},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetDaily},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyDaily}, qtyTarget=${salesOrderedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyOrdersProfit},avgProfitTarget=${averageDailyOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
                       </div>
                       <div class="col-md-4">
-                        <div th:replace="admin/dashboardCardLayout :: cardFields(cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedDaily},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetDaily},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyDaily}, qtyTarget=${salesInvoicedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyInvoicesProfit},avgProfitTarget=${averageDailyInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
+                        <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedDaily},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetDaily},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyDaily}, qtyTarget=${salesInvoicedTargetQtyDaily},avgValue=${averageDailyOrders},avgTarget=${averageDailyOrdersTarget},avgProfitValue=${averageDailyInvoicesProfit},avgProfitTarget=${averageDailyInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
                       </div>   
                   </div>
                 </div>
@@ -83,7 +83,29 @@
   console.log('targetAchievedQuotes-->'+targetAchievedQuotes);
   console.log('targetAchievedInvoices-->'+targetAchievedInvoices);
   
+  var salesOrderTargets = /*[[${salesOrderTargets}]]*/ [];
+  var salesQuoteTargets = /*[[${salesQuoteTargets}]]*/ [];
+  var salesInvoiceTargets = /*[[${salesInvoiceTargets}]]*/ [];
+  
+  var salesOrderTargetArr = [];
+  salesOrderTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  for (i = 0; i < salesOrderTargets.length; i++) {
+    salesOrderTargetArr.push([salesOrderTargets[i].date.split("T")[0].split("-")[2]+'/'+salesOrderTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesOrderTargets[i].total.toFixed(2)),parseFloat(salesOrderTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesOrderTargets[i].averageTotal.toFixed(2))]);
+  }
+  console.log('salesOrderTargetArr-->'+salesOrderTargetArr);
+  var salesQuoteTargetArr = [];
+  salesQuoteTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  for (i = 0; i < salesQuoteTargets.length; i++) {
+    salesQuoteTargetArr.push([salesQuoteTargets[i].date.split("T")[0].split("-")[2]+'/'+salesQuoteTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesQuoteTargets[i].total.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesQuoteTargets[i].averageTotal.toFixed(2))]);
+  }
+  console.log('salesQuoteTargetArr-->'+salesQuoteTargetArr);
 
+  var salesInvoiceTargetArr = [];
+  salesInvoiceTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  for (i = 0; i < salesInvoiceTargets.length; i++) {
+    salesInvoiceTargetArr.push([salesInvoiceTargets[i].date.split("T")[0].split("-")[2]+'/'+salesInvoiceTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesInvoiceTargets[i].total.toFixed(2)),parseFloat(salesInvoiceTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesInvoiceTargets[i].averageTotal.toFixed(2))]);
+  }
+  console.log('salesInvoiceTargetArr-->'+salesInvoiceTargetArr);
 /*]]>*/
   google.charts.load('current', {packages: ['corechart','gauge','bar']});
   google.charts.setOnLoadCallback(drawChart);
@@ -125,7 +147,7 @@
           greenColor:'#fff67e',
           greenFrom:targetAchievedOrders,
           greenTo: 100,
-          minorTicks: 5
+          minorTicks: 5,
         };
 
         var chartOrders = new google.visualization.Gauge(document.getElementById('guage_div_orders'));
@@ -154,94 +176,47 @@
         chartInvoices.draw(dataInvoices, optionsInvoices);
 
        
-        var dataGraphInvoices = google.visualization.arrayToDataTable([
-          ['Date', 'Sales', 'Target'],
-          ['01-June', 8000, 9000],
-          ['02-June', 24000, 20000],
-          ['03-June', 30000, 29000],
-          ['04-June', 50000, 55000],
-          ['05-June', 60000, 50000]
-        ]);
+        var dataGraphInvoices = google.visualization.arrayToDataTable(salesInvoiceTargetArr);
 
         var dataGraphInvoicesOptions = {
-          width: 300,
-          title: 'Sales vs Target',
-         trendlines: {
-            0: {
-              type: 'linear',
-              labelInLegend: 'Sales line',
-              visibleInLegend: true,
-              color: 'green'
-            },
-            1: {
-              type: 'linear',
-              labelInLegend: 'Target line',
-              visibleInLegend: true,
-              color: 'green'
-            }
-          }
+          width: 400,
+          legend:'top',
+          title: 'Sales vs Target Last 7 Days',
+          vAxis: {title: 'Amount($)'},
+          hAxis: {title: 'Date'},
+          seriesType: 'bars',
+          series: {0: {color : '#0b4119'},1: {type: 'line',color : '#92edaa'},2: {type: 'line',color : 'red'}}
         };
-        var graphInvoices = new google.visualization.AreaChart(graph_div_invoices);
+        var graphInvoices = new google.visualization.ComboChart(graph_div_invoices);
         graphInvoices.draw(dataGraphInvoices, dataGraphInvoicesOptions);
           
-        var dataGraphOrders = google.visualization.arrayToDataTable([
-          ['Date', 'Sales', 'Target'],
-          ['01-June', 8000, 9000],
-          ['02-June', 24000, 20000],
-          ['03-June', 30000, 29000],
-          ['04-June', 50000, 55000],
-          ['05-June', 60000, 50000]
-        ]);
+        var dataGraphOrders = google.visualization.arrayToDataTable(salesOrderTargetArr);
 
         var dataGraphOrdersOptions = {
-          width: 300,
-          title: 'Sales vs Target',
-         trendlines: {
-            0: {
-              type: 'linear',
-              labelInLegend: 'Sales line',
-              visibleInLegend: true,
-              color: 'green'
-            },
-            1: {
-              type: 'linear',
-              labelInLegend: 'Target line',
-              visibleInLegend: true,
-              color: 'green'
-            }
-          }
+          width: 400,
+          legend:'top',
+          title: 'Sales vs Target Last 7 Days',
+          vAxis: {title: 'Amount($)'},
+          hAxis: {title: 'Date'},
+          seriesType: 'bars',
+          series: {0: {color : '#f9ae06'},1: {type: 'line',color : '#fff67e'},2: {type: 'line',color : 'red'}}
         };
-        var graphOrders = new google.visualization.AreaChart(graph_div_orders);
+        var graphOrders = new google.visualization.ComboChart(graph_div_orders);
         graphOrders.draw(dataGraphOrders, dataGraphOrdersOptions);
             
-        var dataGraphQuotes = google.visualization.arrayToDataTable([
-          ['Date', 'Sales', 'Target'],
-          ['01-June', 8000, 9000],
-          ['02-June', 24000, 20000],
-          ['03-June', 30000, 29000],
-          ['04-June', 50000, 55000],
-          ['05-June', 60000, 50000]
-        ]);
+        var dataGraphQuotes = google.visualization.arrayToDataTable(salesQuoteTargetArr);
 
         var dataGraphQuotesOptions = {
-          width: 300,
+          width: 400,
+          legend:'top',
           title: 'Sales vs Target',
-         trendlines: {
-            0: {
-              type: 'linear',
-              labelInLegend: 'Sales line',
-              visibleInLegend: true,
-              color: 'green'
-            },
-            1: {
-              type: 'linear',
-              labelInLegend: 'Target line',
-              visibleInLegend: true,
-              color: 'green'
-            }
-          }
+          title: 'Sales vs Target Last 7 Days',
+          vAxis: {title: 'Amount($)'},
+          hAxis: {title: 'Date'},
+          seriesType: 'bars',
+          series: {0: {color : '#00bfff'},1: {type: 'line',color : '#ff85e6'},2: {type: 'line',color : 'red'}}
         };
-        var graphQuotes = new google.visualization.AreaChart(graph_div_quotes);
+        var graphQuotes = new google.visualization.ComboChart(graph_div_quotes);
         graphQuotes.draw(dataGraphQuotes, dataGraphQuotesOptions);
   }
   

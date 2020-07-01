@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                 <a class="nav-link text-info"  th:href="@{/admin/home}"><i class="fas fa-home"></i>Home</a>
+                 <a class="nav-link text-info"  th:href="@{__${#httpServletRequest.requestURI}__}"><i class="fa fa-retweet"></i>Reload</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-info" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>

@@ -40,5 +40,7 @@ public class MonthlyTargets {
     private Double orderProfit;
     @Column(name = "MTD_INV_PROFIT")
     private Double invoiceProfit;
+    @Column(name = "NO_OF_WORKING_DAYS")
+    private int noOfWorkingDays;
     
 }

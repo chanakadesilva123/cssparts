@@ -1,7 +1,11 @@
 package au.com.onesysconsulting.cscparts.dashboard.service;
 
+import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,9 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByDate;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrdersRepository;
@@ -51,6 +58,9 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesQ
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesTargetRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyTargetsRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesInvoicesByDateRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesOrdersByDateRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesQuotesByDateRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesTargetRepository;
 
 @Service("dashboardService")
@@ -80,9 +90,12 @@ public class DashboardService {
     private MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository;
     private MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository;
     private MonthlyTargetsRepository monthlyTargetsRepository;
+    private SalesQuotesByDateRepository salesQuotesByDateRepository;
+    private SalesOrdersByDateRepository salesOrdersByDateRepository;
+    private SalesInvoicesByDateRepository salesInvoicesByDateRepository;
 
     @Autowired
-    public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,DailySalesInvoicesRepository dailySalesInvoicesRepository,LastMonthSalesInvoicesRepository lastMonthSalesInvoicesRepository,LastThreeMonthsSalesInvoicesRepository lastThreeMonthsSalesInvoicesRepository,MonthlySalesOrdersRepository monthlySalesOrdersRepository,DailySalesOrdersRepository dailySalesOrdersRepository,LastMonthSalesOrdersRepository lastMonthSalesOrdersRepository,LastThreeMonthsSalesOrdersRepository lastThreeMonthsSalesOrdersRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, LastMonthSalesQuotesRepository lastMonthSalesQuotesRepository,LastThreeMonthsSalesQuotesRepository lastThreeMonthsSalesQuotesRepository,MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository)
+    public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,DailySalesInvoicesRepository dailySalesInvoicesRepository,LastMonthSalesInvoicesRepository lastMonthSalesInvoicesRepository,LastThreeMonthsSalesInvoicesRepository lastThreeMonthsSalesInvoicesRepository,MonthlySalesOrdersRepository monthlySalesOrdersRepository,DailySalesOrdersRepository dailySalesOrdersRepository,LastMonthSalesOrdersRepository lastMonthSalesOrdersRepository,LastThreeMonthsSalesOrdersRepository lastThreeMonthsSalesOrdersRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, LastMonthSalesQuotesRepository lastMonthSalesQuotesRepository,LastThreeMonthsSalesQuotesRepository lastThreeMonthsSalesQuotesRepository,MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository,SalesQuotesByDateRepository salesQuotesByDateRepository,SalesOrdersByDateRepository salesOrdersByDateRepository,SalesInvoicesByDateRepository salesInvoicesByDateRepository)
     {
         this.monthlySalesInvoicesRepository = monthlySalesInvoicesRepository;
         this.dailySalesInvoicesRepository = dailySalesInvoicesRepository;
@@ -106,6 +119,9 @@ public class DashboardService {
         this.monthlySalesInvoicedQtyRepository = monthlySalesInvoicedQtyRepository;
         this.monthlySalesQuotesQtyRepository = monthlySalesQuotesQtyRepository;
         this.monthlyTargetsRepository = monthlyTargetsRepository;
+        this.salesQuotesByDateRepository = salesQuotesByDateRepository;
+        this.salesOrdersByDateRepository = salesOrdersByDateRepository;
+        this.salesInvoicesByDateRepository = salesInvoicesByDateRepository;
     }
 
     public MonthlySalesInvoices findSalesInvoicesMTD()
@@ -346,11 +362,9 @@ public class DashboardService {
 		return this.monthlySalesTargetRepository.findAll();
 	}
 
-    public double findDailyTarget(Double monthlyTraget) {
-		if(monthlyTraget!=null && !monthlyTraget.isNaN())
+    public double findDailyTarget(Double monthlyTraget, int noOfDaysInCurrentMonth) {
+		if(monthlyTraget!=null && !monthlyTraget.isNaN() && noOfDaysInCurrentMonth>0)
         {
-            Calendar calendar = Calendar.getInstance();
-            int noOfDaysInCurrentMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             LOG.info("noOfDaysInCurrentMonth="+noOfDaysInCurrentMonth+", monthlyTraget="+monthlyTraget.doubleValue());
             return monthlyTraget.doubleValue()/noOfDaysInCurrentMonth;
         }
@@ -397,4 +411,170 @@ public class DashboardService {
         }
             return lastThreeMonthsTarget;
     }
+
+    public List<SalesOrdersByDate> findWeekToDateSalesOrders() 
+    {
+        long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
+
+		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
+
+	public List<SalesQuotesByDate> findWeekToDateSalesQuotes() {
+		long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
+
+		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
+
+	public List<SalesInvoicesByDate> findWeekToDateSalesInvoices() {
+		long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
+
+		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
+
+	public String[][] getSalesOrderTargetArray(List<SalesOrdersByDate> salesOrdersList) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+		String[][] salesOrdersTargets = new String [salesOrdersList.size()+1][3];
+        int i=0;
+        salesOrdersTargets[i][0]= "Date"; 
+        salesOrdersTargets[i][1]= "Sale";
+        salesOrdersTargets[i][2]= "Target";
+        for(SalesOrdersByDate salesOrdersByDate:salesOrdersList)
+        {
+                i++;
+                salesOrdersTargets[i][0]= salesOrdersByDate.getDate().toLocaleString().split(" ")[0];      
+                salesOrdersTargets[i][1]= formatter.format(salesOrdersByDate.getTotal().doubleValue());
+                salesOrdersTargets[i][2]= formatter.format(salesOrdersByDate.getTotalTarget().doubleValue()/salesOrdersByDate.getQuantity()); 
+        }
+        return salesOrdersTargets;
+    }
+    public String[][] getSalesQuoteTargetArray(List<SalesQuotesByDate> salesQuotesList) {
+        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+		String[][] salesQuotesTargets = new String [salesQuotesList.size()+1][3];
+        int i=0;
+        salesQuotesTargets[i][i]= "Date"; 
+        salesQuotesTargets[i][1]= "Quote";
+        salesQuotesTargets[i][2]= "Target";
+        for(SalesQuotesByDate salesQuotesByDate:salesQuotesList)
+        {
+                i++;
+                salesQuotesTargets[i][0]= salesQuotesByDate.getDate().toLocaleString().split(" ")[0];      
+                salesQuotesTargets[i][1]= formatter.format(salesQuotesByDate.getTotal().doubleValue());
+                salesQuotesTargets[i][2]= formatter.format(salesQuotesByDate.getTotalTarget().doubleValue()/salesQuotesByDate.getQuantity()); 
+        }
+        return salesQuotesTargets;
+    }
+    public String[][] getSalesInvoiceTargetArray(List<SalesInvoicesByDate> salesInvoicesList) {
+        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+		String[][] salesInvoicesTargets = new String [salesInvoicesList.size()+1][3];
+        int i=0;
+        salesInvoicesTargets[i][0]= "Date"; 
+        salesInvoicesTargets[i][1]= "Invoice";
+        salesInvoicesTargets[i][2]= "Target";
+        for(SalesInvoicesByDate salesInvoicesByDate:salesInvoicesList)
+        {
+                i++;
+                salesInvoicesTargets[i][0]= salesInvoicesByDate.getDate().toLocaleString().split(" ")[0];      
+                salesInvoicesTargets[i][1]= formatter.format(salesInvoicesByDate.getTotal().doubleValue());
+                salesInvoicesTargets[i][2]= formatter.format(salesInvoicesByDate.getTotalTarget().doubleValue()/salesInvoicesByDate.getQuantity()); 
+        }
+        return salesInvoicesTargets;
+	}
+
+	public List<SalesOrdersByDate> getSalesOrderTargetList(List<SalesOrdersByDate> salesOrdersList) {
+        List<SalesOrdersByDate> salesOrderTargetList = new ArrayList<SalesOrdersByDate>();
+        double dailyTarget =0D;
+        double cumulativeTarget=0;
+        double cumulativeTotal=0;
+        for(SalesOrdersByDate salesOrdersByDate :salesOrdersList)
+        {
+            dailyTarget = salesOrdersByDate.getTotalTarget()!=null?salesOrdersByDate.getTotalTarget().doubleValue()/salesOrdersByDate.getQuantity().doubleValue():0D;
+            cumulativeTarget+=dailyTarget;
+            salesOrdersByDate.setTotalTarget(dailyTarget);
+            salesOrdersByDate.setCumulativeTarget(cumulativeTarget);
+            salesOrderTargetList.add(salesOrdersByDate);
+            cumulativeTotal+=salesOrdersByDate.getTotal()!=null?salesOrdersByDate.getTotal().doubleValue():0;
+        }
+        for(SalesOrdersByDate salesOrdersByDate :salesOrderTargetList)
+        {
+            salesOrdersByDate.setAverageTotal(cumulativeTotal/salesOrdersList.size());
+        }
+		return salesOrderTargetList;
+    }
+    public List<SalesQuotesByDate> getSalesQuoteTargetList(List<SalesQuotesByDate> salesQuotesList) {
+        List<SalesQuotesByDate> salesQuoteTargetList = new ArrayList<SalesQuotesByDate>();
+        double dailyTarget =0D;
+        double cumulativeTarget=0;
+        double cumulativeTotal=0;
+        for(SalesQuotesByDate salesQuotesByDate :salesQuotesList)
+        {
+            dailyTarget = salesQuotesByDate.getTotalTarget()!=null?salesQuotesByDate.getTotalTarget().doubleValue()/salesQuotesByDate.getQuantity().doubleValue():0D;
+            cumulativeTarget+=dailyTarget;
+            salesQuotesByDate.setTotalTarget(dailyTarget);
+            salesQuotesByDate.setCumulativeTarget(cumulativeTarget);
+            salesQuoteTargetList.add(salesQuotesByDate);
+            cumulativeTotal+=salesQuotesByDate.getTotal()!=null?salesQuotesByDate.getTotal().doubleValue():0;
+        }
+        for(SalesQuotesByDate salesQuotesByDate :salesQuoteTargetList)
+        {
+            salesQuotesByDate.setAverageTotal(cumulativeTotal/salesQuotesList.size());
+        }
+		return salesQuoteTargetList;
+    }
+    public List<SalesInvoicesByDate> getSalesInvoiceTargetList(List<SalesInvoicesByDate> salesInvoicesList) {
+        List<SalesInvoicesByDate> salesInvoiceTargetList = new ArrayList<SalesInvoicesByDate>();
+        double dailyTarget =0D;
+        double cumulativeTarget=0;
+        double cumulativeTotal=0;
+        for(SalesInvoicesByDate salesInvoicesByDate :salesInvoicesList)
+        {
+            dailyTarget = salesInvoicesByDate.getTotalTarget()!=null?salesInvoicesByDate.getTotalTarget().doubleValue()/salesInvoicesByDate.getQuantity().doubleValue():0D;
+            cumulativeTarget+=dailyTarget;
+            salesInvoicesByDate.setTotalTarget(dailyTarget);
+            salesInvoicesByDate.setCumulativeTarget(cumulativeTarget);
+            salesInvoiceTargetList.add(salesInvoicesByDate);
+            cumulativeTotal+=salesInvoicesByDate.getTotal()!=null?salesInvoicesByDate.getTotal().doubleValue():0;
+        }
+        for(SalesInvoicesByDate salesInvoicesByDate :salesInvoiceTargetList)
+        {
+            salesInvoicesByDate.setAverageTotal(cumulativeTotal/salesInvoicesList.size());
+        }
+		return salesInvoiceTargetList;
+	}
+
+	public List<SalesOrdersByDate> findMonthToDateSalesOrders() 
+    {
+        long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
+
+		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
+
+	public List<SalesQuotesByDate> findMonthToDateSalesQuotes() {
+		long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
+
+		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
+
+	public List<SalesInvoicesByDate> findMonthToDateSalesInvoices() {
+		long now = System.currentTimeMillis();
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
+
+		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+	}
 }

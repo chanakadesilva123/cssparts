@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,9 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByDate;
 import au.com.onesysconsulting.cscparts.dashboard.service.DashboardService;
 
 @Controller
@@ -65,21 +69,21 @@ public class ChartController {
         DailySalesQuotes salesQuotesDaily = dashboardService.findSalesQuotesDaily();
 
         MonthlyTargets monthlyTargets = dashboardService.findMonthlyTargets(Calendar.getInstance().get(Calendar.MONTH));
-        double salesOrderedTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderValue());
-        double salesInvoicedTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceValue());
-        double salesQuotesTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteValue());
+        double salesOrderedTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderValue(),monthlyTargets.getNoOfWorkingDays());
+        double salesInvoicedTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceValue(),monthlyTargets.getNoOfWorkingDays());
+        double salesQuotesTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteValue(),monthlyTargets.getNoOfWorkingDays());
 
-        double salesOrderedTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderQty());
-        double salesInvoicedTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceQty());
-        double salesQuotesTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteQty());
+        double salesOrderedTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderQty(),monthlyTargets.getNoOfWorkingDays());
+        double salesInvoicedTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceQty(),monthlyTargets.getNoOfWorkingDays());
+        double salesQuotesTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteQty(),monthlyTargets.getNoOfWorkingDays());
 
         double salesOrderedQtyDaily = salesOrderedDaily.getQuantity().doubleValue();
         double salesInvoicedQtyDaily = salesInvoicedDaily.getQuantity().doubleValue();
         double salesQuotesQtyDaily = salesQuotesDaily.getQuantity().doubleValue();
 
-        double salesOrderedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D);
-        double salesInvoicedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D);
-        double salesQuotesProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D);
+        double salesOrderedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D,monthlyTargets.getNoOfWorkingDays());
+        double salesInvoicedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D,monthlyTargets.getNoOfWorkingDays());
+        double salesQuotesProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D,monthlyTargets.getNoOfWorkingDays());
 
 
         double salesOrderedProfitDaily = salesOrderedDaily.getProfit().doubleValue();
@@ -188,6 +192,25 @@ public class ChartController {
         modelAndView.addObject("averageDailyQuotesProfit",averageDailyQuotesProfit);
         modelAndView.addObject("averageDailyInvoicesProfit",averageDailyInvoicesProfit);
 
+
+        List<SalesOrdersByDate> salesOrdersList = dashboardService.findWeekToDateSalesOrders();
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findWeekToDateSalesQuotes();
+        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findWeekToDateSalesInvoices();
+
+        modelAndView.addObject("salesOrdersList",salesOrdersList);
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
+
+        LOG.info("salesOrdersList==>"+salesOrdersList.size());
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+
+        modelAndView.addObject("salesOrderTargets",salesOrderTargets);
+        modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
+        modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
 
         modelAndView.addObject("toDay", new Date());
 
@@ -304,6 +327,25 @@ public class ChartController {
         modelAndView.addObject("averageMonthlyOrdersProfit",averageMonthlyOrdersProfit);
         modelAndView.addObject("averageMonthlyQuotesProfit",averageMonthlyQuotesProfit);
         modelAndView.addObject("averageMonthlyInvoicesProfit",averageMonthlyInvoicesProfit);
+
+        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
+        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+
+        modelAndView.addObject("salesOrdersList",salesOrdersList);
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
+
+        LOG.info("salesOrdersList==>"+salesOrdersList.size());
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+
+        modelAndView.addObject("salesOrderTargets",salesOrderTargets);
+        modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
+        modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
 
         modelAndView.addObject("thisMonth",Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
         modelAndView.addObject("thisYear",Calendar.getInstance().get(Calendar.YEAR));
@@ -424,6 +466,25 @@ public class ChartController {
         modelAndView.addObject("averageLastMonthQuotesProfit",averageLastMonthQuotesProfit);
         modelAndView.addObject("averageLastMonthInvoicesProfit",averageLastMonthInvoicesProfit);
 
+        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
+        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+
+        modelAndView.addObject("salesOrdersList",salesOrdersList);
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
+
+        LOG.info("salesOrdersList==>"+salesOrdersList.size());
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+
+        modelAndView.addObject("salesOrderTargets",salesOrderTargets);
+        modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
+        modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         modelAndView.addObject("lastMonth",calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
@@ -542,6 +603,25 @@ public class ChartController {
         modelAndView.addObject("averageLastThreeMonthsOrdersProfit",averageLastThreeMonthsOrdersProfit);
         modelAndView.addObject("averageLastThreeMonthsQuotesProfit",averageLastThreeMonthsQuotesProfit);
         modelAndView.addObject("averageLastThreeMonthsInvoicesProfit",averageLastThreeMonthsInvoicesProfit);
+
+        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
+        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+
+        modelAndView.addObject("salesOrdersList",salesOrdersList);
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
+
+        LOG.info("salesOrdersList==>"+salesOrdersList.size());
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+
+        modelAndView.addObject("salesOrderTargets",salesOrderTargets);
+        modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
+        modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
