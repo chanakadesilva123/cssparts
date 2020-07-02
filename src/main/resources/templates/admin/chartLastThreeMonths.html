@@ -181,10 +181,14 @@
           width: 400,
           legend:'top',
           title: 'Sales vs Target Last 30 Days',
-          vAxis: {title: 'Amount($)'},
+          vAxis: {
+            // Adds titles to each axis.
+          0: {title: 'Actual($)'},
+          1: {title: 'Target($)'}
+          },
           hAxis: {title: 'Date'},
           seriesType: 'bars',
-          series: {0: {color : '#0b4119'},1: {type: 'line',color : '#92edaa'},2: {type: 'line',color : 'red'}}
+          series: {0: {targetAxisIndex: 0,color : '#0b4119'},1: {targetAxisIndex: 1,type: 'area',color : '#92edaa'},2: {type: 'line',color : 'red'}}
         };
         var graphInvoices = new google.visualization.ComboChart(graph_div_invoices);
         graphInvoices.draw(dataGraphInvoices, dataGraphInvoicesOptions);
@@ -195,10 +199,14 @@
           width: 400,
           legend:'top',
           title: 'Sales vs Target Last 30 Days',
-          vAxis: {title: 'Amount($)'},
+          vAxis: {
+            // Adds titles to each axis.
+          0: {title: 'Actual($)'},
+          1: {title: 'Target($)'}
+          },
           hAxis: {title: 'Date'},
           seriesType: 'bars',
-          series: {0: {color : '#f9ae06'},1: {type: 'line',color : '#fff67e'},2: {type: 'line',color : 'red'}}
+          series: {0: {targetAxisIndex: 0,color : '#f9ae06'},1: {targetAxisIndex: 1,type: 'area',color : '#fff67e'},2: {type: 'line',color : 'red'}}
         };
         var graphOrders = new google.visualization.ComboChart(graph_div_orders);
         graphOrders.draw(dataGraphOrders, dataGraphOrdersOptions);
@@ -210,10 +218,14 @@
           legend:'top',
           title: 'Sales vs Target',
           title: 'Sales vs Target Last 30 Days',
-          vAxis: {title: 'Amount($)'},
+          vAxis: {
+          // Adds titles to each axis.
+          0: {title: 'Actual($)'},
+          1: {title: 'Target($)'}
+          },
           hAxis: {title: 'Date'},
           seriesType: 'bars',
-          series: {0: {color : '#00bfff'},1: {type: 'line',color : '#ff85e6'},2: {type: 'line',color : 'red'}}
+          series: {0: {targetAxisIndex: 0,color : '#00bfff'},1: {targetAxisIndex: 1,type: 'area',color : '#ff85e6'},2: {type: 'line',color : 'red'}}
         };
         var graphQuotes = new google.visualization.ComboChart(graph_div_quotes);
         graphQuotes.draw(dataGraphQuotes, dataGraphQuotesOptions);
