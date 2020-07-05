@@ -1,5 +1,8 @@
 package au.com.onesysconsulting.cscparts.dashboard.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -61,17 +64,15 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
+    @RequestMapping(value = {"/admin/home","/screen/home"}, method = RequestMethod.GET)
     public ModelAndView home(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean isFullScreen=((request.getParameterMap()!=null && request.getParameterMap().containsKey("isFullScreen")));
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        modelAndView.addObject("userName",
-                "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getUserName() + ")");
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-        modelAndView.addObject("isFullScreen", isFullScreen);
-        modelAndView.setViewName("admin/home");
+        LOG.info("dashboardHome-->"+request.getServletPath());
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
+        
+        modelAndView.addObject("lastUpdated", new Date());
+        
+        modelAndView.setViewName("admin/dashboardHome");
         return modelAndView;
     }
 }

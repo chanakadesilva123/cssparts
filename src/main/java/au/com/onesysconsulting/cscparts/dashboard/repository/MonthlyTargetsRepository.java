@@ -1,18 +1,16 @@
 package au.com.onesysconsulting.cscparts.dashboard.repository;
 
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
-
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetId;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
+
 @Repository("monthlyTargetsRepository")
-public interface MonthlyTargetsRepository extends JpaRepository<MonthlyTargets, Integer> {
+public interface MonthlyTargetsRepository extends JpaRepository<MonthlyTargets, MonthlyTargetId> {
     List<MonthlyTargets> findAll();
-    MonthlyTargets findByMonth(int month);
-    @Query(value = "from MonthlyTargets t where month BETWEEN :start AND :end")
-    public List<MonthlyTargets> findByBetweenMonths(@Param("start")int startMonth,@Param("end")int endMonth);
+    Optional<MonthlyTargets> findById(MonthlyTargetId monthlyTargetId);
 }

@@ -28,19 +28,22 @@
     </th:block>
             <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-        <section class="text-left px-2 mt-5">
-          <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  Last Three Month ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
-        </section>
-        <div class="album py-3 px-2 bg-light">
+                <div class="row px-2 mt-3" style="margin-left: 5%;">
+                  <div class="col-12 text-primary">
+                    <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  Last Three Month ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
+                  </div>
+                  
+                </div>
+         <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},graphDiv='graph_div_quotes')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},graphDiv='graph_div_orders')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},graphDiv='graph_div_invoices')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices')"> </div>
               </div>
             </div>
           </div>
@@ -87,12 +90,20 @@
   
   var salesOrderTargetArr = [];
   salesOrderTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  if(salesOrderTargets.length == 0)
+  {
+    salesOrderTargetArr.push(["0",0,0,0]);
+  }
   for (i = 0; i < salesOrderTargets.length; i++) {
     salesOrderTargetArr.push([salesOrderTargets[i].date.split("T")[0].split("-")[2]+'/'+salesOrderTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesOrderTargets[i].total.toFixed(2)),parseFloat(salesOrderTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesOrderTargets[i].averageTotal.toFixed(2))]);
   }
   console.log('salesOrderTargetArr-->'+salesOrderTargetArr);
   var salesQuoteTargetArr = [];
   salesQuoteTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  if(salesQuoteTargets.length == 0)
+  {
+    salesQuoteTargetArr.push(["0",0,0,0]);
+  }
   for (i = 0; i < salesQuoteTargets.length; i++) {
     salesQuoteTargetArr.push([salesQuoteTargets[i].date.split("T")[0].split("-")[2]+'/'+salesQuoteTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesQuoteTargets[i].total.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesQuoteTargets[i].averageTotal.toFixed(2))]);
   }
@@ -100,6 +111,10 @@
 
   var salesInvoiceTargetArr = [];
   salesInvoiceTargetArr.push(["Date","Actual","Target","Daily Avg"]);
+  if(salesInvoiceTargets.length == 0)
+  {
+    salesInvoiceTargetArr.push(["0",0,0,0]);
+  }
   for (i = 0; i < salesInvoiceTargets.length; i++) {
     salesInvoiceTargetArr.push([salesInvoiceTargets[i].date.split("T")[0].split("-")[2]+'/'+salesInvoiceTargets[i].date.split("T")[0].split("-")[1],parseFloat(salesInvoiceTargets[i].total.toFixed(2)),parseFloat(salesInvoiceTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesInvoiceTargets[i].averageTotal.toFixed(2))]);
   }

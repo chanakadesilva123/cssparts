@@ -14,13 +14,17 @@ import org.springframework.data.annotation.Immutable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@IdClass(au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetId.class)
 @Immutable
 @Table(name = "X_Targets")
 public class MonthlyTargets {
     @Id
+    @Column(name = "YEAR")
+    private int id;
+    @Id
     @Column(name = "PERIOD_NO")
     private int month;
-    @Column(name = "PERIOD_NAME")
+   @Column(name = "PERIOD_NAME")
     private String period;
     @Column(name = "MTD_QUOTE_QTY")
     private Double quoteQty;

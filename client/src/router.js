@@ -17,6 +17,11 @@ const router = new Router({
       component: Dashboard
     },
     {
+      path: "/screen/home",
+      name: "home",
+      component: Dashboard
+    },
+    {
       path: "/admin/chartToday",
       name: "chartToday"
     },

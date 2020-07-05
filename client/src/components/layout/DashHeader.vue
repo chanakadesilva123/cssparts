@@ -83,7 +83,7 @@ data () {
     clearInterval(this.polling)
   },
   created () {
-	this.pollData()
+	//this.pollData()
   }
 };
 </script>

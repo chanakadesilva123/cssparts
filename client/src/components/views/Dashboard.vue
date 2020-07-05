@@ -3,18 +3,10 @@
 <v-container>
       <div>
     <v-row>
-      <v-col cols="12" md="6" lg="6">
-     <span class="headline">DASHBOARD</span><span class="outline"> Overview of Sales, Products & Targets</span>
-      </v-col>
-      <v-col cols="12" md="6" lg="6" class="text-right">
-     <span class="overline text-right">LAST UPDATED : {{this.$store.state.lastUpdated}}</span>
-     </v-col>
-    </v-row>
-     <v-row>
       <v-col cols="12" md="4" lg="2">
         <v-card color="info" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content>
+              <v-list-item-content class="pt-1">
                 <v-list-item-title class="caption">Sales Invoiced <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">
@@ -26,7 +18,7 @@
       <v-col cols="12" md="4" lg="2">
         <v-card color="error" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content class="align-self-center">
+              <v-list-item-content class="pt-1">
                 <v-list-item-title class="caption">Sales Entered <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">
@@ -38,7 +30,7 @@
       <v-col cols="12" md="4" lg="2">
         <v-card color="teal" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content class="align-self-center">
+              <v-list-item-content class="align-self-center pt-1">
                 <v-list-item-title class="caption">Sales Orders QTY <br/>(Daily)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">
@@ -50,7 +42,7 @@
       <v-col cols="12" md="4" lg="2">
         <v-card color="teal" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content class="align-self-center">
+              <v-list-item-content class="align-self-center pt-1">
                 <v-list-item-title class="caption">Sales Invoiced <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">
@@ -62,7 +54,7 @@
       <v-col cols="12" md="4" lg="2">
        <v-card color="success" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content class="align-self-center">
+              <v-list-item-content class="align-self-center pt-1">
                 <v-list-item-title class="caption">Sales Entered <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">
@@ -74,7 +66,7 @@
       <v-col cols="12" md="4" lg="2">
         <v-card color="orange" dark class="mt-50" height="50">
             <v-list-item class="text-center">
-              <v-list-item-content class="align-self-center">
+              <v-list-item-content class="align-self-center pt-1">
                 <v-list-item-title class="caption">Sales Orders QTY <br/>(MTD)</v-list-item-title>
               </v-list-item-content>
               <v-list-item-chip class="mb-3">

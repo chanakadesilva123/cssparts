@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrderQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetId;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
@@ -380,11 +382,34 @@ public class DashboardService {
         return 0D;
        
     }
-    public MonthlyTargets findMonthlyTargets(int monthNo) {
-		return this.monthlyTargetsRepository.findByMonth(monthNo);
+    public MonthlyTargets findMonthlyTargets(int year,int monthNo) {
+        int financialMonthNo = monthNo<6?(monthNo+7):(monthNo-5);
+        LOG.info("findMonthlyTargets=>Year ,financialMonthNo="+year+" , "+financialMonthNo);
+        Optional<MonthlyTargets> monthlyTargetsOptional = this.monthlyTargetsRepository.findById(new MonthlyTargetId(year,financialMonthNo));
+        if (monthlyTargetsOptional.isPresent()){
+                return monthlyTargetsOptional.get();
+        }
+        return null;       
     }
-    public MonthlyTargets findLastThreeMonthsTargets(int currentMonth) {
-        List<MonthlyTargets> lastThreeMonthsTargets = this.monthlyTargetsRepository.findByBetweenMonths(currentMonth-3, currentMonth-1);
+    public MonthlyTargets findLastThreeMonthsTargets() {
+        Calendar calendar =Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        List<MonthlyTargets> threeMonthTargets = new ArrayList<MonthlyTargets>();
+        MonthlyTargets lastMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+        if(lastMonthTargets !=null)
+        threeMonthTargets.add(lastMonthTargets);
+
+        calendar.add(Calendar.MONTH, -1);
+        MonthlyTargets lastSecondMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+        if(lastSecondMonthTargets !=null) 
+        threeMonthTargets.add(lastSecondMonthTargets);
+        
+        calendar.add(Calendar.MONTH, -1);
+        MonthlyTargets lastThirdMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+        if(lastThirdMonthTargets !=null)
+        threeMonthTargets.add(lastThirdMonthTargets);
+        
+
         MonthlyTargets lastThreeMonthsTarget = new MonthlyTargets();
         lastThreeMonthsTarget.setQuoteQty(0D);
             lastThreeMonthsTarget.setQuoteValue(0D);
@@ -396,7 +421,7 @@ public class DashboardService {
             lastThreeMonthsTarget.setOrderValue(0D);
             lastThreeMonthsTarget.setOrderProfit(0D);
 
-        for(MonthlyTargets monthTargets : lastThreeMonthsTargets){
+        for(MonthlyTargets monthTargets : threeMonthTargets){
             lastThreeMonthsTarget.setQuoteQty(lastThreeMonthsTarget.getQuoteQty()+(monthTargets.getQuoteQty()!=null?monthTargets.getQuoteQty():0D));
             lastThreeMonthsTarget.setQuoteValue(lastThreeMonthsTarget.getQuoteValue()+(monthTargets.getQuoteValue()!=null?monthTargets.getQuoteValue():0D));
             lastThreeMonthsTarget.setQuoteProfit(lastThreeMonthsTarget.getQuoteProfit()+(monthTargets.getQuoteProfit()!=null?monthTargets.getQuoteProfit():0D));
