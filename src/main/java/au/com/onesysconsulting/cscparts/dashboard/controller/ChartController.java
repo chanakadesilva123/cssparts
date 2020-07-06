@@ -71,9 +71,9 @@ public class ChartController {
         double salesInvoicedQtyDaily = salesInvoicedDaily.getQuantity().doubleValue();
         double salesQuotesQtyDaily = salesQuotesDaily.getQuantity().doubleValue();
 
-        double salesOrderedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
-        double salesInvoicedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
-        double salesQuotesProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+        double salesOrderedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?(monthlyTargets.getOrderValue().doubleValue() * monthlyTargets.getOrderProfit().doubleValue())/100:0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+        double salesInvoicedProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?(monthlyTargets.getInvoiceValue().doubleValue() * monthlyTargets.getInvoiceProfit().doubleValue())/100:0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+        double salesQuotesProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?(monthlyTargets.getQuoteValue().doubleValue() * monthlyTargets.getQuoteProfit().doubleValue())/100:0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
 
 
         double salesOrderedProfitDaily = salesOrderedDaily.getProfit().doubleValue();
@@ -202,7 +202,7 @@ public class ChartController {
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy");
         modelAndView.addObject("lastUpdated", new Date());
         modelAndView.addObject("toDay", sdf.format(new Date()));
 
@@ -232,9 +232,9 @@ public class ChartController {
         double salesInvoicedTargetQtyMonthly = monthlyTargets!=null?monthlyTargets.getInvoiceQty().doubleValue():0D;
         double salesQuotesTargetQtyMonthly = monthlyTargets!=null?monthlyTargets.getQuoteQty().doubleValue():0D;
         
-        double salesOrderedProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D;
-        double salesInvoicedProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D;
-        double salesQuotesProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D;
+        double salesOrderedProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?(monthlyTargets.getOrderValue().doubleValue() * monthlyTargets.getOrderProfit().doubleValue())/100:0D;
+        double salesInvoicedProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?(monthlyTargets.getInvoiceValue().doubleValue() * monthlyTargets.getInvoiceProfit().doubleValue())/100:0D;
+        double salesQuotesProfitTargetMonthly = monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?(monthlyTargets.getQuoteValue().doubleValue() * monthlyTargets.getQuoteProfit().doubleValue())/100:0D;
 
         double salesOrderedProfitMonthly = salesOrderedMTD.getProfit().doubleValue();
         double salesInvoicedProfitMonthly = salesInvoicesMTD.getProfit().doubleValue();
@@ -372,9 +372,9 @@ public class ChartController {
         double salesInvoicedTargetQtyLastMonth = monthlyTargets!=null?monthlyTargets.getInvoiceQty().doubleValue():0D;
         double salesQuotesTargetQtyLastMonth = monthlyTargets!=null?monthlyTargets.getQuoteQty().doubleValue():0D;
         
-        double salesOrderedProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D;
-        double salesInvoicedProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D;
-        double salesQuotesProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D;
+        double salesOrderedProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getOrderProfit()!=null?(monthlyTargets.getOrderValue().doubleValue() * monthlyTargets.getOrderProfit().doubleValue())/100:0D;
+        double salesInvoicedProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getInvoiceProfit()!=null?(monthlyTargets.getInvoiceValue().doubleValue() * monthlyTargets.getInvoiceProfit().doubleValue())/100:0D;
+        double salesQuotesProfitTargetLastMonth = monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?(monthlyTargets.getQuoteValue().doubleValue() * monthlyTargets.getQuoteProfit().doubleValue())/100:0D;
 
         double salesOrderedProfitLastMonth = salesOrderedLastMonth.getProfit().doubleValue();
         double salesInvoicedProfitLastMonth = salesInvoicesLastMonth.getProfit().doubleValue();
@@ -581,18 +581,18 @@ public class ChartController {
         modelAndView.addObject("averageLastThreeMonthsQuotesTarget",averageLastThreeMonthsQuotesTarget);
         modelAndView.addObject("averageLastThreeMonthsInvoicesTarget",averageLastThreeMonthsInvoicesTarget);
 
-
-        double averageLastThreeMonthsOrdersProfitTarget = (salesOrderedTargetQtyLastThreeMonths>0?(new BigDecimal((salesOrderedProfitTargetLastThreeMonths/salesOrderedTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotesProfitTarget = (salesQuotesTargetQtyLastThreeMonths>0?(new BigDecimal((salesQuotesProfitTargetLastThreeMonths/salesQuotesTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoicesProfitTarget = (salesInvoicedTargetQtyLastThreeMonths>0?(new BigDecimal((salesInvoicedProfitTargetLastThreeMonths/salesInvoicedTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsOrdersProfitTarget = (salesOrderedTargetLastThreeMonths>0?(new BigDecimal((salesOrderedProfitTargetLastThreeMonths/salesOrderedTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsQuotesProfitTarget = (salesQuotesTargetLastThreeMonths>0?(new BigDecimal((salesQuotesProfitTargetLastThreeMonths/salesQuotesTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsInvoicesProfitTarget = (salesInvoicedTargetLastThreeMonths>0?(new BigDecimal((salesInvoicedProfitTargetLastThreeMonths/salesInvoicedTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
+        
         modelAndView.addObject("averageLastThreeMonthsOrdersProfitTarget",averageLastThreeMonthsOrdersProfitTarget);
         modelAndView.addObject("averageLastThreeMonthsQuotesProfitTarget",averageLastThreeMonthsQuotesProfitTarget);
         modelAndView.addObject("averageLastThreeMonthsInvoicesProfitTarget",averageLastThreeMonthsInvoicesProfitTarget);
 
-        double averageLastThreeMonthsOrdersProfit = (salesOrderedLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesOrderedProfitLastThreeMonths/salesOrderedLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotesProfit = (salesQuotesLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesQuotesProfitLastThreeMonths/salesQuotesLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoicesProfit = (salesInvoicesLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesInvoicedProfitLastThreeMonths/salesInvoicesLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsOrdersProfit = (salesOrderedLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesOrderedProfitLastThreeMonths/salesOrderedLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsQuotesProfit = (salesQuotesLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesQuotesProfitLastThreeMonths/salesQuotesLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageLastThreeMonthsInvoicesProfit = (salesInvoicesLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesInvoicedProfitLastThreeMonths/salesInvoicesLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
         modelAndView.addObject("averageLastThreeMonthsOrdersProfit",averageLastThreeMonthsOrdersProfit);
         modelAndView.addObject("averageLastThreeMonthsQuotesProfit",averageLastThreeMonthsQuotesProfit);

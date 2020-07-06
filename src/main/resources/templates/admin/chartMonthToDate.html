@@ -28,11 +28,13 @@
     </th:block>
             <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-                <div class="row px-2 mt-3" style="margin-left: 5%;">
-                  <div class="col-12 text-primary">
-                    <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  This Month ('+thisMonth+' '+thisYear+')'}"></span>
+                <div class="row px-2 mt-3" style="margin-left: 5%;margin-right: 5%;">
+                  <div class="col-6 text-primary">
+                    <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices'}"></span>
                   </div>
-                  
+                  <div class="col-6 text-primary text-right">
+                    <span class="h3">THIS MONTH</span><span class="h4" th:text="${' ('+thisMonth+' '+thisYear+')'}"></span>
+                  </div>
                 </div>
         <div class="album py-3 px-2 bg-light">
           <div class="row">

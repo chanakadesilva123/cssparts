@@ -28,19 +28,21 @@
     </th:block>
             <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-                <div class="row px-2 mt-3" style="margin-left: 5%;">
-                  <div class="col-12 text-primary">
-                    <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices  -  Last Three Month ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
+                <div class="row px-2 mt-3" style="margin-left: 5%;margin-right: 5%;">
+                  <div class="col-6 text-primary">
+                    <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices'}"></span>
                   </div>
-                  
+                  <div class="col-6 text-primary text-right">
+                    <span class="h3">LAST THREE MONTHS</span><span class="h4" th:text="${' ('+fromMonth+' '+fromYear+' - '+toMonth+' '+toYear+')'}"></span>
+                  </div>
                 </div>
          <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes')"></div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders')"></div>
               </div>
               <div class="col-md-4">
                 <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices')"> </div>

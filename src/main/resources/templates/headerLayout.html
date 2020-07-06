@@ -6,13 +6,13 @@
     </button>
     <th:block th:if=${!isFullScreen}>
     <a class="navbar-brand" href="#">
-        <a class="navbar-brand" th:href="@{/admin/home}"><img src="../img/logo.c90ecd5a.png" height="30" class="d-inline-block align-top" alt="OneSysConsulting"></a>
+        <a class="navbar-brand" th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><img src="../img/logo.c90ecd5a.png" height="30" class="d-inline-block align-top" alt="OneSysConsulting"></a>
         <span class="menu-collapsed"></span>
     </a>
 </th:block>
     <th:block th:unless=${!isFullScreen}>
         <a class="navbar-brand" href="#">
-            <a th:href="@{/admin/home}"><img src="../img/CSCParts_logo.png" class="d-inline-block align-top" alt="OneSysConsulting" style="width: auto;height: 100px;margin-top: 60px;"></a>
+            <a th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'screen','admin')}__}"><img src="../img/CSCParts_logo.png" class="d-inline-block align-top" alt="OneSysConsulting" style="width: auto;height: 100px;margin-top: 60px;"></a>
             <span class="menu-collapsed"></span>
         </a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">

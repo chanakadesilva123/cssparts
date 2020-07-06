@@ -6,18 +6,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesEnteredQty;
-import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoicedQty;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrderQty;
+import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.DailySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.LastMonthSalesInvoices;
@@ -26,24 +25,23 @@ import au.com.onesysconsulting.cscparts.dashboard.model.LastMonthSalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.LastThreeMonthsSalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.LastThreeMonthsSalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.LastThreeMonthsSalesQuotes;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoicedQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesInvoices;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrderQty;
+import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
-import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargetId;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByDate;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrderQtyRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesQuotesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.LastMonthSalesInvoicesRepository;
@@ -52,10 +50,10 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.LastMonthSalesQuote
 import au.com.onesysconsulting.cscparts.dashboard.repository.LastThreeMonthsSalesInvoicesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.LastThreeMonthsSalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.LastThreeMonthsSalesQuotesRepository;
-import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicedQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesInvoicesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrderQtyRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesOrdersRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesTargetRepository;
@@ -385,9 +383,10 @@ public class DashboardService {
     public MonthlyTargets findMonthlyTargets(int year,int monthNo) {
         int financialMonthNo = monthNo<6?(monthNo+7):(monthNo-5);
         LOG.info("findMonthlyTargets=>Year ,financialMonthNo="+year+" , "+financialMonthNo);
-        Optional<MonthlyTargets> monthlyTargetsOptional = this.monthlyTargetsRepository.findById(new MonthlyTargetId(year,financialMonthNo));
-        if (monthlyTargetsOptional.isPresent()){
-                return monthlyTargetsOptional.get();
+        List<MonthlyTargets> monthlyTargets = this.monthlyTargetsRepository.findByYearAndMonth(year,financialMonthNo);
+        if (monthlyTargets!=null && !monthlyTargets.isEmpty())
+        {
+                return monthlyTargets.get(0);
         }
         return null;       
     }
@@ -424,15 +423,15 @@ public class DashboardService {
         for(MonthlyTargets monthTargets : threeMonthTargets){
             lastThreeMonthsTarget.setQuoteQty(lastThreeMonthsTarget.getQuoteQty()+(monthTargets.getQuoteQty()!=null?monthTargets.getQuoteQty():0D));
             lastThreeMonthsTarget.setQuoteValue(lastThreeMonthsTarget.getQuoteValue()+(monthTargets.getQuoteValue()!=null?monthTargets.getQuoteValue():0D));
-            lastThreeMonthsTarget.setQuoteProfit(lastThreeMonthsTarget.getQuoteProfit()+(monthTargets.getQuoteProfit()!=null?monthTargets.getQuoteProfit():0D));
+            lastThreeMonthsTarget.setQuoteProfit(lastThreeMonthsTarget.getQuoteProfit()+(monthTargets.getQuoteProfit()!=null?(monthTargets.getQuoteValue().doubleValue() * monthTargets.getQuoteProfit().doubleValue())/100:0D));
             
             lastThreeMonthsTarget.setInvoiceQty(lastThreeMonthsTarget.getInvoiceQty()+(monthTargets.getInvoiceQty()!=null?monthTargets.getInvoiceQty():0D));
             lastThreeMonthsTarget.setInvoiceValue(lastThreeMonthsTarget.getInvoiceValue()+(monthTargets.getInvoiceValue()!=null?monthTargets.getInvoiceValue():0D));
-            lastThreeMonthsTarget.setInvoiceProfit(lastThreeMonthsTarget.getInvoiceProfit()+(monthTargets.getInvoiceProfit()!=null?monthTargets.getInvoiceProfit():0D));
+            lastThreeMonthsTarget.setInvoiceProfit(lastThreeMonthsTarget.getInvoiceProfit()+(monthTargets.getInvoiceProfit()!=null?(monthTargets.getInvoiceValue().doubleValue() * monthTargets.getInvoiceProfit().doubleValue())/100:0D));
 
             lastThreeMonthsTarget.setOrderQty(lastThreeMonthsTarget.getOrderQty()+(monthTargets.getOrderQty()!=null?monthTargets.getOrderQty():0D));
             lastThreeMonthsTarget.setOrderValue(lastThreeMonthsTarget.getOrderValue()+(monthTargets.getOrderValue()!=null?monthTargets.getOrderValue():0D));
-            lastThreeMonthsTarget.setOrderProfit(lastThreeMonthsTarget.getOrderProfit()+(monthTargets.getOrderProfit()!=null?monthTargets.getOrderProfit():0D));
+            lastThreeMonthsTarget.setOrderProfit(lastThreeMonthsTarget.getOrderProfit()+(monthTargets.getOrderProfit()!=null?(monthTargets.getOrderValue().doubleValue() * monthTargets.getOrderProfit().doubleValue())/100:0D));
         }
             return lastThreeMonthsTarget;
     }
@@ -580,26 +579,26 @@ public class DashboardService {
 
 	public List<SalesOrdersByDate> findMonthToDateSalesOrders() 
     {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE,1);
         long now = System.currentTimeMillis();
-        long DAY_IN_MS = 1000 * 60 * 60 * 24;
-        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
-
-		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+        long firstDayOfThisMonth = calendar.getTime().getTime();
+		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
 	}
 
 	public List<SalesQuotesByDate> findMonthToDateSalesQuotes() {
-		long now = System.currentTimeMillis();
-        long DAY_IN_MS = 1000 * 60 * 60 * 24;
-        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
-
-		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+		Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE,1);
+        long now = System.currentTimeMillis();
+        long firstDayOfThisMonth = calendar.getTime().getTime();
+		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
 	}
 
 	public List<SalesInvoicesByDate> findMonthToDateSalesInvoices() {
-		long now = System.currentTimeMillis();
-        long DAY_IN_MS = 1000 * 60 * 60 * 24;
-        long sevenDaysBefore = System.currentTimeMillis() - (30 * DAY_IN_MS);
-
-		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+		Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE,1);
+        long now = System.currentTimeMillis();
+        long firstDayOfThisMonth = calendar.getTime().getTime();
+		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
 	}
 }
