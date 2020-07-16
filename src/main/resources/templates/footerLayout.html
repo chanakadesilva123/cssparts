@@ -1,6 +1,78 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="container" th:fragment="footer">
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery -->
+<script type="text/javascript" src="../js/jquery.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="../js/popper.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/bootstrap-datepicker.min.js"></script>
+<!-- Google chart -->
+<script type="text/javascript" src="../js/loader.js"></script>
+<script type="text/javascript" src="../js/custom.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#fromDateDatepicker').datepicker({
+      format: "dd/mm/yyyy",
+      autoclose: true
+    });
+    $('#toDateDatepicker').datepicker({
+      format: "dd/mm/yyyy",
+      autoclose: true
+    }); 
+    $("#submitDateRangeBtn").click(function(){
+      var startDate = $('#fromDateDatepicker').datepicker('getDate');
+      var toDate = $('#toDateDatepicker').datepicker('getDate');
+      console.log('startDate-->'+startDate);
+      console.log('toDate-->'+toDate);
+      if(!startDate)
+      {
+        console.log('No StartDate');
+       $('#fromDateDatepicker').css('border-color','#dc3545');
+       $('.invalid-feedback').show();
+       $('.invalid-feedback').html('Please select From Date');
+        return 
+      }
+      else{
+        $('#fromDateDatepicker').css('border-color','#28a745');
+        $('.invalid-feedback').hide();
+      }
+      if(!toDate)
+      {
+        console.log('No EndDate');
+        $('#toDateDatepicker').css('border-color','#dc3545');
+        $('.invalid-feedback').show();
+       $('.invalid-feedback').html('Please select To Date');
+        return
+      }
+      else{
+        $('#toDateDatepicker').css('border-color','#28a745');
+        $('.invalid-feedback').hide();
+      }
+      if(startDate && toDate && (toDate<startDate))
+      {
+        console.log('Date should lesser than start date');
+        $('#toDateDatepicker').css('border-color','#dc3545');
+        $('#fromDateDatepicker').css('border-color','#dc3545');
+        $('.invalid-feedback').show();
+       $('.invalid-feedback').html('From Date should lesser than To Date');
+        return 
+      }
+      else
+      {
+        console.log('Success');
+        $('#fromDateDatepicker').css('border-color','#28a745');
+        $('#toDateDatepicker').css('border-color','#28a745');
+        $('.invalid-feedback').hide();
+        location.href = 'chartByDateRange?from='+(new Intl.DateTimeFormat('en-GB').format(startDate))+'&to='+(new Intl.DateTimeFormat('en-GB').format(toDate));
+      }
+    })
+    
+    })
+  </script>
     <p>&copy; 2020 <a href="http://onesysconsulting.com.au/">OneSysConsulting</a>. All rights reserved.</p>
   </div>
   </html>

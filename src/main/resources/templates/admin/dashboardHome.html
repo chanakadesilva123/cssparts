@@ -1,25 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset=utf-8>
-    <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="refresh" content="600"/>
-    <!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-<!-- Google Fonts Roboto -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-<!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="../css/bootstrap.css">
-<link rel="stylesheet" href="../css/dashboard.css">
-<link rel=icon href=../img/favicon.ico>
-<title>CSCParts - Dashboard</title>
+<div th:replace="headLayout :: head"></div>
 <link rel=stylesheet href=//cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css>
     <link th:href="@{/css/chunk-vendors.a775eba8.css}" rel=preload as=style>
     <link th:href="@{/js/app.2fad2889.js}" rel=preload as=script>
     <link th:href="@{/js/chunk-vendors.fe905e5e.js}" rel=preload as=script>
     <link th:href="@{/css/chunk-vendors.a775eba8.css}" rel=stylesheet>
-  </head>
   <body>
     <header>
       <!-- Bootstrap NavBar -->
@@ -28,7 +14,7 @@
   <div class="container-fluid">
     <div class="row">
       <th:block th:if=${!isFullScreen}>
-      <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item bg-info',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',homeLinkClass='nav-link text-warning',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link')"> </div>
+      <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item bg-info',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',byDateRangeListClass='nav-item',homeLinkClass='nav-link text-warning',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link',byDateRangeLinkClass='nav-link')"> </div>
     </th:block>
             <main  id="mainContent" role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
@@ -58,16 +44,7 @@
 <footer class="footer mt-auto py-3">
   <div th:replace="footerLayout :: footer"> </div>
 </footer>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- jQuery -->
-<script type="text/javascript" src="../js/jquery.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="../js/popper.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="../js/bootstrap.js"></script>
-<script th:src="@{/js/chunk-vendors.fe905e5e.js}"></script>
+   <script th:src="@{/js/chunk-vendors.fe905e5e.js}"></script>
         <script th:src="@{/js/app.2fad2889.js}"></script>
-        <script type="text/javascript" src="../js/custom.js"></script>    
- </body>
+</body>
     </html>

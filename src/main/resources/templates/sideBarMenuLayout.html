@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark collapse" th:fragment="sideBarMenu(homeListClass,todayListClass,thisMonthListClass,lastMonthListClass,last3MonthsListClass,homeLinkClass,todayLinkClass,thisMonthLinkClass,lastMonthLinkClass,last3MonthsLinkClass)">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark collapse" th:fragment="sideBarMenu(homeListClass,todayListClass,thisMonthListClass,lastMonthListClass,last3MonthsListClass,byDateRangeListClass,homeLinkClass,todayLinkClass,thisMonthLinkClass,lastMonthLinkClass,last3MonthsLinkClass,byDateRangeLinkClass)">
     <div class="sidebar-sticky pt-3">
       <ul class="nav flex-column">
         <li th:class="${homeListClass}">
@@ -41,6 +41,39 @@
             <span class="fas fa-chart-line fa-fw mr-3"></span>
             Last 3 months
           </a>
+        </li>
+        <li th:class="${byDateRangeListClass}">
+          <a th:class="${byDateRangeLinkClass}" href="#">
+            <span class="fa fa-calculator fa-fw mr-3"></span>
+            By Date Range
+          </a>
+          <div th:class="${byDateRangeLinkClass}">
+            <!-- Form code begins -->
+            <form method="post">
+            <div class="input-group col-md-9 col-sm-6 col-lg-9 col-xs-12 mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><span class="fa fa-calculator"></span></span>
+              </div>
+              <input type='text' class="form-control datepicker" id='fromDateDatepicker' data-date-format="dd/mm/yyyy" placeholder="From Date" th:value="${fromDate}" readonly />
+            </div>
+            <div class="input-group col-md-9 col-sm-6 col-lg-9 col-xs-12 mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><span class="fa fa-calculator"></span></span>
+              </div>
+              <input type='text' class="form-control datepicker" id='toDateDatepicker' data-date-format="dd/mm/yyyy" placeholder="To Date" th:value="${toDate}" readonly />
+            </div>
+            <div class="form-group col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <button class="btn btn-primary small" name="submitDateRange" type="button" id="submitDateRangeBtn">Show Dashboard</button>
+              </div>
+              <div class="invalid-feedback" style="display: none;">
+                Please select from and to dates.
+              </div>
+          </form>
+            </div>
+            
+            <!-- Form code ends --> 
+       
+           
         </li>
         </ul>
         </div>
