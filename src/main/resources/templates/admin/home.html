@@ -32,7 +32,7 @@
             <th:block th:if=${!isFullScreen}>
           <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item bg-info',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',homeLinkClass='nav-link text-warning',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link')"> </div>
           </th:block>
-                <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
+                <main id="mainContent" role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
                   <div class="col-md-12">
     <noscript><strong>We're sorry but client doesn't work properly without JavaScript enabled. Please enable it to
             continue.</strong></noscript><span
@@ -52,8 +52,6 @@
           <script type="text/javascript" src="../js/popper.js"></script>
           <!-- Bootstrap core JavaScript -->
           <script type="text/javascript" src="../js/bootstrap.js"></script>
-      <script th:src="@{/js/chunk-vendors.fe905e5e.js}"></script>
-        <script th:src="@{/js/app.2fad2889.js}"></script>
-        
+          <script type="text/javascript" src="../js/custom.js"></script>
     
     </body></html>

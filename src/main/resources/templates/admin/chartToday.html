@@ -26,13 +26,16 @@
       <th:block th:if=${!isFullScreen}>
       <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item',todayListClass='nav-item bg-info',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',homeLinkClass='nav-link',todayLinkClass='nav-link text-warning',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link')"> </div>
     </th:block>
-            <main role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
+            <main id="mainContent" role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-                <div class="row px-2 mt-3" style="margin-left: 5%;margin-right: 5%;">
+                <div id="mainHeading" class="row px-2 mt-3" style="margin-right: 5%;">
+                  <div class="col-1 text-primary">
+                    <span id="sideMenuArrow" style="visibility: hidden;cursor: pointer;" class="fa fa-arrow-right fa-fw mr-3 text-dark" onclick="showSideBar()"></span>
+                  </div>
                   <div class="col-6 text-primary">
                     <span class="h3">DASHBOARD</span><span class="h6" th:text="${' Quotes , Orders & Invoices'}"></span>
                   </div>
-                  <div class="col-6 text-primary text-right">
+                  <div class="col-5 text-primary text-right">
                     <span class="h3">TODAY</span><span class="h4" th:text="${' ('+toDay+')'}"></span>
                   </div>
                 </div>
@@ -68,6 +71,7 @@
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 <!-- Google chart -->
 <script type="text/javascript" src="../js/loader.js"></script>
+<script type="text/javascript" src="../js/custom.js"></script>
 <script th:inline="javascript">
   
   /*<![CDATA[*/

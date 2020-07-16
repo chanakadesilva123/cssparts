@@ -6,7 +6,9 @@
     </button>
     <th:block th:if=${!isFullScreen}>
     <a class="navbar-brand" href="#">
-        <a class="navbar-brand" th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><img src="../img/logo.c90ecd5a.png" height="30" class="d-inline-block align-top" alt="OneSysConsulting"></a>
+        <a class="nav-link text-info"  th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><i class="fa fa-expand"></i>Full Screen</a>
+        <a class="nav-link text-info"  th:href="@{__${#httpServletRequest.requestURI}__}"><i class="fa fa-retweet"></i>Reload</a>
+        <a class="nav-link text-info" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
         <span class="menu-collapsed"></span>
     </a>
 </th:block>
@@ -17,30 +19,27 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <li class="nav-item" style="margin-top: 65px;">
                     <span class="text-right h4 ml-5">LAST UPDATED </span><span class="h6" th:text="${lastUpdated}"></span>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-top: 65px;">
                     <a class="nav-link text-info"  th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'screen','admin')}__}"><i class="fa fa-compress"></i> </a>
                </li>
+               <li class="nav-item">
+                <a class="nav-link text-info" th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><img src="../img/CSCParts_logo.png" style="width: auto;height: 100px;margin-top: 60px;" class="d-inline-block align-top" alt="OneSysConsulting"></a>
+                </li>
             </ul>
         </div>
     </th:block>
     <th:block th:if=${!isFullScreen}>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            <li class="nav-item" style="margin-top: 65px;">
                 <span class="text-right h4 ml-5">LAST UPDATED </span><span class="h6" th:text="${lastUpdated}"></span>
             </li>
     
-           <li class="nav-item">
-                <a class="nav-link text-info"  th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><i class="fa fa-expand"></i>Full Screen</a>
-           </li>
-           <li class="nav-item">
-                 <a class="nav-link text-info"  th:href="@{__${#httpServletRequest.requestURI}__}"><i class="fa fa-retweet"></i>Reload</a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link text-info" href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                <a class="nav-link" th:href="@{__${#strings.replace(#httpServletRequest.requestURI,'admin','screen')}__}"><img src="../img/CSCParts_logo.png" style="width: auto;height: 100px;margin-top: 60px;" class="d-inline-block align-top" alt="OneSysConsulting"></a>
             </li>
             <!-- This menu is hidden in bigger devices with d-sm-none. 
            The sidebar isn't proper for smaller screens imo, so this dropdown menu can keep all the useful sidebar itens exclusively for smaller screens  -->
