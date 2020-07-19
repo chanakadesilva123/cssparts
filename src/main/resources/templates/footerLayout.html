@@ -15,13 +15,16 @@
 <script type="text/javascript" src="../js/custom.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
+    var date=new Date();
     $('#fromDateDatepicker').datepicker({
       format: "dd/mm/yyyy",
-      autoclose: true
+      autoclose: true,
+      endDate:date
     });
     $('#toDateDatepicker').datepicker({
       format: "dd/mm/yyyy",
-      autoclose: true
+      autoclose: true,
+      endDate:date
     }); 
     $("#submitDateRangeBtn").click(function(){
       var startDate = $('#fromDateDatepicker').datepicker('getDate');

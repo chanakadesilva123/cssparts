@@ -1,9 +1,13 @@
 package au.com.onesysconsulting.cscparts.dashboard.service;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -95,8 +99,29 @@ public class DashboardService {
     private SalesInvoicesByDateRepository salesInvoicesByDateRepository;
 
     @Autowired
-    public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,DailySalesInvoicesRepository dailySalesInvoicesRepository,LastMonthSalesInvoicesRepository lastMonthSalesInvoicesRepository,LastThreeMonthsSalesInvoicesRepository lastThreeMonthsSalesInvoicesRepository,MonthlySalesOrdersRepository monthlySalesOrdersRepository,DailySalesOrdersRepository dailySalesOrdersRepository,LastMonthSalesOrdersRepository lastMonthSalesOrdersRepository,LastThreeMonthsSalesOrdersRepository lastThreeMonthsSalesOrdersRepository,DailySalesQuotesRepository dailySalesQuotesRepository, MonthlySalesQuotesRepository monthlySalesQuotesRepository, LastMonthSalesQuotesRepository lastMonthSalesQuotesRepository,LastThreeMonthsSalesQuotesRepository lastThreeMonthsSalesQuotesRepository,MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,DailySalesOrderQtyRepository dailySalesOrderQtyRepository,SalesTargetRepository salesTargetRepository,MonthlySalesTargetRepository monthlySalesTargetRepository,DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,MonthlyTargetsRepository monthlyTargetsRepository,SalesQuotesByDateRepository salesQuotesByDateRepository,SalesOrdersByDateRepository salesOrdersByDateRepository,SalesInvoicesByDateRepository salesInvoicesByDateRepository)
-    {
+    public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,
+            DailySalesInvoicesRepository dailySalesInvoicesRepository,
+            LastMonthSalesInvoicesRepository lastMonthSalesInvoicesRepository,
+            LastThreeMonthsSalesInvoicesRepository lastThreeMonthsSalesInvoicesRepository,
+            MonthlySalesOrdersRepository monthlySalesOrdersRepository,
+            DailySalesOrdersRepository dailySalesOrdersRepository,
+            LastMonthSalesOrdersRepository lastMonthSalesOrdersRepository,
+            LastThreeMonthsSalesOrdersRepository lastThreeMonthsSalesOrdersRepository,
+            DailySalesQuotesRepository dailySalesQuotesRepository,
+            MonthlySalesQuotesRepository monthlySalesQuotesRepository,
+            LastMonthSalesQuotesRepository lastMonthSalesQuotesRepository,
+            LastThreeMonthsSalesQuotesRepository lastThreeMonthsSalesQuotesRepository,
+            MonthlySalesOrderQtyRepository monthlySalesOrderQtyRepository,
+            DailySalesOrderQtyRepository dailySalesOrderQtyRepository, SalesTargetRepository salesTargetRepository,
+            MonthlySalesTargetRepository monthlySalesTargetRepository,
+            DailySalesEnteredQtyRepository dailySalesEnteredQtyRepository,
+            DailySalesQuotesQtyRepository dailySalesQuotesQtyRepository,
+            DailySalesInvoicedQtyRepository dailySalesInvoicedQtyRepository,
+            MonthlySalesInvoicedQtyRepository monthlySalesInvoicedQtyRepository,
+            MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,
+            MonthlyTargetsRepository monthlyTargetsRepository, SalesQuotesByDateRepository salesQuotesByDateRepository,
+            SalesOrdersByDateRepository salesOrdersByDateRepository,
+            SalesInvoicesByDateRepository salesInvoicesByDateRepository) {
         this.monthlySalesInvoicesRepository = monthlySalesInvoicesRepository;
         this.dailySalesInvoicesRepository = dailySalesInvoicesRepository;
         this.lastMonthSalesInvoicesRepository = lastMonthSalesInvoicesRepository;
@@ -124,11 +149,11 @@ public class DashboardService {
         this.salesInvoicesByDateRepository = salesInvoicesByDateRepository;
     }
 
-    public MonthlySalesInvoices findSalesInvoicesMTD()
-    {
+    public MonthlySalesInvoices findSalesInvoicesMTD() {
         List<MonthlySalesInvoices> monthlySalesInvoicedList = this.monthlySalesInvoicesRepository.findAll();
-        if(monthlySalesInvoicedList!=null && monthlySalesInvoicedList.size()>0 && monthlySalesInvoicedList.get(0)!=null && monthlySalesInvoicedList.get(0).getTotal()!=null && !monthlySalesInvoicedList.get(0).getTotal().isNaN())
-        {
+        if (monthlySalesInvoicedList != null && monthlySalesInvoicedList.size() > 0
+                && monthlySalesInvoicedList.get(0) != null && monthlySalesInvoicedList.get(0).getTotal() != null
+                && !monthlySalesInvoicedList.get(0).getTotal().isNaN()) {
             return monthlySalesInvoicedList.get(0);
         }
         MonthlySalesInvoices monthlySalesInvoices = new MonthlySalesInvoices();
@@ -136,13 +161,14 @@ public class DashboardService {
         monthlySalesInvoices.setQuantity(0D);
         monthlySalesInvoices.setProfit(0D);
         return monthlySalesInvoices;
-        
+
     }
-    public DailySalesInvoices findSalesInvoicesDaily()
-    {
+
+    public DailySalesInvoices findSalesInvoicesDaily() {
         List<DailySalesInvoices> dailySalesInvoicedList = this.dailySalesInvoicesRepository.findAll();
-        if(dailySalesInvoicedList!=null && dailySalesInvoicedList.size()>0 && dailySalesInvoicedList.get(0)!=null && dailySalesInvoicedList.get(0).getTotal()!=null && !dailySalesInvoicedList.get(0).getTotal().isNaN())
-        {
+        if (dailySalesInvoicedList != null && dailySalesInvoicedList.size() > 0 && dailySalesInvoicedList.get(0) != null
+                && dailySalesInvoicedList.get(0).getTotal() != null
+                && !dailySalesInvoicedList.get(0).getTotal().isNaN()) {
             return dailySalesInvoicedList.get(0);
         }
         DailySalesInvoices dailySalesInvoices = new DailySalesInvoices();
@@ -150,13 +176,14 @@ public class DashboardService {
         dailySalesInvoices.setQuantity(0D);
         dailySalesInvoices.setProfit(0D);
         return dailySalesInvoices;
-        
+
     }
-    public LastMonthSalesInvoices findSalesInvoicesLastMonth()
-    {
+
+    public LastMonthSalesInvoices findSalesInvoicesLastMonth() {
         List<LastMonthSalesInvoices> lastMonthSalesInvoicedList = this.lastMonthSalesInvoicesRepository.findAll();
-        if(lastMonthSalesInvoicedList!=null && lastMonthSalesInvoicedList.size()>0 && lastMonthSalesInvoicedList.get(0)!=null && lastMonthSalesInvoicedList.get(0).getTotal()!=null && !lastMonthSalesInvoicedList.get(0).getTotal().isNaN())
-        {
+        if (lastMonthSalesInvoicedList != null && lastMonthSalesInvoicedList.size() > 0
+                && lastMonthSalesInvoicedList.get(0) != null && lastMonthSalesInvoicedList.get(0).getTotal() != null
+                && !lastMonthSalesInvoicedList.get(0).getTotal().isNaN()) {
             return lastMonthSalesInvoicedList.get(0);
         }
         LastMonthSalesInvoices lastMonthSalesInvoices = new LastMonthSalesInvoices();
@@ -164,13 +191,16 @@ public class DashboardService {
         lastMonthSalesInvoices.setQuantity(0D);
         lastMonthSalesInvoices.setProfit(0D);
         return lastMonthSalesInvoices;
-        
+
     }
-    public LastThreeMonthsSalesInvoices findSalesInvoicesLastThreeMonths()
-    {
-        List<LastThreeMonthsSalesInvoices> lastThreeMonthsSalesInvoicedList = this.lastThreeMonthsSalesInvoicesRepository.findAll();
-        if(lastThreeMonthsSalesInvoicedList!=null && lastThreeMonthsSalesInvoicedList.size()>0 && lastThreeMonthsSalesInvoicedList.get(0)!=null && lastThreeMonthsSalesInvoicedList.get(0).getTotal()!=null && !lastThreeMonthsSalesInvoicedList.get(0).getTotal().isNaN())
-        {
+
+    public LastThreeMonthsSalesInvoices findSalesInvoicesLastThreeMonths() {
+        List<LastThreeMonthsSalesInvoices> lastThreeMonthsSalesInvoicedList = this.lastThreeMonthsSalesInvoicesRepository
+                .findAll();
+        if (lastThreeMonthsSalesInvoicedList != null && lastThreeMonthsSalesInvoicedList.size() > 0
+                && lastThreeMonthsSalesInvoicedList.get(0) != null
+                && lastThreeMonthsSalesInvoicedList.get(0).getTotal() != null
+                && !lastThreeMonthsSalesInvoicedList.get(0).getTotal().isNaN()) {
             return lastThreeMonthsSalesInvoicedList.get(0);
         }
         LastThreeMonthsSalesInvoices last3MonthsSalesInvoices = new LastThreeMonthsSalesInvoices();
@@ -178,72 +208,77 @@ public class DashboardService {
         last3MonthsSalesInvoices.setQuantity(0D);
         last3MonthsSalesInvoices.setProfit(0D);
         return last3MonthsSalesInvoices;
-        
+
     }
 
-	public MonthlySalesOrders findSalesOrdersMTD() {
-		List<MonthlySalesOrders> monthlySalesOrdersList = this.monthlySalesOrdersRepository.findAll();
-        if(monthlySalesOrdersList!=null && monthlySalesOrdersList.size()>0 && monthlySalesOrdersList.get(0)!=null && monthlySalesOrdersList.get(0).getTotal()!=null && !monthlySalesOrdersList.get(0).getTotal().isNaN())
-        {
+    public MonthlySalesOrders findSalesOrdersMTD() {
+        List<MonthlySalesOrders> monthlySalesOrdersList = this.monthlySalesOrdersRepository.findAll();
+        if (monthlySalesOrdersList != null && monthlySalesOrdersList.size() > 0 && monthlySalesOrdersList.get(0) != null
+                && monthlySalesOrdersList.get(0).getTotal() != null
+                && !monthlySalesOrdersList.get(0).getTotal().isNaN()) {
             return monthlySalesOrdersList.get(0);
         }
-        
+
         MonthlySalesOrders monthlySalesOrders = new MonthlySalesOrders();
         monthlySalesOrders.setTotal(0D);
         monthlySalesOrders.setQuantity(0D);
         monthlySalesOrders.setProfit(0D);
         return monthlySalesOrders;
-        
-	}
 
-	public DailySalesOrders findSalesOrdersDaily() {
-		List<DailySalesOrders> dailySalesOrdersList = this.dailySalesOrdersRepository.findAll();
-        if(dailySalesOrdersList!=null && dailySalesOrdersList.size()>0 && dailySalesOrdersList.get(0)!=null && dailySalesOrdersList.get(0).getTotal()!=null && !dailySalesOrdersList.get(0).getTotal().isNaN())
-        {
+    }
+
+    public DailySalesOrders findSalesOrdersDaily() {
+        List<DailySalesOrders> dailySalesOrdersList = this.dailySalesOrdersRepository.findAll();
+        if (dailySalesOrdersList != null && dailySalesOrdersList.size() > 0 && dailySalesOrdersList.get(0) != null
+                && dailySalesOrdersList.get(0).getTotal() != null && !dailySalesOrdersList.get(0).getTotal().isNaN()) {
             return dailySalesOrdersList.get(0);
         }
-        
+
         DailySalesOrders dailySalesOrders = new DailySalesOrders();
         dailySalesOrders.setTotal(0D);
         dailySalesOrders.setQuantity(0D);
         dailySalesOrders.setProfit(0D);
         return dailySalesOrders;
-        
+
     }
+
     public LastMonthSalesOrders findSalesOrdersLastMonth() {
-		List<LastMonthSalesOrders> lastMonthSalesOrdersList = this.lastMonthSalesOrdersRepository.findAll();
-        if(lastMonthSalesOrdersList!=null && lastMonthSalesOrdersList.size()>0 && lastMonthSalesOrdersList.get(0)!=null && lastMonthSalesOrdersList.get(0).getTotal()!=null && !lastMonthSalesOrdersList.get(0).getTotal().isNaN())
-        {
+        List<LastMonthSalesOrders> lastMonthSalesOrdersList = this.lastMonthSalesOrdersRepository.findAll();
+        if (lastMonthSalesOrdersList != null && lastMonthSalesOrdersList.size() > 0
+                && lastMonthSalesOrdersList.get(0) != null && lastMonthSalesOrdersList.get(0).getTotal() != null
+                && !lastMonthSalesOrdersList.get(0).getTotal().isNaN()) {
             return lastMonthSalesOrdersList.get(0);
         }
-        
+
         LastMonthSalesOrders lastMonthSalesOrders = new LastMonthSalesOrders();
         lastMonthSalesOrders.setTotal(0D);
         lastMonthSalesOrders.setQuantity(0D);
         lastMonthSalesOrders.setProfit(0D);
         return lastMonthSalesOrders;
-        
+
     }
-    
+
     public LastThreeMonthsSalesOrders findSalesOrdersLastThreeMonths() {
-		List<LastThreeMonthsSalesOrders> last3MonthsSalesOrdersList = this.lastThreeMonthsSalesOrdersRepository.findAll();
-        if(last3MonthsSalesOrdersList!=null && last3MonthsSalesOrdersList.size()>0 && last3MonthsSalesOrdersList.get(0)!=null && last3MonthsSalesOrdersList.get(0).getTotal()!=null && !last3MonthsSalesOrdersList.get(0).getTotal().isNaN())
-        {
+        List<LastThreeMonthsSalesOrders> last3MonthsSalesOrdersList = this.lastThreeMonthsSalesOrdersRepository
+                .findAll();
+        if (last3MonthsSalesOrdersList != null && last3MonthsSalesOrdersList.size() > 0
+                && last3MonthsSalesOrdersList.get(0) != null && last3MonthsSalesOrdersList.get(0).getTotal() != null
+                && !last3MonthsSalesOrdersList.get(0).getTotal().isNaN()) {
             return last3MonthsSalesOrdersList.get(0);
         }
-        
+
         LastThreeMonthsSalesOrders last3MonthsSalesOrders = new LastThreeMonthsSalesOrders();
         last3MonthsSalesOrders.setTotal(0D);
         last3MonthsSalesOrders.setQuantity(0D);
         last3MonthsSalesOrders.setProfit(0D);
         return last3MonthsSalesOrders;
-        
-	}
-    
+
+    }
+
     public DailySalesQuotes findSalesQuotesDaily() {
-		List<DailySalesQuotes> dailySalesQuotesList = this.dailySalesQuotesRepository.findAll();
-        if(dailySalesQuotesList!=null && dailySalesQuotesList.size()>0 && dailySalesQuotesList.get(0)!=null && dailySalesQuotesList.get(0).getTotal()!=null && !dailySalesQuotesList.get(0).getTotal().isNaN())
-        {
+        List<DailySalesQuotes> dailySalesQuotesList = this.dailySalesQuotesRepository.findAll();
+        if (dailySalesQuotesList != null && dailySalesQuotesList.size() > 0 && dailySalesQuotesList.get(0) != null
+                && dailySalesQuotesList.get(0).getTotal() != null && !dailySalesQuotesList.get(0).getTotal().isNaN()) {
             return dailySalesQuotesList.get(0);
         }
         DailySalesQuotes dailySalesQuotes = new DailySalesQuotes();
@@ -252,11 +287,12 @@ public class DashboardService {
         dailySalesQuotes.setProfit(0D);
         return dailySalesQuotes;
     }
-    
+
     public MonthlySalesQuotes findSalesQuotesMTD() {
-		List<MonthlySalesQuotes> monthlySalesQuotesList = this.monthlySalesQuotesRepository.findAll();
-        if(monthlySalesQuotesList!=null && monthlySalesQuotesList.size()>0 && monthlySalesQuotesList.get(0)!=null && monthlySalesQuotesList.get(0).getTotal()!=null && !monthlySalesQuotesList.get(0).getTotal().isNaN())
-        {
+        List<MonthlySalesQuotes> monthlySalesQuotesList = this.monthlySalesQuotesRepository.findAll();
+        if (monthlySalesQuotesList != null && monthlySalesQuotesList.size() > 0 && monthlySalesQuotesList.get(0) != null
+                && monthlySalesQuotesList.get(0).getTotal() != null
+                && !monthlySalesQuotesList.get(0).getTotal().isNaN()) {
             return monthlySalesQuotesList.get(0);
         }
         MonthlySalesQuotes monthlySalesQuotes = new MonthlySalesQuotes();
@@ -264,12 +300,14 @@ public class DashboardService {
         monthlySalesQuotes.setQuantity(0D);
         monthlySalesQuotes.setProfit(0D);
         return monthlySalesQuotes;
-       
+
     }
+
     public LastMonthSalesQuotes findSalesQuotesLastMonth() {
-		List<LastMonthSalesQuotes> lastMonthSalesQuotesList = this.lastMonthSalesQuotesRepository.findAll();
-        if(lastMonthSalesQuotesList!=null && lastMonthSalesQuotesList.size()>0 && lastMonthSalesQuotesList.get(0)!=null && lastMonthSalesQuotesList.get(0).getTotal()!=null && !lastMonthSalesQuotesList.get(0).getTotal().isNaN())
-        {
+        List<LastMonthSalesQuotes> lastMonthSalesQuotesList = this.lastMonthSalesQuotesRepository.findAll();
+        if (lastMonthSalesQuotesList != null && lastMonthSalesQuotesList.size() > 0
+                && lastMonthSalesQuotesList.get(0) != null && lastMonthSalesQuotesList.get(0).getTotal() != null
+                && !lastMonthSalesQuotesList.get(0).getTotal().isNaN()) {
             return lastMonthSalesQuotesList.get(0);
         }
         LastMonthSalesQuotes lastMonthSalesQuote = new LastMonthSalesQuotes();
@@ -277,12 +315,15 @@ public class DashboardService {
         lastMonthSalesQuote.setQuantity(0D);
         lastMonthSalesQuote.setProfit(0D);
         return lastMonthSalesQuote;
-       
+
     }
+
     public LastThreeMonthsSalesQuotes findSalesQuotesLastThreeMonths() {
-		List<LastThreeMonthsSalesQuotes> last3MonthsSalesQuotesList = this.lastThreeMonthsSalesQuotesRepository.findAll();
-        if(last3MonthsSalesQuotesList!=null && last3MonthsSalesQuotesList.size()>0 && last3MonthsSalesQuotesList.get(0)!=null && last3MonthsSalesQuotesList.get(0).getTotal()!=null && !last3MonthsSalesQuotesList.get(0).getTotal().isNaN())
-        {
+        List<LastThreeMonthsSalesQuotes> last3MonthsSalesQuotesList = this.lastThreeMonthsSalesQuotesRepository
+                .findAll();
+        if (last3MonthsSalesQuotesList != null && last3MonthsSalesQuotesList.size() > 0
+                && last3MonthsSalesQuotesList.get(0) != null && last3MonthsSalesQuotesList.get(0).getTotal() != null
+                && !last3MonthsSalesQuotesList.get(0).getTotal().isNaN()) {
             return last3MonthsSalesQuotesList.get(0);
         }
         LastThreeMonthsSalesQuotes last3MonthsSalesQuote = new LastThreeMonthsSalesQuotes();
@@ -290,315 +331,487 @@ public class DashboardService {
         last3MonthsSalesQuote.setQuantity(0D);
         last3MonthsSalesQuote.setProfit(0D);
         return last3MonthsSalesQuote;
-       
-	}
 
-	public int findSalesOrdersQtyMTD() {
-		List<MonthlySalesOrderQty> monthlySalesOrderQtyList = this.monthlySalesOrderQtyRepository.findAll();
-        if(monthlySalesOrderQtyList!=null && monthlySalesOrderQtyList.size()>0 && monthlySalesOrderQtyList.get(0)!=null && monthlySalesOrderQtyList.get(0).getTotal()!=null && !monthlySalesOrderQtyList.get(0).getTotal().isNaN())
-        {
+    }
+
+    public int findSalesOrdersQtyMTD() {
+        List<MonthlySalesOrderQty> monthlySalesOrderQtyList = this.monthlySalesOrderQtyRepository.findAll();
+        if (monthlySalesOrderQtyList != null && monthlySalesOrderQtyList.size() > 0
+                && monthlySalesOrderQtyList.get(0) != null && monthlySalesOrderQtyList.get(0).getTotal() != null
+                && !monthlySalesOrderQtyList.get(0).getTotal().isNaN()) {
             return monthlySalesOrderQtyList.get(0).getTotal().intValue();
         }
-       
-            return 0;
-        
-	}
 
-	public int findSalesOrdersQtyDaily() {
-		List<DailySalesOrderQty> dailySalesOrderQtyList = this.dailySalesOrderQtyRepository.findAll();
-        if(dailySalesOrderQtyList!=null && dailySalesOrderQtyList.size()>0 && dailySalesOrderQtyList.get(0)!=null && dailySalesOrderQtyList.get(0).getTotal()!=null && !dailySalesOrderQtyList.get(0).getTotal().isNaN())
-        {
+        return 0;
+
+    }
+
+    public int findSalesOrdersQtyDaily() {
+        List<DailySalesOrderQty> dailySalesOrderQtyList = this.dailySalesOrderQtyRepository.findAll();
+        if (dailySalesOrderQtyList != null && dailySalesOrderQtyList.size() > 0 && dailySalesOrderQtyList.get(0) != null
+                && dailySalesOrderQtyList.get(0).getTotal() != null
+                && !dailySalesOrderQtyList.get(0).getTotal().isNaN()) {
             return dailySalesOrderQtyList.get(0).getTotal().intValue();
         }
         return 0;
-	}
+    }
+
     public int findSalesEnteredQtyDaily() {
-		List<DailySalesEnteredQty> dailySalesEnteredQtyList = this.dailySalesEnteredQtyRepository.findAll();
-        if(dailySalesEnteredQtyList!=null && dailySalesEnteredQtyList.size()>0 && dailySalesEnteredQtyList.get(0)!=null && dailySalesEnteredQtyList.get(0).getTotal()!=null && !dailySalesEnteredQtyList.get(0).getTotal().isNaN())
-        {
+        List<DailySalesEnteredQty> dailySalesEnteredQtyList = this.dailySalesEnteredQtyRepository.findAll();
+        if (dailySalesEnteredQtyList != null && dailySalesEnteredQtyList.size() > 0
+                && dailySalesEnteredQtyList.get(0) != null && dailySalesEnteredQtyList.get(0).getTotal() != null
+                && !dailySalesEnteredQtyList.get(0).getTotal().isNaN()) {
             return dailySalesEnteredQtyList.get(0).getTotal().intValue();
         }
         return 0;
     }
+
     public int findSalesInvoicedQtyMTD() {
-		List<MonthlySalesInvoicedQty> monthlySalesInvoicedQtyList = this.monthlySalesInvoicedQtyRepository.findAll();
-        if(monthlySalesInvoicedQtyList!=null && monthlySalesInvoicedQtyList.size()>0 && monthlySalesInvoicedQtyList.get(0)!=null && monthlySalesInvoicedQtyList.get(0).getTotal()!=null && !monthlySalesInvoicedQtyList.get(0).getTotal().isNaN())
-        {
+        List<MonthlySalesInvoicedQty> monthlySalesInvoicedQtyList = this.monthlySalesInvoicedQtyRepository.findAll();
+        if (monthlySalesInvoicedQtyList != null && monthlySalesInvoicedQtyList.size() > 0
+                && monthlySalesInvoicedQtyList.get(0) != null && monthlySalesInvoicedQtyList.get(0).getTotal() != null
+                && !monthlySalesInvoicedQtyList.get(0).getTotal().isNaN()) {
             return monthlySalesInvoicedQtyList.get(0).getTotal().intValue();
         }
-       
-            return 0;
-        
-	}
+
+        return 0;
+
+    }
+
     public int findSalesInvoicedQtyDaily() {
-		List<DailySalesInvoicedQty> dailySalesInvoicedQtyList = this.dailySalesInvoicedQtyRepository.findAll();
-        if(dailySalesInvoicedQtyList!=null && dailySalesInvoicedQtyList.size()>0 && dailySalesInvoicedQtyList.get(0)!=null && dailySalesInvoicedQtyList.get(0).getTotal()!=null && !dailySalesInvoicedQtyList.get(0).getTotal().isNaN())
-        {
+        List<DailySalesInvoicedQty> dailySalesInvoicedQtyList = this.dailySalesInvoicedQtyRepository.findAll();
+        if (dailySalesInvoicedQtyList != null && dailySalesInvoicedQtyList.size() > 0
+                && dailySalesInvoicedQtyList.get(0) != null && dailySalesInvoicedQtyList.get(0).getTotal() != null
+                && !dailySalesInvoicedQtyList.get(0).getTotal().isNaN()) {
             return dailySalesInvoicedQtyList.get(0).getTotal().intValue();
         }
         return 0;
     }
+
     public int findSalesQuotesQtyDaily() {
-		List<DailySalesQuotesQty> dailySalesQuotesQtyList = this.dailySalesQuotesQtyRepository.findAll();
-        if(dailySalesQuotesQtyList!=null && dailySalesQuotesQtyList.size()>0 && dailySalesQuotesQtyList.get(0)!=null && dailySalesQuotesQtyList.get(0).getTotal()!=null && !dailySalesQuotesQtyList.get(0).getTotal().isNaN())
-        {
+        List<DailySalesQuotesQty> dailySalesQuotesQtyList = this.dailySalesQuotesQtyRepository.findAll();
+        if (dailySalesQuotesQtyList != null && dailySalesQuotesQtyList.size() > 0
+                && dailySalesQuotesQtyList.get(0) != null && dailySalesQuotesQtyList.get(0).getTotal() != null
+                && !dailySalesQuotesQtyList.get(0).getTotal().isNaN()) {
             return dailySalesQuotesQtyList.get(0).getTotal().intValue();
         }
         return 0;
     }
+
     public int findSalesQuotesQtyMTD() {
-		List<MonthlySalesQuotesQty> monthlySalesQuotesQtyList = this.monthlySalesQuotesQtyRepository.findAll();
-        if(monthlySalesQuotesQtyList!=null && monthlySalesQuotesQtyList.size()>0 && monthlySalesQuotesQtyList.get(0)!=null && monthlySalesQuotesQtyList.get(0).getTotal()!=null && !monthlySalesQuotesQtyList.get(0).getTotal().isNaN())
-        {
+        List<MonthlySalesQuotesQty> monthlySalesQuotesQtyList = this.monthlySalesQuotesQtyRepository.findAll();
+        if (monthlySalesQuotesQtyList != null && monthlySalesQuotesQtyList.size() > 0
+                && monthlySalesQuotesQtyList.get(0) != null && monthlySalesQuotesQtyList.get(0).getTotal() != null
+                && !monthlySalesQuotesQtyList.get(0).getTotal().isNaN()) {
             return monthlySalesQuotesQtyList.get(0).getTotal().intValue();
         }
         return 0;
-	}
-	public List<SalesTarget> findSalesTarget() {
-		return this.salesTargetRepository.findAll();
     }
-    
+
+    public List<SalesTarget> findSalesTarget() {
+        return this.salesTargetRepository.findAll();
+    }
+
     public List<MonthlySalesTarget> findMonthlySalesTarget() {
-		return this.monthlySalesTargetRepository.findAll();
-	}
+        return this.monthlySalesTargetRepository.findAll();
+    }
 
     public double findDailyTarget(Double monthlyTraget, int noOfDaysInCurrentMonth) {
-		if(monthlyTraget!=null && !monthlyTraget.isNaN() && noOfDaysInCurrentMonth>0)
-        {
-            LOG.info("noOfDaysInCurrentMonth="+noOfDaysInCurrentMonth+", monthlyTraget="+monthlyTraget.doubleValue());
-            return monthlyTraget.doubleValue()/noOfDaysInCurrentMonth;
+        if (monthlyTraget != null && !monthlyTraget.isNaN() && noOfDaysInCurrentMonth > 0) {
+            LOG.info("noOfDaysInCurrentMonth=" + noOfDaysInCurrentMonth + ", monthlyTraget="
+                    + monthlyTraget.doubleValue());
+            return monthlyTraget.doubleValue() / noOfDaysInCurrentMonth;
         }
         return 0D;
-       
+
     }
+
     public double findSalesTargetMTD() {
-		List<MonthlySalesTarget> monthlySalesTargetList = this.findMonthlySalesTarget();
-        if(monthlySalesTargetList!=null && monthlySalesTargetList.size()>0 && monthlySalesTargetList.get(0)!=null && monthlySalesTargetList.get(0).getTarget()!=null && !monthlySalesTargetList.get(0).getTarget().isNaN())
-        {
+        List<MonthlySalesTarget> monthlySalesTargetList = this.findMonthlySalesTarget();
+        if (monthlySalesTargetList != null && monthlySalesTargetList.size() > 0 && monthlySalesTargetList.get(0) != null
+                && monthlySalesTargetList.get(0).getTarget() != null
+                && !monthlySalesTargetList.get(0).getTarget().isNaN()) {
             return monthlySalesTargetList.get(0).getTarget().doubleValue();
         }
         return 0D;
-       
+
     }
-    public MonthlyTargets findMonthlyTargets(int year,int monthNo) {
-        int financialMonthNo = monthNo<6?(monthNo+7):(monthNo-5);
-        LOG.info("findMonthlyTargets=>Year ,financialMonthNo="+year+" , "+financialMonthNo);
-        List<MonthlyTargets> monthlyTargets = this.monthlyTargetsRepository.findByYearAndMonth(year,financialMonthNo);
-        if (monthlyTargets!=null && !monthlyTargets.isEmpty())
-        {
-                return monthlyTargets.get(0);
+
+    public MonthlyTargets findMonthlyTargets(int year, int monthNo) {
+        int financialMonthNo = monthNo < 6 ? (monthNo + 7) : (monthNo - 5);
+        LOG.info("findMonthlyTargets=>Year ,financialMonthNo=" + year + " , " + financialMonthNo);
+        List<MonthlyTargets> monthlyTargets = this.monthlyTargetsRepository.findByYearAndMonth(year, financialMonthNo);
+        if (monthlyTargets != null && !monthlyTargets.isEmpty()) {
+            return monthlyTargets.get(0);
         }
-        return null;       
+        return null;
     }
+
     public MonthlyTargets findLastThreeMonthsTargets() {
-        Calendar calendar =Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         List<MonthlyTargets> threeMonthTargets = new ArrayList<MonthlyTargets>();
-        MonthlyTargets lastMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
-        if(lastMonthTargets !=null)
-        threeMonthTargets.add(lastMonthTargets);
+        MonthlyTargets lastMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+        if (lastMonthTargets != null)
+            threeMonthTargets.add(lastMonthTargets);
 
         calendar.add(Calendar.MONTH, -1);
-        MonthlyTargets lastSecondMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
-        if(lastSecondMonthTargets !=null) 
-        threeMonthTargets.add(lastSecondMonthTargets);
-        
+        MonthlyTargets lastSecondMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH));
+        if (lastSecondMonthTargets != null)
+            threeMonthTargets.add(lastSecondMonthTargets);
+
         calendar.add(Calendar.MONTH, -1);
-        MonthlyTargets lastThirdMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
-        if(lastThirdMonthTargets !=null)
-        threeMonthTargets.add(lastThirdMonthTargets);
-        
+        MonthlyTargets lastThirdMonthTargets = findMonthlyTargets(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH));
+        if (lastThirdMonthTargets != null)
+            threeMonthTargets.add(lastThirdMonthTargets);
 
         MonthlyTargets lastThreeMonthsTarget = new MonthlyTargets();
         lastThreeMonthsTarget.setQuoteQty(0D);
-            lastThreeMonthsTarget.setQuoteValue(0D);
-            lastThreeMonthsTarget.setQuoteProfit(0D);
-            lastThreeMonthsTarget.setInvoiceQty(0D);
-            lastThreeMonthsTarget.setInvoiceValue(0D);
-            lastThreeMonthsTarget.setInvoiceProfit(0D);
-            lastThreeMonthsTarget.setOrderQty(0D);
-            lastThreeMonthsTarget.setOrderValue(0D);
-            lastThreeMonthsTarget.setOrderProfit(0D);
+        lastThreeMonthsTarget.setQuoteValue(0D);
+        lastThreeMonthsTarget.setQuoteProfit(0D);
+        lastThreeMonthsTarget.setInvoiceQty(0D);
+        lastThreeMonthsTarget.setInvoiceValue(0D);
+        lastThreeMonthsTarget.setInvoiceProfit(0D);
+        lastThreeMonthsTarget.setOrderQty(0D);
+        lastThreeMonthsTarget.setOrderValue(0D);
+        lastThreeMonthsTarget.setOrderProfit(0D);
 
-        for(MonthlyTargets monthTargets : threeMonthTargets){
-            lastThreeMonthsTarget.setQuoteQty(lastThreeMonthsTarget.getQuoteQty()+(monthTargets.getQuoteQty()!=null?monthTargets.getQuoteQty():0D));
-            lastThreeMonthsTarget.setQuoteValue(lastThreeMonthsTarget.getQuoteValue()+(monthTargets.getQuoteValue()!=null?monthTargets.getQuoteValue():0D));
-            lastThreeMonthsTarget.setQuoteProfit(lastThreeMonthsTarget.getQuoteProfit()+(monthTargets.getQuoteProfit()!=null?(monthTargets.getQuoteValue().doubleValue() * monthTargets.getQuoteProfit().doubleValue())/100:0D));
-            
-            lastThreeMonthsTarget.setInvoiceQty(lastThreeMonthsTarget.getInvoiceQty()+(monthTargets.getInvoiceQty()!=null?monthTargets.getInvoiceQty():0D));
-            lastThreeMonthsTarget.setInvoiceValue(lastThreeMonthsTarget.getInvoiceValue()+(monthTargets.getInvoiceValue()!=null?monthTargets.getInvoiceValue():0D));
-            lastThreeMonthsTarget.setInvoiceProfit(lastThreeMonthsTarget.getInvoiceProfit()+(monthTargets.getInvoiceProfit()!=null?(monthTargets.getInvoiceValue().doubleValue() * monthTargets.getInvoiceProfit().doubleValue())/100:0D));
+        for (MonthlyTargets monthTargets : threeMonthTargets) {
+            lastThreeMonthsTarget.setQuoteQty(lastThreeMonthsTarget.getQuoteQty()
+                    + (monthTargets.getQuoteQty() != null ? monthTargets.getQuoteQty() : 0D));
+            lastThreeMonthsTarget.setQuoteValue(lastThreeMonthsTarget.getQuoteValue()
+                    + (monthTargets.getQuoteValue() != null ? monthTargets.getQuoteValue() : 0D));
+            lastThreeMonthsTarget.setQuoteProfit(lastThreeMonthsTarget.getQuoteProfit()
+                    + (monthTargets.getQuoteProfit() != null
+                            ? (monthTargets.getQuoteValue().doubleValue() * monthTargets.getQuoteProfit().doubleValue())
+                                    / 100
+                            : 0D));
 
-            lastThreeMonthsTarget.setOrderQty(lastThreeMonthsTarget.getOrderQty()+(monthTargets.getOrderQty()!=null?monthTargets.getOrderQty():0D));
-            lastThreeMonthsTarget.setOrderValue(lastThreeMonthsTarget.getOrderValue()+(monthTargets.getOrderValue()!=null?monthTargets.getOrderValue():0D));
-            lastThreeMonthsTarget.setOrderProfit(lastThreeMonthsTarget.getOrderProfit()+(monthTargets.getOrderProfit()!=null?(monthTargets.getOrderValue().doubleValue() * monthTargets.getOrderProfit().doubleValue())/100:0D));
+            lastThreeMonthsTarget.setInvoiceQty(lastThreeMonthsTarget.getInvoiceQty()
+                    + (monthTargets.getInvoiceQty() != null ? monthTargets.getInvoiceQty() : 0D));
+            lastThreeMonthsTarget.setInvoiceValue(lastThreeMonthsTarget.getInvoiceValue()
+                    + (monthTargets.getInvoiceValue() != null ? monthTargets.getInvoiceValue() : 0D));
+            lastThreeMonthsTarget.setInvoiceProfit(lastThreeMonthsTarget.getInvoiceProfit()
+                    + (monthTargets.getInvoiceProfit() != null
+                            ? (monthTargets.getInvoiceValue().doubleValue()
+                                    * monthTargets.getInvoiceProfit().doubleValue()) / 100
+                            : 0D));
+
+            lastThreeMonthsTarget.setOrderQty(lastThreeMonthsTarget.getOrderQty()
+                    + (monthTargets.getOrderQty() != null ? monthTargets.getOrderQty() : 0D));
+            lastThreeMonthsTarget.setOrderValue(lastThreeMonthsTarget.getOrderValue()
+                    + (monthTargets.getOrderValue() != null ? monthTargets.getOrderValue() : 0D));
+            lastThreeMonthsTarget.setOrderProfit(lastThreeMonthsTarget.getOrderProfit()
+                    + (monthTargets.getOrderProfit() != null
+                            ? (monthTargets.getOrderValue().doubleValue() * monthTargets.getOrderProfit().doubleValue())
+                                    / 100
+                            : 0D));
         }
-            return lastThreeMonthsTarget;
+        return lastThreeMonthsTarget;
     }
 
-    public List<SalesOrdersByDate> findWeekToDateSalesOrders() 
-    {
+    public List<SalesOrdersByDate> findWeekToDateSalesOrders() {
         long now = System.currentTimeMillis();
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
         long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
 
-		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
-	}
+        return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+    }
 
-	public List<SalesQuotesByDate> findWeekToDateSalesQuotes() {
-		long now = System.currentTimeMillis();
+    public List<SalesQuotesByDate> findWeekToDateSalesQuotes() {
+        long now = System.currentTimeMillis();
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
         long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
 
-		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
-	}
+        return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+    }
 
-	public List<SalesInvoicesByDate> findWeekToDateSalesInvoices() {
-		long now = System.currentTimeMillis();
+    public List<SalesInvoicesByDate> findWeekToDateSalesInvoices() {
+        long now = System.currentTimeMillis();
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
         long sevenDaysBefore = System.currentTimeMillis() - (7 * DAY_IN_MS);
 
-		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
-	}
+        return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(sevenDaysBefore), new Timestamp(now));
+    }
 
-	public String[][] getSalesOrderTargetArray(List<SalesOrdersByDate> salesOrdersList) {
+    public String[][] getSalesOrderTargetArray(List<SalesOrdersByDate> salesOrdersList) {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
-		String[][] salesOrdersTargets = new String [salesOrdersList.size()+1][3];
-        int i=0;
-        salesOrdersTargets[i][0]= "Date"; 
-        salesOrdersTargets[i][1]= "Sale";
-        salesOrdersTargets[i][2]= "Target";
-        for(SalesOrdersByDate salesOrdersByDate:salesOrdersList)
-        {
-                i++;
-                salesOrdersTargets[i][0]= salesOrdersByDate.getDate().toLocaleString().split(" ")[0];      
-                salesOrdersTargets[i][1]= formatter.format(salesOrdersByDate.getTotal().doubleValue());
-                salesOrdersTargets[i][2]= formatter.format(salesOrdersByDate.getTotalTarget().doubleValue()/salesOrdersByDate.getQuantity()); 
+        String[][] salesOrdersTargets = new String[salesOrdersList.size() + 1][3];
+        int i = 0;
+        salesOrdersTargets[i][0] = "Date";
+        salesOrdersTargets[i][1] = "Sale";
+        salesOrdersTargets[i][2] = "Target";
+        for (SalesOrdersByDate salesOrdersByDate : salesOrdersList) {
+            i++;
+            salesOrdersTargets[i][0] = salesOrdersByDate.getDate().toLocaleString().split(" ")[0];
+            salesOrdersTargets[i][1] = formatter.format(salesOrdersByDate.getTotal().doubleValue());
+            salesOrdersTargets[i][2] = formatter
+                    .format(salesOrdersByDate.getTotalTarget().doubleValue() / salesOrdersByDate.getQuantity());
         }
         return salesOrdersTargets;
     }
+
     public String[][] getSalesQuoteTargetArray(List<SalesQuotesByDate> salesQuotesList) {
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
-		String[][] salesQuotesTargets = new String [salesQuotesList.size()+1][3];
-        int i=0;
-        salesQuotesTargets[i][i]= "Date"; 
-        salesQuotesTargets[i][1]= "Quote";
-        salesQuotesTargets[i][2]= "Target";
-        for(SalesQuotesByDate salesQuotesByDate:salesQuotesList)
-        {
-                i++;
-                salesQuotesTargets[i][0]= salesQuotesByDate.getDate().toLocaleString().split(" ")[0];      
-                salesQuotesTargets[i][1]= formatter.format(salesQuotesByDate.getTotal().doubleValue());
-                salesQuotesTargets[i][2]= formatter.format(salesQuotesByDate.getTotalTarget().doubleValue()/salesQuotesByDate.getQuantity()); 
+        String[][] salesQuotesTargets = new String[salesQuotesList.size() + 1][3];
+        int i = 0;
+        salesQuotesTargets[i][i] = "Date";
+        salesQuotesTargets[i][1] = "Quote";
+        salesQuotesTargets[i][2] = "Target";
+        for (SalesQuotesByDate salesQuotesByDate : salesQuotesList) {
+            i++;
+            salesQuotesTargets[i][0] = salesQuotesByDate.getDate().toLocaleString().split(" ")[0];
+            salesQuotesTargets[i][1] = formatter.format(salesQuotesByDate.getTotal().doubleValue());
+            salesQuotesTargets[i][2] = formatter
+                    .format(salesQuotesByDate.getTotalTarget().doubleValue() / salesQuotesByDate.getQuantity());
         }
         return salesQuotesTargets;
     }
+
     public String[][] getSalesInvoiceTargetArray(List<SalesInvoicesByDate> salesInvoicesList) {
         NumberFormat formatter = NumberFormat.getInstance(Locale.US);
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
-		String[][] salesInvoicesTargets = new String [salesInvoicesList.size()+1][3];
-        int i=0;
-        salesInvoicesTargets[i][0]= "Date"; 
-        salesInvoicesTargets[i][1]= "Invoice";
-        salesInvoicesTargets[i][2]= "Target";
-        for(SalesInvoicesByDate salesInvoicesByDate:salesInvoicesList)
-        {
-                i++;
-                salesInvoicesTargets[i][0]= salesInvoicesByDate.getDate().toLocaleString().split(" ")[0];      
-                salesInvoicesTargets[i][1]= formatter.format(salesInvoicesByDate.getTotal().doubleValue());
-                salesInvoicesTargets[i][2]= formatter.format(salesInvoicesByDate.getTotalTarget().doubleValue()/salesInvoicesByDate.getQuantity()); 
+        String[][] salesInvoicesTargets = new String[salesInvoicesList.size() + 1][3];
+        int i = 0;
+        salesInvoicesTargets[i][0] = "Date";
+        salesInvoicesTargets[i][1] = "Invoice";
+        salesInvoicesTargets[i][2] = "Target";
+        for (SalesInvoicesByDate salesInvoicesByDate : salesInvoicesList) {
+            i++;
+            salesInvoicesTargets[i][0] = salesInvoicesByDate.getDate().toLocaleString().split(" ")[0];
+            salesInvoicesTargets[i][1] = formatter.format(salesInvoicesByDate.getTotal().doubleValue());
+            salesInvoicesTargets[i][2] = formatter
+                    .format(salesInvoicesByDate.getTotalTarget().doubleValue() / salesInvoicesByDate.getQuantity());
         }
         return salesInvoicesTargets;
-	}
+    }
 
-	public List<SalesOrdersByDate> getSalesOrderTargetList(List<SalesOrdersByDate> salesOrdersList) {
+    public List<SalesOrdersByDate> getSalesOrderTargetList(List<SalesOrdersByDate> salesOrdersList) {
         List<SalesOrdersByDate> salesOrderTargetList = new ArrayList<SalesOrdersByDate>();
-        double dailyTarget =0D;
-        double cumulativeTarget=0;
-        double cumulativeTotal=0;
-        for(SalesOrdersByDate salesOrdersByDate :salesOrdersList)
-        {
-            dailyTarget = salesOrdersByDate.getTotalTarget()!=null?salesOrdersByDate.getTotalTarget().doubleValue()/salesOrdersByDate.getQuantity().doubleValue():0D;
-            cumulativeTarget+=dailyTarget;
+        double dailyTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        for (SalesOrdersByDate salesOrdersByDate : salesOrdersList) {
+            dailyTarget = salesOrdersByDate.getTotalTarget() != null
+                    ? salesOrdersByDate.getTotalTarget().doubleValue() / salesOrdersByDate.getQuantity().doubleValue()
+                    : 0D;
+            cumulativeTarget += dailyTarget;
             salesOrdersByDate.setTotalTarget(dailyTarget);
             salesOrdersByDate.setCumulativeTarget(cumulativeTarget);
             salesOrderTargetList.add(salesOrdersByDate);
-            cumulativeTotal+=salesOrdersByDate.getTotal()!=null?salesOrdersByDate.getTotal().doubleValue():0;
+            cumulativeTotal += salesOrdersByDate.getTotal() != null ? salesOrdersByDate.getTotal().doubleValue() : 0;
         }
-        for(SalesOrdersByDate salesOrdersByDate :salesOrderTargetList)
-        {
-            salesOrdersByDate.setAverageTotal(cumulativeTotal/salesOrdersList.size());
+        for (SalesOrdersByDate salesOrdersByDate : salesOrderTargetList) {
+            salesOrdersByDate.setAverageTotal(cumulativeTotal / salesOrdersList.size());
         }
-		return salesOrderTargetList;
+        return salesOrderTargetList;
     }
+
     public List<SalesQuotesByDate> getSalesQuoteTargetList(List<SalesQuotesByDate> salesQuotesList) {
         List<SalesQuotesByDate> salesQuoteTargetList = new ArrayList<SalesQuotesByDate>();
-        double dailyTarget =0D;
-        double cumulativeTarget=0;
-        double cumulativeTotal=0;
-        for(SalesQuotesByDate salesQuotesByDate :salesQuotesList)
-        {
-            dailyTarget = salesQuotesByDate.getTotalTarget()!=null?salesQuotesByDate.getTotalTarget().doubleValue()/salesQuotesByDate.getQuantity().doubleValue():0D;
-            cumulativeTarget+=dailyTarget;
+        double dailyTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        for (SalesQuotesByDate salesQuotesByDate : salesQuotesList) {
+            dailyTarget = salesQuotesByDate.getTotalTarget() != null
+                    ? salesQuotesByDate.getTotalTarget().doubleValue() / salesQuotesByDate.getQuantity().doubleValue()
+                    : 0D;
+            cumulativeTarget += dailyTarget;
             salesQuotesByDate.setTotalTarget(dailyTarget);
             salesQuotesByDate.setCumulativeTarget(cumulativeTarget);
             salesQuoteTargetList.add(salesQuotesByDate);
-            cumulativeTotal+=salesQuotesByDate.getTotal()!=null?salesQuotesByDate.getTotal().doubleValue():0;
+            cumulativeTotal += salesQuotesByDate.getTotal() != null ? salesQuotesByDate.getTotal().doubleValue() : 0;
         }
-        for(SalesQuotesByDate salesQuotesByDate :salesQuoteTargetList)
-        {
-            salesQuotesByDate.setAverageTotal(cumulativeTotal/salesQuotesList.size());
+        for (SalesQuotesByDate salesQuotesByDate : salesQuoteTargetList) {
+            salesQuotesByDate.setAverageTotal(cumulativeTotal / salesQuotesList.size());
         }
-		return salesQuoteTargetList;
+        return salesQuoteTargetList;
     }
+
     public List<SalesInvoicesByDate> getSalesInvoiceTargetList(List<SalesInvoicesByDate> salesInvoicesList) {
         List<SalesInvoicesByDate> salesInvoiceTargetList = new ArrayList<SalesInvoicesByDate>();
-        double dailyTarget =0D;
-        double cumulativeTarget=0;
-        double cumulativeTotal=0;
-        for(SalesInvoicesByDate salesInvoicesByDate :salesInvoicesList)
-        {
-            dailyTarget = salesInvoicesByDate.getTotalTarget()!=null?salesInvoicesByDate.getTotalTarget().doubleValue()/salesInvoicesByDate.getQuantity().doubleValue():0D;
-            cumulativeTarget+=dailyTarget;
+        double dailyTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        for (SalesInvoicesByDate salesInvoicesByDate : salesInvoicesList) {
+            dailyTarget = salesInvoicesByDate.getTotalTarget() != null
+                    ? salesInvoicesByDate.getTotalTarget().doubleValue()
+                            / salesInvoicesByDate.getQuantity().doubleValue()
+                    : 0D;
+            cumulativeTarget += dailyTarget;
             salesInvoicesByDate.setTotalTarget(dailyTarget);
             salesInvoicesByDate.setCumulativeTarget(cumulativeTarget);
             salesInvoiceTargetList.add(salesInvoicesByDate);
-            cumulativeTotal+=salesInvoicesByDate.getTotal()!=null?salesInvoicesByDate.getTotal().doubleValue():0;
+            cumulativeTotal += salesInvoicesByDate.getTotal() != null ? salesInvoicesByDate.getTotal().doubleValue()
+                    : 0;
         }
-        for(SalesInvoicesByDate salesInvoicesByDate :salesInvoiceTargetList)
-        {
-            salesInvoicesByDate.setAverageTotal(cumulativeTotal/salesInvoicesList.size());
+        for (SalesInvoicesByDate salesInvoicesByDate : salesInvoiceTargetList) {
+            salesInvoicesByDate.setAverageTotal(cumulativeTotal / salesInvoicesList.size());
         }
-		return salesInvoiceTargetList;
-	}
+        return salesInvoiceTargetList;
+    }
 
-	public List<SalesOrdersByDate> findMonthToDateSalesOrders() 
-    {
+    public List<SalesOrdersByDate> findMonthToDateSalesOrders() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE,1);
+        calendar.set(Calendar.DATE, 1);
         long now = System.currentTimeMillis();
         long firstDayOfThisMonth = calendar.getTime().getTime();
-		return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
+        return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
+    }
+
+    public List<SalesQuotesByDate> findMonthToDateSalesQuotes() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, 1);
+        long now = System.currentTimeMillis();
+        long firstDayOfThisMonth = calendar.getTime().getTime();
+        return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
+    }
+
+    public List<SalesInvoicesByDate> findMonthToDateSalesInvoices() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, 1);
+        long now = System.currentTimeMillis();
+        long firstDayOfThisMonth = calendar.getTime().getTime();
+        return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
+    }
+
+    public List<SalesOrdersByDate> findSalesOrdersByDateRange(String fromDateStr, String toDateStr)  
+    {
+        LOG.info("findSalesOrdersByDateRange-->fromDate="+fromDateStr+" , toDate="+toDateStr);
+        //date format dd/mm/yyyy
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+       // you can change format of date
+        Date fromDate=new Date();
+        Date toDate=new Date();
+       try {
+           fromDate = formatter.parse(fromDateStr);
+           toDate = formatter.parse(toDateStr);
+       } catch (ParseException e) {
+           e.printStackTrace();
+       }
+        return salesOrdersByDateRepository.findByBetweenDates(new Timestamp(fromDate.getTime()), new Timestamp(toDate.getTime()));
+    }
+    public List<SalesQuotesByDate> findSalesQuotesByDateRange(String fromDateStr, String toDateStr)  
+    {
+        LOG.info("findSalesQuotesByDateRange-->fromDate="+fromDateStr+" , toDate="+toDateStr);
+        //date format dd/mm/yyyy
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+       // you can change format of date
+       Date fromDate=new Date();
+        Date toDate=new Date();
+       try {
+           fromDate = formatter.parse(fromDateStr);
+           toDate = formatter.parse(toDateStr);
+       } catch (ParseException e) {
+           e.printStackTrace();
+       }
+        return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(fromDate.getTime()), new Timestamp(toDate.getTime()));
+    }
+    public List<SalesInvoicesByDate> findSalesInvoicesByDateRange(String fromDateStr, String toDateStr)  
+    {
+        LOG.info("findSalesInvoicesByDateRange-->fromDate="+fromDateStr+" , toDate="+toDateStr);
+        //date format dd/mm/yyyy
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+       // you can change format of date
+       Date fromDate=new Date();
+       Date toDate=new Date();
+      try {
+          fromDate = formatter.parse(fromDateStr);
+          toDate = formatter.parse(toDateStr);
+      } catch (ParseException e) {
+          e.printStackTrace();
+      }
+        return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(fromDate.getTime()), new Timestamp(toDate.getTime()));
 	}
 
-	public List<SalesQuotesByDate> findMonthToDateSalesQuotes() {
-		Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE,1);
-        long now = System.currentTimeMillis();
-        long firstDayOfThisMonth = calendar.getTime().getTime();
-		return salesQuotesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
-	}
+	public SalesOrdersByDate getSalesOrdersBySalesByDateList(List<SalesOrdersByDate> salesOrdersList) {
+        SalesOrdersByDate salesOrdersByDate = new SalesOrdersByDate();
+        double total = 0D;
+        double qty = 0D;
+        double profit = 0D;
+        double target = 0D;
+        double qtyTarget =0D;
+        double profitTarget =0D;
+        for (SalesOrdersByDate salesOrder : salesOrdersList) 
+        {
+            total+=salesOrder.getTotal();
+            qty +=salesOrder.getQuantity();
+            profit+=salesOrder.getProfit();
+            target+=salesOrder.getTotalTarget();
+            qtyTarget+=salesOrder.getQuantityTarget();
+            profitTarget+=salesOrder.getProfitTarget();
+        }
+        LOG.info("getSalesOrdersBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        salesOrdersByDate.setTotal(total);
+        salesOrdersByDate.setQuantity(qty);
+        salesOrdersByDate.setProfit(profit);
+        salesOrdersByDate.setTotalTarget(target);
+        salesOrdersByDate.setQuantityTarget(qtyTarget);
+        salesOrdersByDate.setProfitTarget(profitTarget);
 
-	public List<SalesInvoicesByDate> findMonthToDateSalesInvoices() {
-		Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE,1);
-        long now = System.currentTimeMillis();
-        long firstDayOfThisMonth = calendar.getTime().getTime();
-		return salesInvoicesByDateRepository.findByBetweenDates(new Timestamp(firstDayOfThisMonth), new Timestamp(now));
+        return salesOrdersByDate;
+    }
+    
+    public SalesInvoicesByDate getSalesInvoicesBySalesByDateList(List<SalesInvoicesByDate> salesInvoicesList) {
+        SalesInvoicesByDate salesInvoicesByDate = new SalesInvoicesByDate();
+        double total = 0D;
+        double qty = 0D;
+        double profit = 0D;
+        double target = 0D;
+        double qtyTarget =0D;
+        double profitTarget =0D;
+       for (SalesInvoicesByDate salesInvoice : salesInvoicesList) 
+        {
+            total+=salesInvoice.getTotal();
+            qty +=salesInvoice.getQuantity();
+            profit+=salesInvoice.getProfit();
+            target+=salesInvoice.getTotalTarget();
+            qtyTarget+=salesInvoice.getQuantityTarget();
+            profitTarget+=salesInvoice.getProfitTarget();
+        }
+        LOG.info("getSalesInvoicesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        salesInvoicesByDate.setTotal(total);
+        salesInvoicesByDate.setQuantity(qty);
+        salesInvoicesByDate.setProfit(profit);
+        salesInvoicesByDate.setTotalTarget(target);
+        salesInvoicesByDate.setQuantityTarget(qtyTarget);
+        salesInvoicesByDate.setProfitTarget(profitTarget);
+
+        return salesInvoicesByDate;
+    }
+    
+    public SalesQuotesByDate getSalesQuotesBySalesByDateList(List<SalesQuotesByDate> salesQuotesList) {
+        SalesQuotesByDate salesQuotesByDate = new SalesQuotesByDate();
+        double total = 0D;
+        double qty = 0D;
+        double profit = 0D;
+        double target = 0D;
+        double qtyTarget =0D;
+        double profitTarget =0D;
+       for (SalesQuotesByDate salesQuote : salesQuotesList) 
+        {
+            total+=salesQuote.getTotal();
+            qty +=salesQuote.getQuantity();
+            profit+=salesQuote.getProfit();
+            target+=salesQuote.getTotalTarget();
+            qtyTarget+=salesQuote.getQuantityTarget();
+            profitTarget+=salesQuote.getProfitTarget();
+        }
+        LOG.info("getSalesQuotesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        salesQuotesByDate.setTotal(total);
+        salesQuotesByDate.setQuantity(qty);
+        salesQuotesByDate.setProfit(profit);
+        salesQuotesByDate.setTotalTarget(target);
+        salesQuotesByDate.setQuantityTarget(qtyTarget);
+        salesQuotesByDate.setProfitTarget(profitTarget);
+
+        return salesQuotesByDate;
 	}
 }

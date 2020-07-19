@@ -648,54 +648,69 @@ public class ChartController {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
 
-        LastThreeMonthsSalesOrders salesOrderedLastThreeMonths = dashboardService.findSalesOrdersLastThreeMonths();
-        LastThreeMonthsSalesInvoices salesInvoicesLastThreeMonths = dashboardService.findSalesInvoicesLastThreeMonths();
-        LastThreeMonthsSalesQuotes salesQuotesLastThreeMonths = dashboardService.findSalesQuotesLastThreeMonths();
+        List<SalesOrdersByDate> salesOrdersList = dashboardService.findSalesOrdersByDateRange(fromDate, toDate);
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findSalesQuotesByDateRange(fromDate, toDate);
+        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findSalesInvoicesByDateRange(fromDate, toDate);
 
-        MonthlyTargets monthlyTargets = dashboardService.findLastThreeMonthsTargets();
-        double salesOrderedTargetLastThreeMonths = monthlyTargets.getOrderValue();
-        double salesInvoicedTargetLastThreeMonths = monthlyTargets.getInvoiceValue();
-        double salesQuotesTargetLastThreeMonths = monthlyTargets.getQuoteValue();
+        modelAndView.addObject("salesOrdersList",salesOrdersList);
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
 
-        double salesOrderedTargetQtyLastThreeMonths = monthlyTargets.getOrderQty().doubleValue();
-        double salesInvoicedTargetQtyLastThreeMonths = monthlyTargets.getInvoiceQty().doubleValue();
-        double salesQuotesTargetQtyLastThreeMonths = monthlyTargets.getQuoteQty().doubleValue();
+        LOG.info("salesOrdersList==>"+salesOrdersList.size());
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
+
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+
+        SalesOrdersByDate salesOrderedByDateRange = dashboardService.getSalesOrdersBySalesByDateList(salesOrderTargets);
+        SalesInvoicesByDate salesInvoicesByDateRange = dashboardService.getSalesInvoicesBySalesByDateList(salesInvoiceTargets);
+        SalesQuotesByDate salesQuotesByDateRange = dashboardService.getSalesQuotesBySalesByDateList(salesQuoteTargets);
+
+        double salesOrderedTargetByDateRange = salesOrderedByDateRange.getTotalTarget();
+        double salesInvoicedTargetByDateRange = salesInvoicesByDateRange.getTotalTarget();
+        double salesQuotesTargetByDateRange = salesQuotesByDateRange.getTotalTarget();
+
+        double salesOrderedTargetQtyByDateRange = salesOrderedByDateRange.getQuantityTarget().doubleValue();
+        double salesInvoicedTargetQtyByDateRange = salesInvoicesByDateRange.getQuantityTarget().doubleValue();
+        double salesQuotesTargetQtyByDateRange = salesQuotesByDateRange.getQuantityTarget().doubleValue();
         
-        double salesOrderedProfitTargetLastThreeMonths = monthlyTargets.getOrderProfit()!=null?monthlyTargets.getOrderProfit().doubleValue():0D;
-        double salesInvoicedProfitTargetLastThreeMonths = monthlyTargets.getInvoiceProfit()!=null?monthlyTargets.getInvoiceProfit().doubleValue():0D;
-        double salesQuotesProfitTargetLastThreeMonths = monthlyTargets.getQuoteProfit()!=null?monthlyTargets.getQuoteProfit().doubleValue():0D;
+        double salesOrderedProfitTargetByDateRange = salesOrderedByDateRange.getProfitTarget()!=null?salesOrderedByDateRange.getProfitTarget().doubleValue():0D;
+        double salesInvoicedProfitTargetByDateRange = salesInvoicesByDateRange.getProfitTarget()!=null?salesInvoicesByDateRange.getProfitTarget().doubleValue():0D;
+        double salesQuotesProfitTargetByDateRange = salesQuotesByDateRange.getProfitTarget()!=null?salesQuotesByDateRange.getProfitTarget().doubleValue():0D;
 
-        double salesOrderedProfitLastThreeMonths = salesOrderedLastThreeMonths.getProfit().doubleValue();
-        double salesInvoicedProfitLastThreeMonths = salesInvoicesLastThreeMonths.getProfit().doubleValue();
-        double salesQuotesProfitLastThreeMonths = salesQuotesLastThreeMonths.getProfit().doubleValue();
+        double salesOrderedProfitByDateRange = salesOrderedByDateRange.getProfit().doubleValue();
+        double salesInvoicedProfitByDateRange = salesInvoicesByDateRange.getProfit().doubleValue();
+        double salesQuotesProfitByDateRange = salesQuotesByDateRange.getProfit().doubleValue();
 
-        modelAndView.addObject("salesOrderedLastThreeMonths",(salesOrderedLastThreeMonths!=null && salesOrderedLastThreeMonths.getTotal()!=null?salesOrderedLastThreeMonths.getTotal().doubleValue():0D));
-        modelAndView.addObject("salesInvoicedLastThreeMonths",(salesInvoicesLastThreeMonths!=null && salesInvoicesLastThreeMonths.getTotal()!=null?salesInvoicesLastThreeMonths.getTotal().doubleValue():0D));
-        modelAndView.addObject("salesQuotesLastThreeMonths",(salesQuotesLastThreeMonths!=null && salesQuotesLastThreeMonths.getTotal()!=null?salesQuotesLastThreeMonths.getTotal().doubleValue():0D));
+        modelAndView.addObject("salesOrderedByDateRange",(salesOrderedByDateRange!=null && salesOrderedByDateRange.getTotal()!=null?salesOrderedByDateRange.getTotal().doubleValue():0D));
+        modelAndView.addObject("salesInvoicedByDateRange",(salesInvoicesByDateRange!=null && salesInvoicesByDateRange.getTotal()!=null?salesInvoicesByDateRange.getTotal().doubleValue():0D));
+        modelAndView.addObject("salesQuotesByDateRange",(salesQuotesByDateRange!=null && salesQuotesByDateRange.getTotal()!=null?salesQuotesByDateRange.getTotal().doubleValue():0D));
         
-        modelAndView.addObject("salesOrderedTargetLastThreeMonths",(salesOrderedTargetLastThreeMonths));
-        modelAndView.addObject("salesInvoicedTargetLastThreeMonths",(salesInvoicedTargetLastThreeMonths));
-        modelAndView.addObject("salesQuotesTargetLastThreeMonths",(salesQuotesTargetLastThreeMonths));
+        modelAndView.addObject("salesOrderedTargetByDateRange",(salesOrderedTargetByDateRange));
+        modelAndView.addObject("salesInvoicedTargetByDateRange",(salesInvoicedTargetByDateRange));
+        modelAndView.addObject("salesQuotesTargetByDateRange",(salesQuotesTargetByDateRange));
         
-        modelAndView.addObject("salesOrderedQtyLastThreeMonths",(int) Math.round(salesOrderedLastThreeMonths!=null && salesOrderedLastThreeMonths.getQuantity()!=null?salesOrderedLastThreeMonths.getQuantity().doubleValue():0D));
-        modelAndView.addObject("salesInvoicedQtyLastThreeMonths",(int) Math.round(salesInvoicesLastThreeMonths!=null && salesInvoicesLastThreeMonths.getQuantity()!=null?salesInvoicesLastThreeMonths.getQuantity().doubleValue():0D));
-        modelAndView.addObject("salesQuotesQtyLastThreeMonths",(int) Math.round(salesQuotesLastThreeMonths!=null && salesQuotesLastThreeMonths.getQuantity()!=null?salesQuotesLastThreeMonths.getQuantity().doubleValue():0D));
+        modelAndView.addObject("salesOrderedQtyByDateRange",(int) Math.round(salesOrderedByDateRange!=null && salesOrderedByDateRange.getQuantity()!=null?salesOrderedByDateRange.getQuantity().doubleValue():0D));
+        modelAndView.addObject("salesInvoicedQtyByDateRange",(int) Math.round(salesInvoicesByDateRange!=null && salesInvoicesByDateRange.getQuantity()!=null?salesInvoicesByDateRange.getQuantity().doubleValue():0D));
+        modelAndView.addObject("salesQuotesQtyByDateRange",(int) Math.round(salesQuotesByDateRange!=null && salesQuotesByDateRange.getQuantity()!=null?salesQuotesByDateRange.getQuantity().doubleValue():0D));
 
-        modelAndView.addObject("salesOrderedTargetQtyLastThreeMonths",(int) Math.round(salesOrderedTargetQtyLastThreeMonths));
-        modelAndView.addObject("salesInvoicedTargetQtyLastThreeMonths",(int) Math.round(salesInvoicedTargetQtyLastThreeMonths));
-        modelAndView.addObject("salesQuotesTargetQtyLastThreeMonths",(int) Math.round(salesQuotesTargetQtyLastThreeMonths));
+        modelAndView.addObject("salesOrderedTargetQtyByDateRange",(int) Math.round(salesOrderedTargetQtyByDateRange));
+        modelAndView.addObject("salesInvoicedTargetQtyByDateRange",(int) Math.round(salesInvoicedTargetQtyByDateRange));
+        modelAndView.addObject("salesQuotesTargetQtyByDateRange",(int) Math.round(salesQuotesTargetQtyByDateRange));
 
-        modelAndView.addObject("salesOrderedProfitTargetLastThreeMonths",(salesOrderedProfitTargetLastThreeMonths));
-        modelAndView.addObject("salesInvoicedProfitTargetLastThreeMonths",(salesInvoicedProfitTargetLastThreeMonths));
-        modelAndView.addObject("salesQuotesProfitTargetLastThreeMonths",(salesQuotesProfitTargetLastThreeMonths));
+        modelAndView.addObject("salesOrderedProfitTargetByDateRange",(salesOrderedProfitTargetByDateRange));
+        modelAndView.addObject("salesInvoicedProfitTargetByDateRange",(salesInvoicedProfitTargetByDateRange));
+        modelAndView.addObject("salesQuotesProfitTargetByDateRange",(salesQuotesProfitTargetByDateRange));
                 
-        modelAndView.addObject("salesOrderedProfitLastThreeMonths",(salesOrderedProfitLastThreeMonths));
-        modelAndView.addObject("salesInvoicedProfitLastThreeMonths",(salesInvoicedProfitLastThreeMonths));
-        modelAndView.addObject("salesQuotesProfitLastThreeMonths",(salesQuotesProfitLastThreeMonths));
+        modelAndView.addObject("salesOrderedProfitByDateRange",(salesOrderedProfitByDateRange));
+        modelAndView.addObject("salesInvoicedProfitByDateRange",(salesInvoicedProfitByDateRange));
+        modelAndView.addObject("salesQuotesProfitByDateRange",(salesQuotesProfitByDateRange));
          
-        double targetAchievedOrders = (salesOrderedTargetLastThreeMonths>0?(new BigDecimal((salesOrderedLastThreeMonths.getTotal().doubleValue()/salesOrderedTargetLastThreeMonths) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double targetAchievedQuotes = (salesQuotesTargetLastThreeMonths>0?(new BigDecimal((salesQuotesLastThreeMonths.getTotal().doubleValue()/salesQuotesTargetLastThreeMonths) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double targetAchievedInvoices = (salesInvoicedTargetLastThreeMonths>0?(new BigDecimal((salesInvoicesLastThreeMonths.getTotal().doubleValue()/salesInvoicedTargetLastThreeMonths) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double targetAchievedOrders = (salesOrderedTargetByDateRange>0?(new BigDecimal((salesOrderedByDateRange.getTotal().doubleValue()/salesOrderedTargetByDateRange) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double targetAchievedQuotes = (salesQuotesTargetByDateRange>0?(new BigDecimal((salesQuotesByDateRange.getTotal().doubleValue()/salesQuotesTargetByDateRange) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double targetAchievedInvoices = (salesInvoicedTargetByDateRange>0?(new BigDecimal((salesInvoicesByDateRange.getTotal().doubleValue()/salesInvoicedTargetByDateRange) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
         LOG.info("targetAchievedOrders-->"+targetAchievedOrders);
         LOG.info("targetAchievedQuotes-->"+targetAchievedQuotes);
@@ -706,53 +721,38 @@ public class ChartController {
         modelAndView.addObject("targetAchievedQuotes",targetAchievedQuotes);
         modelAndView.addObject("targetAchievedInvoices",targetAchievedInvoices);
 
-        double averageLastThreeMonthsOrders = (salesOrderedLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesOrderedLastThreeMonths.getTotal().doubleValue()/salesOrderedLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotes = (salesQuotesLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesQuotesLastThreeMonths.getTotal().doubleValue()/salesQuotesLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoices = (salesInvoicesLastThreeMonths.getQuantity().doubleValue()>0?(new BigDecimal((salesInvoicesLastThreeMonths.getTotal().doubleValue()/salesInvoicesLastThreeMonths.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeOrders = (salesOrderedByDateRange.getQuantity().doubleValue()>0?(new BigDecimal((salesOrderedByDateRange.getTotal().doubleValue()/salesOrderedByDateRange.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeQuotes = (salesQuotesByDateRange.getQuantity().doubleValue()>0?(new BigDecimal((salesQuotesByDateRange.getTotal().doubleValue()/salesQuotesByDateRange.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeInvoices = (salesInvoicesByDateRange.getQuantity().doubleValue()>0?(new BigDecimal((salesInvoicesByDateRange.getTotal().doubleValue()/salesInvoicesByDateRange.getQuantity().doubleValue()))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
-        modelAndView.addObject("averageLastThreeMonthsOrders",averageLastThreeMonthsOrders);
-        modelAndView.addObject("averageLastThreeMonthsQuotes",averageLastThreeMonthsQuotes);
-        modelAndView.addObject("averageLastThreeMonthsInvoices",averageLastThreeMonthsInvoices);
+        modelAndView.addObject("averageByDateRangeOrders",averageByDateRangeOrders);
+        modelAndView.addObject("averageByDateRangeQuotes",averageByDateRangeQuotes);
+        modelAndView.addObject("averageByDateRangeInvoices",averageByDateRangeInvoices);
 
-        double averageLastThreeMonthsOrdersTarget = (salesOrderedTargetQtyLastThreeMonths>0?(new BigDecimal((salesOrderedTargetLastThreeMonths/salesOrderedTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotesTarget = (salesQuotesTargetQtyLastThreeMonths>0?(new BigDecimal((salesQuotesTargetLastThreeMonths/salesQuotesTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoicesTarget = (salesInvoicedTargetQtyLastThreeMonths>0?(new BigDecimal((salesInvoicedTargetLastThreeMonths/salesInvoicedTargetQtyLastThreeMonths))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeOrdersTarget = (salesOrderedTargetQtyByDateRange>0?(new BigDecimal((salesOrderedTargetByDateRange/salesOrderedTargetQtyByDateRange))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeQuotesTarget = (salesQuotesTargetQtyByDateRange>0?(new BigDecimal((salesQuotesTargetByDateRange/salesQuotesTargetQtyByDateRange))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeInvoicesTarget = (salesInvoicedTargetQtyByDateRange>0?(new BigDecimal((salesInvoicedTargetByDateRange/salesInvoicedTargetQtyByDateRange))).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
-        modelAndView.addObject("averageLastThreeMonthsOrdersTarget",averageLastThreeMonthsOrdersTarget);
-        modelAndView.addObject("averageLastThreeMonthsQuotesTarget",averageLastThreeMonthsQuotesTarget);
-        modelAndView.addObject("averageLastThreeMonthsInvoicesTarget",averageLastThreeMonthsInvoicesTarget);
+        modelAndView.addObject("averageByDateRangeOrdersTarget",averageByDateRangeOrdersTarget);
+        modelAndView.addObject("averageByDateRangeQuotesTarget",averageByDateRangeQuotesTarget);
+        modelAndView.addObject("averageByDateRangeInvoicesTarget",averageByDateRangeInvoicesTarget);
 
-        double averageLastThreeMonthsOrdersProfitTarget = (salesOrderedTargetLastThreeMonths>0?(new BigDecimal((salesOrderedProfitTargetLastThreeMonths/salesOrderedTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotesProfitTarget = (salesQuotesTargetLastThreeMonths>0?(new BigDecimal((salesQuotesProfitTargetLastThreeMonths/salesQuotesTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoicesProfitTarget = (salesInvoicedTargetLastThreeMonths>0?(new BigDecimal((salesInvoicedProfitTargetLastThreeMonths/salesInvoicedTargetLastThreeMonths)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeOrdersProfitTarget = (salesOrderedTargetByDateRange>0?(new BigDecimal((salesOrderedProfitTargetByDateRange/salesOrderedTargetByDateRange)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeQuotesProfitTarget = (salesQuotesTargetByDateRange>0?(new BigDecimal((salesQuotesProfitTargetByDateRange/salesQuotesTargetByDateRange)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeInvoicesProfitTarget = (salesInvoicedTargetByDateRange>0?(new BigDecimal((salesInvoicedProfitTargetByDateRange/salesInvoicedTargetByDateRange)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
         
-        modelAndView.addObject("averageLastThreeMonthsOrdersProfitTarget",averageLastThreeMonthsOrdersProfitTarget);
-        modelAndView.addObject("averageLastThreeMonthsQuotesProfitTarget",averageLastThreeMonthsQuotesProfitTarget);
-        modelAndView.addObject("averageLastThreeMonthsInvoicesProfitTarget",averageLastThreeMonthsInvoicesProfitTarget);
+        modelAndView.addObject("averageByDateRangeOrdersProfitTarget",averageByDateRangeOrdersProfitTarget);
+        modelAndView.addObject("averageByDateRangeQuotesProfitTarget",averageByDateRangeQuotesProfitTarget);
+        modelAndView.addObject("averageByDateRangeInvoicesProfitTarget",averageByDateRangeInvoicesProfitTarget);
 
-        double averageLastThreeMonthsOrdersProfit = (salesOrderedLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesOrderedProfitLastThreeMonths/salesOrderedLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsQuotesProfit = (salesQuotesLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesQuotesProfitLastThreeMonths/salesQuotesLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
-        double averageLastThreeMonthsInvoicesProfit = (salesInvoicesLastThreeMonths.getTotal().doubleValue()>0?(new BigDecimal((salesInvoicedProfitLastThreeMonths/salesInvoicesLastThreeMonths.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeOrdersProfit = (salesOrderedByDateRange.getTotal().doubleValue()>0?(new BigDecimal((salesOrderedProfitByDateRange/salesOrderedByDateRange.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeQuotesProfit = (salesQuotesByDateRange.getTotal().doubleValue()>0?(new BigDecimal((salesQuotesProfitByDateRange/salesQuotesByDateRange.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        double averageByDateRangeInvoicesProfit = (salesInvoicesByDateRange.getTotal().doubleValue()>0?(new BigDecimal((salesInvoicedProfitByDateRange/salesInvoicesByDateRange.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
   
-        modelAndView.addObject("averageLastThreeMonthsOrdersProfit",averageLastThreeMonthsOrdersProfit);
-        modelAndView.addObject("averageLastThreeMonthsQuotesProfit",averageLastThreeMonthsQuotesProfit);
-        modelAndView.addObject("averageLastThreeMonthsInvoicesProfit",averageLastThreeMonthsInvoicesProfit);
-
-        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
-        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
-        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
-
-        modelAndView.addObject("salesOrdersList",salesOrdersList);
-        modelAndView.addObject("salesQuotesList",salesQuotesList);
-        modelAndView.addObject("salesInvoicesList",salesInvoicesList);
-
-        LOG.info("salesOrdersList==>"+salesOrdersList.size());
-        LOG.info("salesQuotesList==>"+salesQuotesList.size());
-        LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+        modelAndView.addObject("averageByDateRangeOrdersProfit",averageByDateRangeOrdersProfit);
+        modelAndView.addObject("averageByDateRangeQuotesProfit",averageByDateRangeQuotesProfit);
+        modelAndView.addObject("averageByDateRangeInvoicesProfit",averageByDateRangeInvoicesProfit);
 
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);

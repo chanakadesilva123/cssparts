@@ -27,13 +27,13 @@
          <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes')"></div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesByDateRange},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetByDateRange},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyByDateRange}, qtyTarget=${salesQuotesTargetQtyByDateRange},avgValue=${averageByDateRangeQuotes},avgTarget=${averageByDateRangeQuotesTarget},avgProfitValue=${averageByDateRangeQuotesProfit},avgProfitTarget=${averageByDateRangeQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes')"></div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders')"></div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedByDateRange},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetByDateRange},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyByDateRange}, qtyTarget=${salesOrderedTargetQtyByDateRange},avgValue=${averageByDateRangeOrders},avgTarget=${averageByDateRangeOrdersTarget},avgProfitValue=${averageByDateRangeOrdersProfit},avgProfitTarget=${averageByDateRangeOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders')"></div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedByDateRange},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetByDateRange},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyByDateRange}, qtyTarget=${salesInvoicedTargetQtyByDateRange},avgValue=${averageByDateRangeInvoices},avgTarget=${averageByDateRangeInvoicesTarget},avgProfitValue=${averageByDateRangeInvoicesProfit},avgProfitTarget=${averageByDateRangeInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices')"> </div>
               </div>
             </div>
           </div>
@@ -49,14 +49,14 @@
 <script th:inline="javascript">
  /*<![CDATA[*/
 
-  var salesOrderedLastThreeMonths = /*[[${salesOrderedLastThreeMonths}]]*/ '0';
-  var salesInvoicedLastThreeMonths = /*[[${salesInvoicedLastThreeMonths}]]*/ '0';
-  var salesQuotesLastThreeMonths = /*[[${salesQuotesLastThreeMonths}]]*/ '0';
-  var salesTargetLastThreeMonths = /*[[${salesTargetLastThreeMonths}]]*/ '0';
-  console.log('salesOrderedLastThreeMonths-->'+salesOrderedLastThreeMonths);
-  console.log('salesInvoicedLastThreeMonths-->'+salesInvoicedLastThreeMonths);
-  console.log('salesQuotesLastThreeMonths-->'+salesQuotesLastThreeMonths);
-  console.log('salesTargetLastThreeMonths-->'+salesTargetLastThreeMonths);
+  var salesOrderedByDateRange = /*[[${salesOrderedByDateRange}]]*/ '0';
+  var salesInvoicedByDateRange = /*[[${salesInvoicedByDateRange}]]*/ '0';
+  var salesQuotesByDateRange = /*[[${salesQuotesByDateRange}]]*/ '0';
+  var salesTargetByDateRange = /*[[${salesTargetByDateRange}]]*/ '0';
+  console.log('salesOrderedByDateRange-->'+salesOrderedByDateRange);
+  console.log('salesInvoicedByDateRange-->'+salesInvoicedByDateRange);
+  console.log('salesQuotesByDateRange-->'+salesQuotesByDateRange);
+  console.log('salesTargetByDateRange-->'+salesTargetByDateRange);
 
   var targetAchievedOrders = /*[[${targetAchievedOrders}]]*/ 0;
   var targetAchievedQuotes = /*[[${targetAchievedQuotes}]]*/ 0;
