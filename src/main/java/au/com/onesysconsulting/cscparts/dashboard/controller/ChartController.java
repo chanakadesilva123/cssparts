@@ -660,13 +660,10 @@ public class ChartController {
         LOG.info("salesQuotesList==>"+salesQuotesList.size());
         LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
 
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
-
-        SalesOrdersByDate salesOrderedByDateRange = dashboardService.getSalesOrdersBySalesByDateList(salesOrderTargets);
-        SalesInvoicesByDate salesInvoicesByDateRange = dashboardService.getSalesInvoicesBySalesByDateList(salesInvoiceTargets);
-        SalesQuotesByDate salesQuotesByDateRange = dashboardService.getSalesQuotesBySalesByDateList(salesQuoteTargets);
+        
+        SalesOrdersByDate salesOrderedByDateRange = dashboardService.getSalesOrdersBySalesByDateList(salesOrdersList);
+        SalesInvoicesByDate salesInvoicesByDateRange = dashboardService.getSalesInvoicesBySalesByDateList(salesInvoicesList);
+        SalesQuotesByDate salesQuotesByDateRange = dashboardService.getSalesQuotesBySalesByDateList(salesQuotesList);
 
         double salesOrderedTargetByDateRange = salesOrderedByDateRange.getTotalTarget();
         double salesInvoicedTargetByDateRange = salesInvoicesByDateRange.getTotalTarget();
@@ -688,6 +685,7 @@ public class ChartController {
         modelAndView.addObject("salesInvoicedByDateRange",(salesInvoicesByDateRange!=null && salesInvoicesByDateRange.getTotal()!=null?salesInvoicesByDateRange.getTotal().doubleValue():0D));
         modelAndView.addObject("salesQuotesByDateRange",(salesQuotesByDateRange!=null && salesQuotesByDateRange.getTotal()!=null?salesQuotesByDateRange.getTotal().doubleValue():0D));
         
+        LOG.info("salesOrderedTargetByDateRange="+salesOrderedTargetByDateRange+", salesInvoicedTargetByDateRange="+salesInvoicedTargetByDateRange+", salesQuotesTargetByDateRange="+salesQuotesTargetByDateRange);
         modelAndView.addObject("salesOrderedTargetByDateRange",(salesOrderedTargetByDateRange));
         modelAndView.addObject("salesInvoicedTargetByDateRange",(salesInvoicedTargetByDateRange));
         modelAndView.addObject("salesQuotesTargetByDateRange",(salesQuotesTargetByDateRange));
@@ -753,6 +751,10 @@ public class ChartController {
         modelAndView.addObject("averageByDateRangeOrdersProfit",averageByDateRangeOrdersProfit);
         modelAndView.addObject("averageByDateRangeQuotesProfit",averageByDateRangeQuotesProfit);
         modelAndView.addObject("averageByDateRangeInvoicesProfit",averageByDateRangeInvoicesProfit);
+
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
 
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);

@@ -748,13 +748,13 @@ public class DashboardService {
             qtyTarget+=salesOrder.getQuantityTarget();
             profitTarget+=salesOrder.getProfitTarget();
         }
-        LOG.info("getSalesOrdersBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        LOG.info("getSalesOrdersBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit+", Target=" +target+" , qtyTarget="+qtyTarget+" , profitTarget="+profitTarget);
         salesOrdersByDate.setTotal(total);
         salesOrdersByDate.setQuantity(qty);
         salesOrdersByDate.setProfit(profit);
-        salesOrdersByDate.setTotalTarget(target);
-        salesOrdersByDate.setQuantityTarget(qtyTarget);
-        salesOrdersByDate.setProfitTarget(profitTarget);
+        salesOrdersByDate.setTotalTarget(target/qty);
+        salesOrdersByDate.setQuantityTarget(qtyTarget/qty);
+        salesOrdersByDate.setProfitTarget(profitTarget/qty);
 
         return salesOrdersByDate;
     }
@@ -776,13 +776,13 @@ public class DashboardService {
             qtyTarget+=salesInvoice.getQuantityTarget();
             profitTarget+=salesInvoice.getProfitTarget();
         }
-        LOG.info("getSalesInvoicesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        LOG.info("getSalesInvoicesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit+", Target=" +target+" , qtyTarget="+qtyTarget+" , profitTarget="+profitTarget);
         salesInvoicesByDate.setTotal(total);
         salesInvoicesByDate.setQuantity(qty);
         salesInvoicesByDate.setProfit(profit);
-        salesInvoicesByDate.setTotalTarget(target);
-        salesInvoicesByDate.setQuantityTarget(qtyTarget);
-        salesInvoicesByDate.setProfitTarget(profitTarget);
+        salesInvoicesByDate.setTotalTarget(target/qty);
+        salesInvoicesByDate.setQuantityTarget(qtyTarget/qty);
+        salesInvoicesByDate.setProfitTarget(profitTarget/qty);
 
         return salesInvoicesByDate;
     }
@@ -804,13 +804,13 @@ public class DashboardService {
             qtyTarget+=salesQuote.getQuantityTarget();
             profitTarget+=salesQuote.getProfitTarget();
         }
-        LOG.info("getSalesQuotesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit);
+        LOG.info("getSalesQuotesBySalesByDateList-->total="+total+" , Quantity="+qty+" , Profit="+profit+", Target=" +target+" , qtyTarget="+qtyTarget+" , profitTarget="+profitTarget);
         salesQuotesByDate.setTotal(total);
         salesQuotesByDate.setQuantity(qty);
         salesQuotesByDate.setProfit(profit);
-        salesQuotesByDate.setTotalTarget(target);
-        salesQuotesByDate.setQuantityTarget(qtyTarget);
-        salesQuotesByDate.setProfitTarget(profitTarget);
+        salesQuotesByDate.setTotalTarget(target/qty);
+        salesQuotesByDate.setQuantityTarget(qtyTarget/qty);
+        salesQuotesByDate.setProfitTarget(profitTarget/qty);
 
         return salesQuotesByDate;
 	}
