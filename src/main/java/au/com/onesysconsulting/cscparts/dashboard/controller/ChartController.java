@@ -335,9 +335,28 @@ public class ChartController {
         List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
         List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
 
+        double salesOrderedCumulativeTargetMonthly = salesOrderTargets!=null && salesOrderTargets.size()>0?(salesOrderTargets.get(0).getAverageTarget()*salesOrdersList.size()):0D;
+        double salesInvoicedCumulativeTargetMonthly = salesInvoiceTargets!=null && salesInvoiceTargets.size()>0?(salesInvoiceTargets.get(0).getAverageTarget()*salesInvoicesList.size()):0D;
+        double salesQuotesCumulativeTargetMonthly = salesQuoteTargets!=null && salesQuoteTargets.size()>0?(salesQuoteTargets.get(0).getAverageTarget()*salesQuotesList.size()):0D;
+
+        double salesAvgOrderedMTD = (salesOrderedMTD!=null && salesOrderedMTD.getTotal()!=null?salesOrderedMTD.getTotal().doubleValue()/salesOrdersList.size():0D);
+        double salesAvgInvoicedMTD = (salesInvoicesMTD!=null && salesInvoicesMTD.getTotal()!=null?salesInvoicesMTD.getTotal().doubleValue()/salesInvoicesList.size():0D);
+        double salesAvgQuotesMTD = (salesQuotesMTD!=null && salesQuotesMTD.getTotal()!=null?salesQuotesMTD.getTotal().doubleValue()/salesQuotesList.size():0D);
+
+        modelAndView.addObject("salesAvgOrderedMTD",salesAvgOrderedMTD);
+        modelAndView.addObject("salesAvgInvoicedMTD",salesAvgInvoicedMTD);
+        modelAndView.addObject("salesAvgQuotesMTD",salesAvgQuotesMTD);
+        
+        LOG.info("salesOrderedAverageTargetMonthly==>"+salesOrderTargets.get(0).getAverageTarget());
+        LOG.info("salesInvoicedAverageTargetMonthly==>"+salesInvoiceTargets.get(0).getAverageTarget());
+        LOG.info("salesQuotesAverageTargetMonthly==>"+salesQuoteTargets.get(0).getAverageTarget());
+        
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
+        modelAndView.addObject("salesOrderedCumulativeTargetMonthly",salesOrderedCumulativeTargetMonthly);
+        modelAndView.addObject("salesInvoicedCumulativeTargetMonthly",salesInvoicedCumulativeTargetMonthly);
+        modelAndView.addObject("salesQuotesCumulativeTargetMonthly",salesQuotesCumulativeTargetMonthly);
 
         modelAndView.addObject("thisMonth",Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
         modelAndView.addObject("thisYear",Calendar.getInstance().get(Calendar.YEAR));
@@ -479,6 +498,14 @@ public class ChartController {
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
 
+        double salesAvgOrderedLastMonth = (salesOrderedLastMonth!=null && salesOrderedLastMonth.getTotal()!=null?salesOrderedLastMonth.getTotal().doubleValue()/salesOrdersList.size():0D);
+        double salesAvgInvoicedLastMonth = (salesInvoicesLastMonth!=null && salesInvoicesLastMonth.getTotal()!=null?salesInvoicesLastMonth.getTotal().doubleValue()/salesInvoicesList.size():0D);
+        double salesAvgQuotesLastMonth = (salesQuotesLastMonth!=null && salesQuotesLastMonth.getTotal()!=null?salesQuotesLastMonth.getTotal().doubleValue()/salesQuotesList.size():0D);
+
+        modelAndView.addObject("salesAvgOrderedLastMonth",salesAvgOrderedLastMonth);
+        modelAndView.addObject("salesAvgInvoicedLastMonth",salesAvgInvoicedLastMonth);
+        modelAndView.addObject("salesAvgQuotesLastMonth",salesAvgQuotesLastMonth);
+
         modelAndView.addObject("lastMonth",calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
         modelAndView.addObject("thisYear",calendar.get(Calendar.YEAR));
         
@@ -616,6 +643,14 @@ public class ChartController {
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
+
+        double salesAvgOrderedLastThreeMonths = (salesOrderedLastThreeMonths!=null && salesOrderedLastThreeMonths.getTotal()!=null?salesOrderedLastThreeMonths.getTotal().doubleValue()/salesOrdersList.size():0D);
+        double salesAvgInvoicedLastThreeMonths = (salesInvoicesLastThreeMonths!=null && salesInvoicesLastThreeMonths.getTotal()!=null?salesInvoicesLastThreeMonths.getTotal().doubleValue()/salesInvoicesList.size():0D);
+        double salesAvgQuotesLastThreeMonths = (salesQuotesLastThreeMonths!=null && salesQuotesLastThreeMonths.getTotal()!=null?salesQuotesLastThreeMonths.getTotal().doubleValue()/salesQuotesList.size():0D);
+
+        modelAndView.addObject("salesAvgOrderedLastThreeMonths",salesAvgOrderedLastThreeMonths);
+        modelAndView.addObject("salesAvgInvoicedLastThreeMonths",salesAvgInvoicedLastThreeMonths);
+        modelAndView.addObject("salesAvgQuotesLastThreeMonths",salesAvgQuotesLastThreeMonths);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
@@ -759,6 +794,14 @@ public class ChartController {
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
+
+        double salesAvgOrderedByDateRange = (salesOrderedByDateRange!=null && salesOrderedByDateRange.getTotal()!=null?salesOrderedByDateRange.getTotal().doubleValue()/salesOrdersList.size():0D);
+        double salesAvgInvoicedByDateRange = (salesInvoicesByDateRange!=null && salesInvoicesByDateRange.getTotal()!=null?salesInvoicesByDateRange.getTotal().doubleValue()/salesInvoicesList.size():0D);
+        double salesAvgQuotesByDateRange = (salesQuotesByDateRange!=null && salesQuotesByDateRange.getTotal()!=null?salesQuotesByDateRange.getTotal().doubleValue()/salesQuotesList.size():0D);
+
+        modelAndView.addObject("salesAvgOrderedByDateRange",salesAvgOrderedByDateRange);
+        modelAndView.addObject("salesAvgInvoicedByDateRange",salesAvgInvoicedByDateRange);
+        modelAndView.addObject("salesAvgQuotesByDateRange",salesAvgQuotesByDateRange);
 
         modelAndView.addObject("fromDate",fromDate);
         modelAndView.addObject("toDate",toDate);

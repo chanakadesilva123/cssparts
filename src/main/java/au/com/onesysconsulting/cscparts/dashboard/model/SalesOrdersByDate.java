@@ -34,9 +34,15 @@ public class SalesOrdersByDate {
     private Double quantityTarget;
     @Column(name = "ORDERPROFITTARGET")
     private Double profitTarget;
+    @Column(name= "NOOFWORKINGDAYS")
+    private Double noOfWorkingDays;
     @Transient
     private Double cumulativeTarget;
     @Transient
     private Double averageTotal;
+    @Transient
+    private Double averageTarget;
+    @Transient
+    private Double dailyTarget;
     
 }
