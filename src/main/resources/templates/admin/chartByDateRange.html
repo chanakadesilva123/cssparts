@@ -27,13 +27,13 @@
          <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesByDateRange},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetByDateRange},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyByDateRange}, qtyTarget=${salesQuotesTargetQtyByDateRange},avgValue=${averageByDateRangeQuotes},avgTarget=${averageByDateRangeQuotesTarget},avgProfitValue=${averageByDateRangeQuotesProfit},avgProfitTarget=${averageByDateRangeQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes',totalValueGraphTop=${salesQuotesByDateRange},targetValueGraphTop=${salesQuotesTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedQuotes},runRateGraphTop=${salesAvgQuotesByDateRange})"></div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesByDateRange},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetByDateRange},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyByDateRange}, qtyTarget=${salesQuotesTargetQtyByDateRange},avgValue=${averageByDateRangeQuotes},avgTarget=${averageByDateRangeQuotesTarget},avgProfitValue=${averageByDateRangeQuotesProfit},avgProfitTarget=${averageByDateRangeQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes',totalValueGraphTop=${salesQuotesByDateRange},targetValueGraphTop=${salesQuotesTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedQuotes},runRateGraphTop=${salesAvgQuotesByDateRange},titleGraphTop='Quotes vs Target - Month to-Date')"></div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedByDateRange},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetByDateRange},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyByDateRange}, qtyTarget=${salesOrderedTargetQtyByDateRange},avgValue=${averageByDateRangeOrders},avgTarget=${averageByDateRangeOrdersTarget},avgProfitValue=${averageByDateRangeOrdersProfit},avgProfitTarget=${averageByDateRangeOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders',totalValueGraphTop=${salesOrderedByDateRange},targetValueGraphTop=${salesOrderedTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedOrders},runRateGraphTop=${salesAvgOrderedByDateRange})"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedByDateRange},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetByDateRange},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyByDateRange}, qtyTarget=${salesOrderedTargetQtyByDateRange},avgValue=${averageByDateRangeOrders},avgTarget=${averageByDateRangeOrdersTarget},avgProfitValue=${averageByDateRangeOrdersProfit},avgProfitTarget=${averageByDateRangeOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders',totalValueGraphTop=${salesOrderedByDateRange},targetValueGraphTop=${salesOrderedTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedOrders},runRateGraphTop=${salesAvgOrderedByDateRange},titleGraphTop='Orders vs Target - Month to-Date')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedByDateRange},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetByDateRange},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyByDateRange}, qtyTarget=${salesInvoicedTargetQtyByDateRange},avgValue=${averageByDateRangeInvoices},avgTarget=${averageByDateRangeInvoicesTarget},avgProfitValue=${averageByDateRangeInvoicesProfit},avgProfitTarget=${averageByDateRangeInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices',totalValueGraphTop=${salesInvoicedByDateRange},targetValueGraphTop=${salesInvoicedTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedInvoices},runRateGraphTop=${salesAvgInvoicedByDateRange})"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedByDateRange},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetByDateRange},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyByDateRange}, qtyTarget=${salesInvoicedTargetQtyByDateRange},avgValue=${averageByDateRangeInvoices},avgTarget=${averageByDateRangeInvoicesTarget},avgProfitValue=${averageByDateRangeInvoicesProfit},avgProfitTarget=${averageByDateRangeInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices',totalValueGraphTop=${salesInvoicedByDateRange},targetValueGraphTop=${salesInvoicedTargetByDateRange},percentageOfTargetGraphTop=${targetAchievedInvoices},runRateGraphTop=${salesAvgInvoicedByDateRange},titleGraphTop='Invoices vs Target - Month to-Date')"> </div>
               </div>
             </div>
           </div>
@@ -175,7 +175,7 @@
         var dataGraphInvoicesOptions = {
           width: 400,
           legend:'top',
-          title: 'Sales vs Target Last 30 Days',
+          title: '',
           vAxis: {
             // Adds titles to each axis.
           0: {title: 'Actual($)'},
@@ -193,7 +193,7 @@
         var dataGraphOrdersOptions = {
           width: 400,
           legend:'top',
-          title: 'Sales vs Target Last 30 Days',
+          title: '',
           vAxis: {
             // Adds titles to each axis.
           0: {title: 'Actual($)'},
@@ -211,8 +211,7 @@
         var dataGraphQuotesOptions = {
           width: 400,
           legend:'top',
-          title: 'Sales vs Target',
-          title: 'Sales vs Target Last 30 Days',
+          title: '',
           vAxis: {
           // Adds titles to each axis.
           0: {title: 'Actual($)'},

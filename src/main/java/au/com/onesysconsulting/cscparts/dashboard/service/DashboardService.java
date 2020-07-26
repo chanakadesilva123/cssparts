@@ -38,8 +38,11 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotesQty;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesTarget;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesEnteredQtyRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.DailySalesInvoicedQtyRepository;
@@ -63,8 +66,11 @@ import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesQuotesR
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlySalesTargetRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.MonthlyTargetsRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesInvoicesByDateRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesInvoicesByPeriodRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesOrdersByDateRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesOrdersByPeriodRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesQuotesByDateRepository;
+import au.com.onesysconsulting.cscparts.dashboard.repository.SalesQuotesByPeriodRepository;
 import au.com.onesysconsulting.cscparts.dashboard.repository.SalesTargetRepository;
 
 @Service("dashboardService")
@@ -97,6 +103,9 @@ public class DashboardService {
     private SalesQuotesByDateRepository salesQuotesByDateRepository;
     private SalesOrdersByDateRepository salesOrdersByDateRepository;
     private SalesInvoicesByDateRepository salesInvoicesByDateRepository;
+    private SalesQuotesByPeriodRepository salesQuotesByPeriodRepository;
+    private SalesOrdersByPeriodRepository salesOrdersByPeriodRepository;
+    private SalesInvoicesByPeriodRepository salesInvoicesByPeriodRepository;
 
     @Autowired
     public DashboardService(MonthlySalesInvoicesRepository monthlySalesInvoicesRepository,
@@ -121,7 +130,9 @@ public class DashboardService {
             MonthlySalesQuotesQtyRepository monthlySalesQuotesQtyRepository,
             MonthlyTargetsRepository monthlyTargetsRepository, SalesQuotesByDateRepository salesQuotesByDateRepository,
             SalesOrdersByDateRepository salesOrdersByDateRepository,
-            SalesInvoicesByDateRepository salesInvoicesByDateRepository) {
+            SalesInvoicesByDateRepository salesInvoicesByDateRepository, SalesQuotesByPeriodRepository salesQuotesByPeriodRepository,
+            SalesOrdersByPeriodRepository salesOrdersByPeriodRepository,
+            SalesInvoicesByPeriodRepository salesInvoicesByPeriodRepository) {
         this.monthlySalesInvoicesRepository = monthlySalesInvoicesRepository;
         this.dailySalesInvoicesRepository = dailySalesInvoicesRepository;
         this.lastMonthSalesInvoicesRepository = lastMonthSalesInvoicesRepository;
@@ -147,6 +158,9 @@ public class DashboardService {
         this.salesQuotesByDateRepository = salesQuotesByDateRepository;
         this.salesOrdersByDateRepository = salesOrdersByDateRepository;
         this.salesInvoicesByDateRepository = salesInvoicesByDateRepository;
+        this.salesQuotesByPeriodRepository = salesQuotesByPeriodRepository;
+        this.salesOrdersByPeriodRepository = salesOrdersByPeriodRepository;
+        this.salesInvoicesByPeriodRepository = salesInvoicesByPeriodRepository;
     }
 
     public MonthlySalesInvoices findSalesInvoicesMTD() {
@@ -602,6 +616,7 @@ public class DashboardService {
         for (SalesOrdersByDate salesOrdersByDate : salesOrdersList) {
             dailyTarget = salesOrdersByDate.getTotalTarget() != null? (salesOrdersByDate.getTotalTarget().doubleValue() / salesOrdersByDate.getQuantity().doubleValue()): 0D;
             noOfWorkingDays = salesOrdersByDate.getNoOfWorkingDays()/salesOrdersByDate.getQuantity().doubleValue();
+            salesOrdersByDate.setNoOfWorkingDays(noOfWorkingDays);
             cumulativeTarget += dailyTarget/noOfWorkingDays;
             salesOrdersByDate.setTotalTarget(dailyTarget/noOfWorkingDays);
             salesOrdersByDate.setCumulativeTarget(cumulativeTarget);
@@ -624,6 +639,7 @@ public class DashboardService {
         for (SalesQuotesByDate salesQuotesByDate : salesQuotesList) {
             dailyTarget = salesQuotesByDate.getTotalTarget() != null? (salesQuotesByDate.getTotalTarget().doubleValue() / salesQuotesByDate.getQuantity().doubleValue()): 0D;
             noOfWorkingDays = salesQuotesByDate.getNoOfWorkingDays()/salesQuotesByDate.getQuantity().doubleValue();
+            salesQuotesByDate.setNoOfWorkingDays(noOfWorkingDays);
             cumulativeTarget += dailyTarget/noOfWorkingDays;
             salesQuotesByDate.setTotalTarget(dailyTarget/noOfWorkingDays);
             salesQuotesByDate.setCumulativeTarget(cumulativeTarget);
@@ -646,6 +662,7 @@ public class DashboardService {
         for (SalesInvoicesByDate salesInvoicesByDate : salesInvoicesList) {
             dailyTarget = salesInvoicesByDate.getTotalTarget() != null? (salesInvoicesByDate.getTotalTarget().doubleValue()/salesInvoicesByDate.getQuantity().doubleValue()) : 0D;
             noOfWorkingDays = salesInvoicesByDate.getNoOfWorkingDays()/salesInvoicesByDate.getQuantity().doubleValue();
+            salesInvoicesByDate.setNoOfWorkingDays(noOfWorkingDays);
             cumulativeTarget += dailyTarget/noOfWorkingDays;
             salesInvoicesByDate.setTotalTarget(dailyTarget/noOfWorkingDays);
             salesInvoicesByDate.setCumulativeTarget(cumulativeTarget);
@@ -815,5 +832,178 @@ public class DashboardService {
         salesQuotesByDate.setProfitTarget(profitTarget/qty);
 
         return salesQuotesByDate;
+	}
+
+	public List<SalesOrdersByDate> getSalesOrderTargetListForEntireMonth(List<SalesOrdersByDate> salesOrderTargets) {
+		double salesOrderedCumulativeTargetMonthly = salesOrderTargets!=null && salesOrderTargets.size()>0?(salesOrderTargets.get(0).getAverageTarget()*salesOrderTargets.size()):0D;
+        if(salesOrderTargets!=null && !salesOrderTargets.isEmpty())
+        {
+                double getNoOfWorkingDays = salesOrderTargets.get(0).getNoOfWorkingDays();
+                int noOfWorkedDays = salesOrderTargets.size();
+                double targetAvg = salesOrderTargets.get(0).getTotalTarget();
+                if((int)getNoOfWorkingDays>noOfWorkedDays)
+                {
+                        SalesOrdersByDate salesOrdersByDate=null;
+                        Date toDay = new Date();
+                        int count=0;
+                        for(int i=noOfWorkedDays;i<(int)getNoOfWorkingDays;i++)
+                        {
+                                count++;
+                                salesOrdersByDate=new SalesOrdersByDate();
+                                salesOrdersByDate.setDate(new Timestamp(toDay.getTime()));
+                                salesOrdersByDate.setTotal(0D);
+                                salesOrdersByDate.setTotalTarget(targetAvg);
+                                salesOrdersByDate.setCumulativeTarget(salesOrderedCumulativeTargetMonthly+(targetAvg*count));
+                                salesOrderTargets.add(salesOrdersByDate);
+                        }
+                }
+        }
+        return salesOrderTargets;
+    }
+    public List<SalesQuotesByDate> getSalesQuoteTargetListForEntireMonth(List<SalesQuotesByDate> salesQuoteTargets) {
+		double salesQuotesCumulativeTargetMonthly = salesQuoteTargets!=null && salesQuoteTargets.size()>0?(salesQuoteTargets.get(0).getAverageTarget()*salesQuoteTargets.size()):0D;
+        if(salesQuoteTargets!=null && !salesQuoteTargets.isEmpty())
+        {
+                double getNoOfWorkingDays = salesQuoteTargets.get(0).getNoOfWorkingDays();
+                int noOfWorkedDays = salesQuoteTargets.size();
+                double targetAvg = salesQuoteTargets.get(0).getTotalTarget();
+                if((int)getNoOfWorkingDays>noOfWorkedDays)
+                {
+                    SalesQuotesByDate salesQuotesByDate=null;
+                        Date toDay = new Date();
+                        int count=0;
+                        for(int i=noOfWorkedDays;i<(int)getNoOfWorkingDays;i++)
+                        {
+                            count++;
+                            salesQuotesByDate=new SalesQuotesByDate();
+                            salesQuotesByDate.setDate(new Timestamp(toDay.getTime()));
+                            salesQuotesByDate.setTotal(0D);
+                            salesQuotesByDate.setTotalTarget(targetAvg);
+                            salesQuotesByDate.setCumulativeTarget(salesQuotesCumulativeTargetMonthly+(targetAvg*count));
+                            salesQuoteTargets.add(salesQuotesByDate);
+                        }
+                }
+        }
+        return salesQuoteTargets;
+    }
+    public List<SalesInvoicesByDate> getSalesInvoiceTargetListForEntireMonth(List<SalesInvoicesByDate> salesInvoiceTargets) {
+		double salesOrderedCumulativeTargetMonthly = salesInvoiceTargets!=null && salesInvoiceTargets.size()>0?(salesInvoiceTargets.get(0).getAverageTarget()*salesInvoiceTargets.size()):0D;
+        if(salesInvoiceTargets!=null && !salesInvoiceTargets.isEmpty())
+        {
+                double getNoOfWorkingDays = salesInvoiceTargets.get(0).getNoOfWorkingDays();
+                int noOfWorkedDays = salesInvoiceTargets.size();
+                double targetAvg = salesInvoiceTargets.get(0).getTotalTarget();
+                if((int)getNoOfWorkingDays>noOfWorkedDays)
+                {
+                    SalesInvoicesByDate salesInvoicesByDate=null;
+                        Date toDay = new Date();
+                        int count=0;
+                        for(int i=noOfWorkedDays;i<(int)getNoOfWorkingDays;i++)
+                        {
+                                count++;
+                                salesInvoicesByDate=new SalesInvoicesByDate();
+                                salesInvoicesByDate.setDate(new Timestamp(toDay.getTime()));
+                                salesInvoicesByDate.setTotal(0D);
+                                salesInvoicesByDate.setTotalTarget(targetAvg);
+                                salesInvoicesByDate.setCumulativeTarget(salesOrderedCumulativeTargetMonthly+(targetAvg*count));
+                                salesInvoiceTargets.add(salesInvoicesByDate);
+                        }
+                }
+        }
+        return salesInvoiceTargets;
+	}
+
+	public List<SalesOrdersByPeriod> findFinancialYearSalesOrders() {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        int financeYear = month>6?year+1:year-1;
+		return salesOrdersByPeriodRepository.findByBetweenPeriods(year>financeYear?financeYear:year, year>financeYear?year:financeYear);
+    }
+    public List<SalesInvoicesByPeriod> findFinancialYearSalesInvoices() {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        int financeYear = month>6?year+1:year-1;
+		return salesInvoicesByPeriodRepository.findByBetweenPeriods(year>financeYear?financeYear:year, year>financeYear?year:financeYear);
+    }
+    public List<SalesQuotesByPeriod> findFinancialYearSalesQuotes() {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        int financeYear = month>6?year+1:year-1;
+		return salesQuotesByPeriodRepository.findByBetweenPeriods(year>financeYear?financeYear:year, year>financeYear?year:financeYear);
+	}
+
+	public List<SalesOrdersByPeriod> getFinancialYearSalesOrderTargetList(List<SalesOrdersByPeriod> salesOrdersList) {
+		List<SalesOrdersByPeriod> salesOrderTargetList = new ArrayList<SalesOrdersByPeriod>();
+        double periodTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        double noOfWorkingDays = 0;
+        for (SalesOrdersByPeriod salesOrdersByPeriod : salesOrdersList) {
+            periodTarget = (salesOrdersByPeriod.getQuantity() != null && salesOrdersByPeriod.getQuantity()>0)? (salesOrdersByPeriod.getTotalTarget().doubleValue() / salesOrdersByPeriod.getQuantity().doubleValue()): salesOrdersByPeriod.getTotalTarget().doubleValue();
+            noOfWorkingDays = (salesOrdersByPeriod.getQuantity() != null && salesOrdersByPeriod.getQuantity()>0)? salesOrdersByPeriod.getNoOfWorkingDays()/salesOrdersByPeriod.getQuantity().doubleValue():salesOrdersByPeriod.getNoOfWorkingDays();
+            salesOrdersByPeriod.setNoOfWorkingDays(noOfWorkingDays);
+            cumulativeTarget += periodTarget;
+            salesOrdersByPeriod.setTotalTarget(periodTarget);
+            salesOrdersByPeriod.setCumulativeTarget(cumulativeTarget);
+            salesOrderTargetList.add(salesOrdersByPeriod);
+            cumulativeTotal += salesOrdersByPeriod.getTotal() != null ? salesOrdersByPeriod.getTotal().doubleValue() : 0;
+        }
+        for (SalesOrdersByPeriod salesOrdersByPeriod : salesOrderTargetList) {
+            LOG.info("salesOrdersByPeriod-->"+salesOrdersByPeriod.getYear()+"/"+salesOrdersByPeriod.getPeriodNo());
+            salesOrdersByPeriod.setAverageTotal(cumulativeTotal / salesOrdersList.size());
+            salesOrdersByPeriod.setAverageTarget(cumulativeTarget / salesOrdersList.size());
+        }
+        return salesOrderTargetList;
+	}
+
+	public List<SalesQuotesByPeriod> getFinancialYearSalesQuoteTargetList(List<SalesQuotesByPeriod> salesQuotesList) {
+		List<SalesQuotesByPeriod> salesQuoteTargetList = new ArrayList<SalesQuotesByPeriod>();
+        double periodTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        double noOfWorkingDays = 0;
+        for (SalesQuotesByPeriod salesQuotesByPeriod : salesQuotesList) {
+            periodTarget = (salesQuotesByPeriod.getQuantity() != null && salesQuotesByPeriod.getQuantity() >0)? (salesQuotesByPeriod.getTotalTarget().doubleValue() / salesQuotesByPeriod.getQuantity().doubleValue()): salesQuotesByPeriod.getTotalTarget().doubleValue();
+            noOfWorkingDays = (salesQuotesByPeriod.getQuantity() != null && salesQuotesByPeriod.getQuantity()>0)? salesQuotesByPeriod.getNoOfWorkingDays()/salesQuotesByPeriod.getQuantity().doubleValue():salesQuotesByPeriod.getNoOfWorkingDays();
+            salesQuotesByPeriod.setNoOfWorkingDays(noOfWorkingDays);
+            cumulativeTarget += periodTarget;
+            salesQuotesByPeriod.setTotalTarget(periodTarget);
+            salesQuotesByPeriod.setCumulativeTarget(cumulativeTarget);
+            salesQuoteTargetList.add(salesQuotesByPeriod);
+            cumulativeTotal += salesQuotesByPeriod.getTotal() != null ? salesQuotesByPeriod.getTotal().doubleValue() : 0;
+        }
+        for (SalesQuotesByPeriod salesQuotesByPeriod : salesQuoteTargetList) {
+            LOG.info("salesQuotesByPeriod-->"+salesQuotesByPeriod.getYear()+"/"+salesQuotesByPeriod.getPeriodNo());
+            salesQuotesByPeriod.setAverageTotal(cumulativeTotal / salesQuotesList.size());
+            salesQuotesByPeriod.setAverageTarget(cumulativeTarget / salesQuotesList.size());
+        }
+        return salesQuoteTargetList;
+	}
+
+	public List<SalesInvoicesByPeriod> getFinancialYearSalesInvoiceTargetList(List<SalesInvoicesByPeriod> salesInvoicesList) {
+		List<SalesInvoicesByPeriod> salesInvoiceTargetList = new ArrayList<SalesInvoicesByPeriod>();
+        double periodTarget = 0D;
+        double cumulativeTarget = 0;
+        double cumulativeTotal = 0;
+        double noOfWorkingDays = 0;
+        for (SalesInvoicesByPeriod salesInvoicesByPeriod : salesInvoicesList) {
+            periodTarget = (salesInvoicesByPeriod.getQuantity() != null && salesInvoicesByPeriod.getQuantity()>0)? (salesInvoicesByPeriod.getTotalTarget().doubleValue() / salesInvoicesByPeriod.getQuantity().doubleValue()): salesInvoicesByPeriod.getTotalTarget().doubleValue();
+            noOfWorkingDays = (salesInvoicesByPeriod.getQuantity() != null && salesInvoicesByPeriod.getQuantity()>0)? salesInvoicesByPeriod.getNoOfWorkingDays()/salesInvoicesByPeriod.getQuantity().doubleValue():salesInvoicesByPeriod.getNoOfWorkingDays();
+            salesInvoicesByPeriod.setNoOfWorkingDays(noOfWorkingDays);
+            cumulativeTarget += periodTarget;
+            salesInvoicesByPeriod.setTotalTarget(periodTarget);
+            salesInvoicesByPeriod.setCumulativeTarget(cumulativeTarget);
+            salesInvoiceTargetList.add(salesInvoicesByPeriod);
+            cumulativeTotal += salesInvoicesByPeriod.getTotal() != null ? salesInvoicesByPeriod.getTotal().doubleValue() : 0;
+        }
+        for (SalesInvoicesByPeriod salesInvoicesByPeriod : salesInvoiceTargetList) {
+            LOG.info("salesInvoicesByPeriod-->"+salesInvoicesByPeriod.getYear()+"/"+salesInvoicesByPeriod.getPeriodNo());
+            salesInvoicesByPeriod.setAverageTotal(cumulativeTotal / salesInvoicesList.size());
+            salesInvoicesByPeriod.setAverageTarget(cumulativeTarget / salesInvoicesList.size());
+        }
+        return salesInvoiceTargetList;
 	}
 }

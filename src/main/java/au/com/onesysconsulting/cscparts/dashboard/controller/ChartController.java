@@ -2,6 +2,7 @@ package au.com.onesysconsulting.cscparts.dashboard.controller;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,8 +34,11 @@ import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesOrders;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlySalesQuotes;
 import au.com.onesysconsulting.cscparts.dashboard.model.MonthlyTargets;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesInvoicesByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesOrdersByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByDate;
+import au.com.onesysconsulting.cscparts.dashboard.model.SalesQuotesByPeriod;
 import au.com.onesysconsulting.cscparts.dashboard.service.DashboardService;
 
 @Controller
@@ -194,10 +198,15 @@ public class ChartController {
         LOG.info("salesOrdersList==>"+salesOrdersList.size());
         LOG.info("salesQuotesList==>"+salesQuotesList.size());
         LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+        List<SalesOrdersByDate>  salesOrders = dashboardService.getSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByDate> salesQuotes = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByDate> salesInvoices = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
 
+        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetListForEntireMonth(salesOrders);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetListForEntireMonth(salesQuotes);
+        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetListForEntireMonth(salesInvoices);
+
+        
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
@@ -320,10 +329,32 @@ public class ChartController {
         modelAndView.addObject("averageMonthlyQuotesProfit",averageMonthlyQuotesProfit);
         modelAndView.addObject("averageMonthlyInvoicesProfit",averageMonthlyInvoicesProfit);
 
-        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
-        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
-        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+        List<SalesOrdersByDate> salesOrdersMTDList = dashboardService.findMonthToDateSalesOrders();
+        List<SalesQuotesByDate> salesQuotesMTDList = dashboardService.findMonthToDateSalesQuotes();
+        List<SalesInvoicesByDate> salesInvoicesMTDList = dashboardService.findMonthToDateSalesInvoices();
 
+        List<SalesOrdersByDate>  salesOrderMTDTargets = dashboardService.getSalesOrderTargetList(salesOrdersMTDList);
+        List<SalesQuotesByDate> salesQuoteMTDTargets = dashboardService.getSalesQuoteTargetList(salesQuotesMTDList);
+        List<SalesInvoicesByDate> salesInvoiceMTDTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesMTDList);
+
+        double salesOrderedCumulativeTargetMonthly = salesOrderMTDTargets!=null && salesOrderMTDTargets.size()>0?(salesOrderMTDTargets.get(0).getAverageTarget()*salesOrdersMTDList.size()):0D;
+        double salesInvoicedCumulativeTargetMonthly = salesInvoiceMTDTargets!=null && salesInvoiceMTDTargets.size()>0?(salesInvoiceMTDTargets.get(0).getAverageTarget()*salesInvoicesMTDList.size()):0D;
+        double salesQuotesCumulativeTargetMonthly = salesQuoteMTDTargets!=null && salesQuoteMTDTargets.size()>0?(salesQuoteMTDTargets.get(0).getAverageTarget()*salesQuotesMTDList.size()):0D;
+
+        double salesAvgOrderedMTD = (salesOrderedMTD!=null && salesOrderedMTD.getTotal()!=null?salesOrderedMTD.getTotal().doubleValue()/salesOrdersMTDList.size():0D);
+        double salesAvgInvoicedMTD = (salesInvoicesMTD!=null && salesInvoicesMTD.getTotal()!=null?salesInvoicesMTD.getTotal().doubleValue()/salesInvoicesMTDList.size():0D);
+        double salesAvgQuotesMTD = (salesQuotesMTD!=null && salesQuotesMTD.getTotal()!=null?salesQuotesMTD.getTotal().doubleValue()/salesQuotesMTDList.size():0D);
+
+        List<SalesOrdersByPeriod> salesOrdersList = dashboardService.findFinancialYearSalesOrders();
+        List<SalesQuotesByPeriod> salesQuotesList = dashboardService.findFinancialYearSalesQuotes();
+        List<SalesInvoicesByPeriod> salesInvoicesList = dashboardService.findFinancialYearSalesInvoices();
+        
+        List<SalesOrdersByPeriod>  salesOrderTargets = dashboardService.getFinancialYearSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByPeriod> salesQuoteTargets = dashboardService.getFinancialYearSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByPeriod> salesInvoiceTargets = dashboardService.getFinancialYearSalesInvoiceTargetList(salesInvoicesList);
+        LOG.info("salesOrderTargets==>"+salesOrderTargets.size());
+        LOG.info("salesQuoteTargets==>"+salesQuoteTargets.size());
+        LOG.info("salesInvoiceTargets==>"+salesInvoiceTargets.size());
         modelAndView.addObject("salesOrdersList",salesOrdersList);
         modelAndView.addObject("salesQuotesList",salesQuotesList);
         modelAndView.addObject("salesInvoicesList",salesInvoicesList);
@@ -331,25 +362,11 @@ public class ChartController {
         LOG.info("salesOrdersList==>"+salesOrdersList.size());
         LOG.info("salesQuotesList==>"+salesQuotesList.size());
         LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
-
-        double salesOrderedCumulativeTargetMonthly = salesOrderTargets!=null && salesOrderTargets.size()>0?(salesOrderTargets.get(0).getAverageTarget()*salesOrdersList.size()):0D;
-        double salesInvoicedCumulativeTargetMonthly = salesInvoiceTargets!=null && salesInvoiceTargets.size()>0?(salesInvoiceTargets.get(0).getAverageTarget()*salesInvoicesList.size()):0D;
-        double salesQuotesCumulativeTargetMonthly = salesQuoteTargets!=null && salesQuoteTargets.size()>0?(salesQuoteTargets.get(0).getAverageTarget()*salesQuotesList.size()):0D;
-
-        double salesAvgOrderedMTD = (salesOrderedMTD!=null && salesOrderedMTD.getTotal()!=null?salesOrderedMTD.getTotal().doubleValue()/salesOrdersList.size():0D);
-        double salesAvgInvoicedMTD = (salesInvoicesMTD!=null && salesInvoicesMTD.getTotal()!=null?salesInvoicesMTD.getTotal().doubleValue()/salesInvoicesList.size():0D);
-        double salesAvgQuotesMTD = (salesQuotesMTD!=null && salesQuotesMTD.getTotal()!=null?salesQuotesMTD.getTotal().doubleValue()/salesQuotesList.size():0D);
-
+        
+        
         modelAndView.addObject("salesAvgOrderedMTD",salesAvgOrderedMTD);
         modelAndView.addObject("salesAvgInvoicedMTD",salesAvgInvoicedMTD);
         modelAndView.addObject("salesAvgQuotesMTD",salesAvgQuotesMTD);
-        
-        LOG.info("salesOrderedAverageTargetMonthly==>"+salesOrderTargets.get(0).getAverageTarget());
-        LOG.info("salesInvoicedAverageTargetMonthly==>"+salesInvoiceTargets.get(0).getAverageTarget());
-        LOG.info("salesQuotesAverageTargetMonthly==>"+salesQuoteTargets.get(0).getAverageTarget());
         
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
