@@ -41,6 +41,8 @@ public class SalesQuotesByPeriod {
     @Transient
     private Double cumulativeTarget;
     @Transient
+    private Double cumulativeTotal;
+    @Transient
     private Double averageTotal;
     @Transient
     private Double averageTarget;
