@@ -24,6 +24,10 @@ public class SalesOrdersByPeriod {
     private Double total;
     @Column(name = "YEAR")
     private Integer year;
+    @Column(name = "AGE")
+    private Integer age;
+    @Column(name = "PERIODNAME")
+    private String periodName;
     @Column(name = "PERIOD_NO")
     private Integer periodNo;
     @Column(name = "ORDERQTY")

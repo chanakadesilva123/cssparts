@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository("salesQuotesByPeriodRepository")
 public interface SalesQuotesByPeriodRepository extends JpaRepository<SalesQuotesByPeriod, Integer> {
     List<SalesQuotesByPeriod> findAll();
+    public List<SalesQuotesByPeriod> findByAgeLessThanOrderByYearAscPeriodNoAsc(Integer age);
     @Query(value = "from SalesQuotesByPeriod s where (year=:startYear AND (periodNo BETWEEN 1 AND 6)) OR (year=:endYear AND (periodNo BETWEEN 7 AND 12)) order by year,periodNo")
     public List<SalesQuotesByPeriod> findByBetweenPeriods(@Param("startYear")Integer startYear,@Param("endYear")Integer endYear);
 }

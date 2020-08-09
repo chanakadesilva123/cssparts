@@ -942,8 +942,16 @@ public class DashboardService {
         int year = calendar.get(Calendar.YEAR);
         int financeYear = month>6?year+1:year-1;
 		return salesQuotesByPeriodRepository.findByBetweenPeriods(year>financeYear?financeYear:year, year>financeYear?year:financeYear);
-	}
-
+    }
+    public List<SalesOrdersByPeriod> findLast12MonthsSalesOrders() {
+        return salesOrdersByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+    }
+    public List<SalesInvoicesByPeriod> findLast12MonthsSalesInvoices() {
+        return salesInvoicesByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+    }
+    public List<SalesQuotesByPeriod> findLast12MonthsSalesQuotes() {
+        return salesQuotesByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+    }
 	public List<SalesOrdersByPeriod> getFinancialYearSalesOrderTargetList(List<SalesOrdersByPeriod> salesOrdersList) {
 		List<SalesOrdersByPeriod> salesOrderTargetList = new ArrayList<SalesOrdersByPeriod>();
         double periodTarget = 0D;

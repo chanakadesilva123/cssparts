@@ -24,6 +24,8 @@ public class SalesInvoicesByPeriod {
     private Double total;
     @Column(name = "YEAR")
     private Integer year;
+    @Column(name = "AGE")
+    private Integer age;
     @Column(name = "PERIOD_NO")
     private Integer periodNo;
     @Column(name = "INVOICEQTY")

@@ -14,4 +14,5 @@ public interface SalesOrdersByPeriodRepository extends JpaRepository<SalesOrders
     List<SalesOrdersByPeriod> findAll();
     @Query(value = "from SalesOrdersByPeriod s where (year=:startYear AND (periodNo BETWEEN 1 AND 6)) OR (year=:endYear AND (periodNo BETWEEN 7 AND 12)) order by year,periodNo")
     public List<SalesOrdersByPeriod> findByBetweenPeriods(@Param("startYear")Integer startYear,@Param("endYear")Integer endYear);
+    public List<SalesOrdersByPeriod> findByAgeLessThanOrderByYearAscPeriodNoAsc(Integer age);
 }

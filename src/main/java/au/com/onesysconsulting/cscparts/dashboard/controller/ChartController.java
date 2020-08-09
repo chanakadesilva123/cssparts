@@ -502,9 +502,9 @@ public class ChartController {
         modelAndView.addObject("averageLastMonthQuotesProfit",averageLastMonthQuotesProfit);
         modelAndView.addObject("averageLastMonthInvoicesProfit",averageLastMonthInvoicesProfit);
 
-        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
-        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
-        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+        List<SalesOrdersByPeriod> salesOrdersList = dashboardService.findLast12MonthsSalesOrders();
+        List<SalesQuotesByPeriod> salesQuotesList = dashboardService.findLast12MonthsSalesQuotes();
+        List<SalesInvoicesByPeriod> salesInvoicesList = dashboardService.findLast12MonthsSalesInvoices();
 
         modelAndView.addObject("salesOrdersList",salesOrdersList);
         modelAndView.addObject("salesQuotesList",salesQuotesList);
@@ -513,9 +513,10 @@ public class ChartController {
         LOG.info("salesOrdersList==>"+salesOrdersList.size());
         LOG.info("salesQuotesList==>"+salesQuotesList.size());
         LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
+        List<SalesOrdersByPeriod>  salesOrderTargets = dashboardService.getFinancialYearSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByPeriod> salesQuoteTargets = dashboardService.getFinancialYearSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByPeriod> salesInvoiceTargets = dashboardService.getFinancialYearSalesInvoiceTargetList(salesInvoicesList);
+        
 
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
@@ -568,16 +569,6 @@ public class ChartController {
         double salesInvoicedProfitLastThreeMonths = salesInvoicesLastThreeMonths.getProfit().doubleValue();
         double salesQuotesProfitLastThreeMonths = salesQuotesLastThreeMonths.getProfit().doubleValue();
 
-        //to be deleted
-        /*salesOrderedLastThreeMonths = 5689.2653;
-        salesInvoicedLastThreeMonths = 8956.3625;
-        salesQuotesLastThreeMonths = 9588;
-        salesTargetLastThreeMonths = 10000;
-
-        salesOrderedQtyLastThreeMonths = 34;
-        salesInvoicedQtyLastThreeMonths = 52;
-        salesQuotesQtyLastThreeMonths = 61;
-        */
         modelAndView.addObject("salesOrderedLastThreeMonths",(salesOrderedLastThreeMonths!=null && salesOrderedLastThreeMonths.getTotal()!=null?salesOrderedLastThreeMonths.getTotal().doubleValue():0D));
         modelAndView.addObject("salesInvoicedLastThreeMonths",(salesInvoicesLastThreeMonths!=null && salesInvoicesLastThreeMonths.getTotal()!=null?salesInvoicesLastThreeMonths.getTotal().doubleValue():0D));
         modelAndView.addObject("salesQuotesLastThreeMonths",(salesQuotesLastThreeMonths!=null && salesQuotesLastThreeMonths.getTotal()!=null?salesQuotesLastThreeMonths.getTotal().doubleValue():0D));
@@ -648,9 +639,9 @@ public class ChartController {
         modelAndView.addObject("averageLastThreeMonthsQuotesProfit",averageLastThreeMonthsQuotesProfit);
         modelAndView.addObject("averageLastThreeMonthsInvoicesProfit",averageLastThreeMonthsInvoicesProfit);
 
-        List<SalesOrdersByDate> salesOrdersList = dashboardService.findMonthToDateSalesOrders();
-        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
-        List<SalesInvoicesByDate> salesInvoicesList = dashboardService.findMonthToDateSalesInvoices();
+        List<SalesOrdersByPeriod> salesOrdersList = dashboardService.findLast12MonthsSalesOrders();
+        List<SalesQuotesByPeriod> salesQuotesList = dashboardService.findLast12MonthsSalesQuotes();
+        List<SalesInvoicesByPeriod> salesInvoicesList = dashboardService.findLast12MonthsSalesInvoices();
 
         modelAndView.addObject("salesOrdersList",salesOrdersList);
         modelAndView.addObject("salesQuotesList",salesQuotesList);
@@ -659,10 +650,10 @@ public class ChartController {
         LOG.info("salesOrdersList==>"+salesOrdersList.size());
         LOG.info("salesQuotesList==>"+salesQuotesList.size());
         LOG.info("salesInvoicesList==>"+salesInvoicesList.size());
-        List<SalesOrdersByDate>  salesOrderTargets = dashboardService.getSalesOrderTargetList(salesOrdersList);
-        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetList(salesQuotesList);
-        List<SalesInvoicesByDate> salesInvoiceTargets = dashboardService.getSalesInvoiceTargetList(salesInvoicesList);
-
+        List<SalesOrdersByPeriod>  salesOrderTargets = dashboardService.getFinancialYearSalesOrderTargetList(salesOrdersList);
+        List<SalesQuotesByPeriod> salesQuoteTargets = dashboardService.getFinancialYearSalesQuoteTargetList(salesQuotesList);
+        List<SalesInvoicesByPeriod> salesInvoiceTargets = dashboardService.getFinancialYearSalesInvoiceTargetList(salesInvoicesList);
+       
         modelAndView.addObject("salesOrderTargets",salesOrderTargets);
         modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
         modelAndView.addObject("salesInvoiceTargets",salesInvoiceTargets);
