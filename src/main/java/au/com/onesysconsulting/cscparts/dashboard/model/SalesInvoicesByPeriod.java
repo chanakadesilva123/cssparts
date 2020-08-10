@@ -26,6 +26,8 @@ public class SalesInvoicesByPeriod {
     private Integer year;
     @Column(name = "AGE")
     private Integer age;
+    @Column(name = "REPORTCODE")
+    private String periodName;
     @Column(name = "PERIOD_NO")
     private Integer periodNo;
     @Column(name = "INVOICEQTY")

@@ -944,13 +944,13 @@ public class DashboardService {
 		return salesQuotesByPeriodRepository.findByBetweenPeriods(year>financeYear?financeYear:year, year>financeYear?year:financeYear);
     }
     public List<SalesOrdersByPeriod> findLast12MonthsSalesOrders() {
-        return salesOrdersByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+        return salesOrdersByPeriodRepository.findByAgeLessThanOrderByAgeDesc(12);
     }
     public List<SalesInvoicesByPeriod> findLast12MonthsSalesInvoices() {
-        return salesInvoicesByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+        return salesInvoicesByPeriodRepository.findByAgeLessThanOrderByAgeDesc(12);
     }
     public List<SalesQuotesByPeriod> findLast12MonthsSalesQuotes() {
-        return salesQuotesByPeriodRepository.findByAgeLessThanOrderByYearAscPeriodNoAsc(12);
+        return salesQuotesByPeriodRepository.findByAgeLessThanOrderByAgeDesc(12);
     }
 	public List<SalesOrdersByPeriod> getFinancialYearSalesOrderTargetList(List<SalesOrdersByPeriod> salesOrdersList) {
 		List<SalesOrdersByPeriod> salesOrderTargetList = new ArrayList<SalesOrdersByPeriod>();

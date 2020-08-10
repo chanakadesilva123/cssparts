@@ -75,7 +75,7 @@
     salesOrderTargetArr.push(["0",0,0,0]);
   }
   for (i = 0; i < salesOrderTargets.length; i++) {
-    salesOrderTargetArr.push([salesOrderTargets[i].year+'/'+salesOrderTargets[i].periodNo,parseFloat(salesOrderTargets[i].total.toFixed(2)),parseFloat(salesOrderTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesOrderTargets[i].totalTarget.toFixed(2))]);
+    salesOrderTargetArr.push([salesOrderTargets[i].periodName,parseFloat(salesOrderTargets[i].total.toFixed(2)),parseFloat(salesOrderTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesOrderTargets[i].totalTarget.toFixed(2))]);
   }
   console.log('salesOrderTargetArr-->'+salesOrderTargetArr);
   var salesQuoteTargetArr = [];
@@ -85,7 +85,7 @@
     salesQuoteTargetArr.push(["0",0,0,0]);
   }
   for (i = 0; i < salesQuoteTargets.length; i++) {
-    salesQuoteTargetArr.push([salesQuoteTargets[i].year+'/'+salesQuoteTargets[i].periodNo,parseFloat(salesQuoteTargets[i].total.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesQuoteTargets[i].totalTarget.toFixed(2))]);
+    salesQuoteTargetArr.push([salesQuoteTargets[i].periodName,parseFloat(salesQuoteTargets[i].total.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesQuoteTargets[i].totalTarget.toFixed(2))]);
   }
   console.log('salesQuoteTargetArr-->'+salesQuoteTargetArr);
 
@@ -96,7 +96,7 @@
     salesInvoiceTargetArr.push(["0",0,0,0]);
   }
   for (i = 0; i < salesInvoiceTargets.length; i++) {
-    salesInvoiceTargetArr.push([salesInvoiceTargets[i].year+'/'+salesInvoiceTargets[i].periodNo,parseFloat(salesInvoiceTargets[i].total.toFixed(2)),parseFloat(salesInvoiceTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesInvoiceTargets[i].totalTarget.toFixed(2))]);
+    salesInvoiceTargetArr.push([salesInvoiceTargets[i].periodName,parseFloat(salesInvoiceTargets[i].total.toFixed(2)),parseFloat(salesInvoiceTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesInvoiceTargets[i].totalTarget.toFixed(2))]);
   }
   console.log('salesInvoiceTargetArr-->'+salesInvoiceTargetArr);
 
