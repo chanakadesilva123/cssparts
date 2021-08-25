@@ -8,17 +8,16 @@
     <link th:href="@{/css/chunk-vendors.a775eba8.css}" rel=stylesheet>
   <body>
     <header>
-      <!-- Bootstrap NavBar -->
-      <div th:replace="headerLayout :: header(isFullScreen=${isFullScreen})"> </div>
+    
   </header>
   <div class="container-fluid">
     <div class="row">
       <th:block th:if=${!isFullScreen}>
-      <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item bg-info',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',byDateRangeListClass='nav-item',homeLinkClass='nav-link text-warning',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link',byDateRangeLinkClass='nav-link')"> </div>
+      <div th:replace="sideBarMenuLayout :: sideBarMenu(homeListClass='nav-item',todayListClass='nav-item',thisMonthListClass='nav-item',lastMonthListClass='nav-item',last3MonthsListClass='nav-item',byDateRangeListClass='nav-item',homeLinkClass='nav-link text-danger',todayLinkClass='nav-link',thisMonthLinkClass='nav-link',lastMonthLinkClass='nav-link',last3MonthsLinkClass='nav-link',byDateRangeLinkClass='nav-link')"> </div>
     </th:block>
             <main  id="mainContent" role="main" th:class="${isFullScreen?'col-md-12 ml-sm-auto col-lg-12 px-md-1':'col-md-9 ml-sm-auto col-lg-10 px-md-1'}">
               <div class="col-md-12">
-                <div id="mainHeading" class="row px-2 mt-3">
+                <div id="mainHeading" class="row px-2">
                   <div class="col-1 text-primary">
                     <span id="sideMenuArrow" style="visibility: hidden;cursor: pointer;" class="fa fa-arrow-right fa-fw mr-3 text-dark" onclick="showSideBar()"></span>
                   </div>
