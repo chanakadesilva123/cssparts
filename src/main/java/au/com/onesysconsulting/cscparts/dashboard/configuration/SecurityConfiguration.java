@@ -29,6 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
+    @Value("${allow.iframe.access.domain}")
+    private String iframeAccessDomain;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
@@ -37,13 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll().antMatchers("/screen/**").permitAll().antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin().loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/admin/home").usernameParameter("userName").passwordParameter("password").and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
-                .exceptionHandling().accessDeniedPage("/access-denied");
+        http.headers().contentSecurityPolicy("frame-ancestors self "+iframeAccessDomain);
     }
 
     @Override

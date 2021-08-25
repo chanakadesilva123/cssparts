@@ -27,13 +27,13 @@
          <div class="album py-3 px-2 bg-light">
           <div class="row">
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes',totalValueGraphTop=${salesQuotesLastThreeMonths},targetValueGraphTop=${salesQuotesTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedQuotes},runRateGraphTop=${salesAvgQuotesLastThreeMonths},titleGraphTop='Quotes vs Target - Month to-Date',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"></div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Quotes',guageDiv='guage_div_quotes',totalValue=${salesQuotesLastThreeMonths},totalStyle='background-color: #00bfff;', targetValue=${salesQuotesTargetLastThreeMonths},targetStyle='background-color: #ff85e6;', qtyValue=${salesQuotesQtyLastThreeMonths}, qtyTarget=${salesQuotesTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsQuotes},avgTarget=${averageLastThreeMonthsQuotesTarget},avgProfitValue=${averageLastThreeMonthsQuotesProfit},avgProfitTarget=${averageLastThreeMonthsQuotesProfitTarget},targetAchieved=${targetAchievedQuotes},graphDiv='graph_div_quotes',totalValueGraphTop=${salesQuotesLastThreeMonths},targetValueGraphTop=${salesQuotesTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedQuotes},runRateGraphTop=${salesAvgQuotesLastThreeMonths},titleGraphTop='Quotes vs Target - Last 12 Months',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"></div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders',totalValueGraphTop=${salesOrderedLastThreeMonths},targetValueGraphTop=${salesOrderedTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedOrders},runRateGraphTop=${salesAvgOrderedLastThreeMonths},titleGraphTop='Orders vs Target - Month to-Date',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Orders',guageDiv='guage_div_orders',totalValue=${salesOrderedLastThreeMonths},totalStyle='background-color: #f9ae06;', targetValue=${salesOrderedTargetLastThreeMonths},targetStyle='background-color: #fff67e;color:black', qtyValue=${salesOrderedQtyLastThreeMonths}, qtyTarget=${salesOrderedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsOrders},avgTarget=${averageLastThreeMonthsOrdersTarget},avgProfitValue=${averageLastThreeMonthsOrdersProfit},avgProfitTarget=${averageLastThreeMonthsOrdersProfitTarget},targetAchieved=${targetAchievedOrders},graphDiv='graph_div_orders',totalValueGraphTop=${salesOrderedLastThreeMonths},targetValueGraphTop=${salesOrderedTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedOrders},runRateGraphTop=${salesAvgOrderedLastThreeMonths},titleGraphTop='Orders vs Target - Last 12 Months',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"> </div>
               </div>
               <div class="col-md-4">
-                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices',totalValueGraphTop=${salesInvoicedLastThreeMonths},targetValueGraphTop=${salesInvoicedTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedInvoices},runRateGraphTop=${salesAvgInvoicedLastThreeMonths},titleGraphTop='Invoices vs Target - Month to-Date',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"> </div>
+                <div th:replace="admin/dashboardCardLayout :: cardFields(isFullScreen=${isFullScreen},cardTitle='Invoices',guageDiv='guage_div_invoices',totalValue=${salesInvoicedLastThreeMonths},totalStyle='background-color: #0b4119;color:white;', targetValue=${salesInvoicedTargetLastThreeMonths},targetStyle='background-color: #92edaa;color:black', qtyValue=${salesInvoicedQtyLastThreeMonths}, qtyTarget=${salesInvoicedTargetQtyLastThreeMonths},avgValue=${averageLastThreeMonthsInvoices},avgTarget=${averageLastThreeMonthsInvoicesTarget},avgProfitValue=${averageLastThreeMonthsInvoicesProfit},avgProfitTarget=${averageLastThreeMonthsInvoicesProfitTarget},targetAchieved=${targetAchievedInvoices},graphDiv='graph_div_invoices',totalValueGraphTop=${salesInvoicedLastThreeMonths},targetValueGraphTop=${salesInvoicedTargetLastThreeMonths},percentageOfTargetGraphTop=${targetAchievedInvoices},runRateGraphTop=${salesAvgInvoicedLastThreeMonths},titleGraphTop='Invoices vs Target - Last 12 Months',totalTitleGrapghTop='Total Actual',targetTitleGrapghTop='Target')"> </div>
               </div>
             </div>
           </div>
@@ -181,7 +181,7 @@
           0: {title: 'Actual($)'},
           1: {title: 'Target($)'}
           },
-          hAxis: {title: 'Date'},
+          hAxis: {title: 'Year/Month'},
           seriesType: 'bars',
           series: {0: {targetAxisIndex: 0,color : '#0b4119'},1: {targetAxisIndex: 1,type: 'area',color : '#0b4119'},2: {type: 'line',color : 'red'}}
         };
@@ -199,7 +199,7 @@
           0: {title: 'Actual($)'},
           1: {title: 'Target($)'}
           },
-          hAxis: {title: 'Date'},
+          hAxis: {title: 'Year/Month'},
           seriesType: 'bars',
           series: {0: {targetAxisIndex: 0,color : '#f9ae06'},1: {targetAxisIndex: 1,type: 'area',color : '#f9ae06'},2: {type: 'line',color : 'red'}}
         };
@@ -218,7 +218,7 @@
           0: {title: 'Actual($)'},
           1: {title: 'Target($)'}
           },
-          hAxis: {title: 'Date'},
+          hAxis: {title: 'Year/Month'},
           seriesType: 'bars',
           series: {0: {targetAxisIndex: 0,color : '#00bfff'},1: {targetAxisIndex: 1,type: 'area',color : '#00bfff'},2: {type: 'line',color : 'red'}}
         };

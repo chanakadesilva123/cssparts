@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="headLayout :: head"></div>
+  <body>
+  <div class="container-fluid">
+    <div class="row">
+       <main id="mainContent" role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-1">
+              <div class="col-md-12">
+                <div class="card-body d-flex justify-content-center" id="guage_div_quotes"></div>
+                        <th:block th:if=${!isFullScreen}>
+                               <div class="d-flex justify-content-center">
+                            <button type="button" class="col-md-5 btn btn-sm mr-2" style="background-color: #00bfff;" th:title="${'Total : $' + #numbers.formatDecimal(salesQuotesDaily, 1, 'COMMA', 0, 'POINT')}"><span th:text="${'Total : $ ' + #numbers.formatDecimal(salesQuotesDaily, 1, 'COMMA', 0, 'POINT')}"></span></button>
+                            <button type="button" class="col-md-5 btn btn-sm" style="background-color: #ff85e6;" th:title="${'Target : $' + #numbers.formatDecimal(salesQuotesTargetDaily, 1, 'COMMA', 0, 'POINT')}"><span th:text="${'Target : $ ' + #numbers.formatDecimal(salesQuotesTargetDaily, 1, 'COMMA', 0, 'POINT')}"></span></button>
+                            </div>
+                            <div class="d-flex justify-content-center small mt-2 ml-4 mr-4">
+                              <table class="table table-sm table-bordered">
+                                <tbody>
+                                <tr>
+                                  <th>Qty</th>
+                                  <th rowspan="3" class="verticalTableHeader" style="background-color: #00bfff;padding-top: 15%;">ACTUAL</th>
+                                  <th th:text="${#numbers.formatInteger(salesQuotesQtyDaily,1)}"></th>
+                                  <th rowspan="3" class="verticalTableHeader" style="background-color: #ff85e6;padding-top: 15%;" >TARGET</th>
+                                  <th th:text="${#numbers.formatInteger(salesQuotesTargetQtyDaily,1)}"></th>
+                                </tr>
+                                <tr>
+                                  <th>Avg $</th>
+                                  <th th:text="${#numbers.formatDecimal(averageDailyQuotes, 1, 'COMMA', 0, 'POINT')}"></th>
+                                  <th th:text="${#numbers.formatDecimal(averageDailyQuotesTarget, 1, 'COMMA', 0, 'POINT')}"></th>
+                                </tr>
+                                <tr>
+                                  <th>Avg GP %</th>
+                                  <th rowspan="3" th:text="${#numbers.formatDecimal(averageDailyQuotesProfit, 1, 'COMMA', 0, 'POINT')}"></th>
+                                  <th th:text="${#numbers.formatDecimal(averageDailyQuotesProfitTarget, 1, 'COMMA', 0, 'POINT')}"></th>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                      </th:block>
+                      <th:block th:unless=${!isFullScreen}>
+                        <div class="d-flex justify-content-center">
+                          <button type="button" class="col-md-12 btn btn-sm" style="background-color: #ff85e6;" th:title="${'To be Achieved : $ ' + #numbers.formatDecimal((targetAchievedQuotes -100), 1, 'COMMA', 0, 'POINT')+ '%'}"><span th:text="${#numbers.formatDecimal((targetAchievedQuotes -100), 1, 'COMMA', 0, 'POINT')+ '%'}"></span></button>
+                        </div>
+                        <div class="d-flex justify-content-center small mt-2 ml-4 mr-4">
+                          <table class="table table-sm table-bordered">
+                            <tbody>
+                            <tr>
+                              <th>Qty</th>
+                              <th th:text="${#numbers.formatInteger((salesQuotesQtyDaily - salesQuotesTargetQtyDaily),1)}"></th>
+                            </tr>
+                            <tr>
+                              <th>Avg $</th>
+                              <th th:text="${#numbers.formatDecimal((averageDailyQuotes - averageDailyQuotesTarget), 1, 'COMMA', 0, 'POINT')}"></th>
+                            </tr>
+                            <tr>
+                              <th>Avg GP %</th>
+                              <th th:text="${#numbers.formatDecimal((averageDailyQuotesProfit - averageDailyQuotesProfitTarget), 1, 'COMMA', 0, 'POINT')}"></th>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </th:block>
+                      <div class="card mt-3 mx-3 my-3">
+                      <th:block th:if=${!isFullScreen}>
+                       <div class="d-flex justify-content-center">
+                        <button type="button" class="col-md-5 btn btn-sm btn-outline-primary ml-1 mr-5 mt-3 text-left border-0" th:title="${'Target this month : $' + #numbers.formatDecimal(salesQuotesTargetMonthly, 1, 'COMMA', 0, 'POINT')}"><small><strong><span th:text="${'Target this month : $' + #numbers.formatDecimal(salesQuotesTargetMonthly, 1, 'COMMA', 0, 'POINT')}"></span></strong></small></button>
+                        <button type="button" class="col-md-5 btn btn-outline-success btn-sm text-left border-0 mt-3" th:title="${'Run Rate : $' + #numbers.formatDecimal(salesAvgQuotesMTD, 1, 'COMMA', 0, 'POINT')}"><small><strong><span th:text="${'Run Rate : $' + #numbers.formatDecimal(salesAvgQuotesMTD, 1, 'COMMA', 0, 'POINT')}"></span></strong></small></button>
+                      </div>
+                      <div class="d-flex justify-content-center mt-1">
+                        <button type="button" class="col-md-5 btn btn-sm btn-outline-danger ml-1 mr-5 text-left border-0" title="${'Actual To-date : $' + #numbers.formatDecimal(salesQuotesMTD, 1, 'COMMA', 0, 'POINT')}"><small><strong><span  th:text="${'Actual To-date : $' + #numbers.formatDecimal(salesQuotesMTD, 1, 'COMMA', 0, 'POINT')}"></span></strong></small></button>
+                        <button type="button" class="col-md-5 btn btn-outline-info btn-sm text-left border-0" th:title="${'% of Target : $' + #numbers.formatDecimal(targetAchievedQuotesMTD, 1, 'COMMA', 0, 'POINT')}"><small><strong><span th:text="${'% of Target : ' + #numbers.formatDecimal(targetAchievedQuotesMTD, 1, 'COMMA', 0, 'POINT')+'%'}"></span></strong></small></button>
+                        </div>
+                      </th:block>
+                      <div class="d-flex justify-content-center mt-1">
+                        <strong><span>Quotes vs Target - Month to-Date</span></strong>
+                      </div>
+                          <div id="graph_div_quotes_pop" class="d-flex justify-content-center"></div>
+                        </div>
+                         </div>
+              
+            </main>
+      </div>
+  </div>
+            <!-- Footer -->
+<footer class="footer mt-auto py-3">
+  <div th:replace="footerLayout :: footer"> </div>
+</footer>
+    <script th:inline="javascript">
+   /*<![CDATA[*/
+
+  var salesQuotesDaily = /*[[${salesQuotesDaily}]]*/ '0';
+  console.log('salesQuotesDaily-->'+salesQuotesDaily);
+  
+  var targetAchievedQuotes = /*[[${targetAchievedQuotes}]]*/ 0;
+  console.log('targetAchievedQuotes-->'+targetAchievedQuotes);
+  
+  var salesQuoteTargets = /*[[${salesQuoteTargets}]]*/ [];
+  
+  var salesQuoteTargetArr = [];
+  salesQuoteTargetArr.push(["Date","Actual","Total","Target","Daily Target"]);
+  if(salesQuoteTargets.length == 0)
+  {
+    salesQuoteTargetArr.push(["0",0,0,0,0]);
+  }
+  for (i = 0; i < salesQuoteTargets.length; i++) {
+    salesQuoteTargetArr.push(['Day '+(i+1),parseFloat(salesQuoteTargets[i].total.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTotal.toFixed(2)),parseFloat(salesQuoteTargets[i].cumulativeTarget.toFixed(2)),parseFloat(salesQuoteTargets[i].totalTarget.toFixed(2))]);
+  }
+  console.log('salesQuoteTargetArr-->'+salesQuoteTargetArr);
+/*]]>*/
+  google.charts.load('current', {packages: ['corechart','gauge','bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    // Define the chart to be drawn.
+    var dataQuotes = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Quotes', {v:targetAchievedQuotes,f:targetAchievedQuotes+'%'}]
+        ]);
+
+    var optionsQuotes = {
+          width: 800,
+          height: 220,
+          redColor:'#00bfff',
+          redFrom: 0,
+          redTo: targetAchievedQuotes,
+          greenColor:'#ff85e6',
+          greenFrom:targetAchievedQuotes,
+          greenTo: 100,
+          minorTicks: 5
+        };
+
+        var chartQuotes = new google.visualization.Gauge(document.getElementById('guage_div_quotes'));
+
+        chartQuotes.draw(dataQuotes, optionsQuotes);
+           
+        var dataGraphQuotes = google.visualization.arrayToDataTable(salesQuoteTargetArr);
+
+        var dataGraphQuotesOptions = {
+          width: 800,
+          legend:'top',
+          title: '',
+          vAxis: {
+          // Adds titles to each axis.
+          0: {title: 'Actual($)'},
+          1: {title: 'Target($)'}
+          },
+          hAxis: {title: 'Date'},
+          seriesType: 'bars',
+          series: {0: {targetAxisIndex: 0,color : '#00bfff'},1: {targetAxisIndex: 1,type: 'area',color : '#00bfff'},2: {targetAxisIndex: 1,type: 'area',color : '#ff85e6'},3: {type: 'line',color : 'red'}}
+        };
+        var graphQuotes = new google.visualization.ComboChart(graph_div_quotes_pop);
+        graphQuotes.draw(dataGraphQuotes, dataGraphQuotesOptions);
+  }
+  
+    </script>
+ </body>
+    </html>

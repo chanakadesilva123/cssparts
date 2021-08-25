@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="card mb-4 shadow-sm" th:fragment="cardFields(isFullScreen,cardTitle,guageDiv,totalValue, totalStyle,targetValue,targetStyle,qtyValue, qtyTarget,avgValue,avgTarget,avgProfitValue,avgProfitTarget,targetAchieved,graphDiv,totalValueGraphTop,targetValueGraphTop,percentageOfTargetGraphTop,runRateGraphTop,titleGraphTop,totalTitleGrapghTop,targetTitleGrapghTop)">
-    <div class="card-header h3"  th:text="${cardTitle}"></div>
+  <div class="card-header container-fluid">
+    <div class="row">
+  <div class="col-md-11 h5" th:text="${cardTitle}"></div>
+  <div class="col-md-1 float-right">
+    <a href="#expandModal" data-remote="/admin/chartTodayQuotes" data-toggle="modal" data-target="#expandModal"><i class="fa fa-expand"></i> </a>
+  </div>
+  </div>
+  </div>
         <div class="card-body d-flex justify-content-center" th:id="${guageDiv}"></div>
         <th:block th:if=${!isFullScreen}>
                <div class="d-flex justify-content-center">
@@ -71,5 +78,7 @@
       </div>
           <div th:id="${graphDiv}" class="d-flex justify-content-center"></div>
         </div>
-         </div>  
+         </div> 
+         <!-- Modal -->
+
   </html>

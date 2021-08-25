@@ -246,6 +246,94 @@ public class ChartController {
         return modelAndView;
     }
 
+    @RequestMapping(value = {"/admin/chartTodayQuotes","/screen/chartTodayQuotes"}, method = RequestMethod.GET)
+    public ModelAndView chartTodayQuotes(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        LOG.info("chartTodayQuotes-->"+request.getServletPath());
+        modelAndView.addObject("isFullScreen", request.getServletPath().startsWith("/screen/"));
+        NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+
+        DailySalesQuotes salesQuotesDaily = dashboardService.findSalesQuotesDaily();
+
+        MonthlySalesQuotes salesQuotesMTD = dashboardService.findSalesQuotesMTD();
+
+        MonthlyTargets monthlyTargets = dashboardService.findMonthlyTargets(Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONTH));
+        double salesQuotesTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null?monthlyTargets.getQuoteValue():0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+
+        double salesQuotesTargetMonthly = monthlyTargets!=null?monthlyTargets.getQuoteValue():0D;
+
+        double salesQuotesTargetQtyDaily = dashboardService.findDailyTarget(monthlyTargets!=null?monthlyTargets.getQuoteQty():0,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+
+        double salesQuotesQtyDaily = salesQuotesDaily.getQuantity().doubleValue();
+
+        double salesQuotesProfitTargetDaily = dashboardService.findDailyTarget(monthlyTargets!=null && monthlyTargets.getQuoteProfit()!=null?(monthlyTargets.getQuoteValue().doubleValue() * monthlyTargets.getQuoteProfit().doubleValue())/100:0D,monthlyTargets!=null?monthlyTargets.getNoOfWorkingDays():0);
+        
+        double salesQuotesProfitDaily = salesQuotesDaily.getProfit().doubleValue();
+
+        modelAndView.addObject("salesQuotesMTD",(salesQuotesMTD!=null && salesQuotesMTD.getTotal()!=null?salesQuotesMTD.getTotal().doubleValue():0D));
+        
+        modelAndView.addObject("salesQuotesTargetMonthly",(salesQuotesTargetMonthly));
+
+        double targetAchievedQuotesMTD = (salesQuotesTargetMonthly>0?(new BigDecimal((salesQuotesMTD.getTotal().doubleValue()/salesQuotesTargetMonthly) * 100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        modelAndView.addObject("targetAchievedQuotesMTD",targetAchievedQuotesMTD);
+        
+        List<SalesQuotesByDate> salesQuotesMTDList = dashboardService.findMonthToDateSalesQuotes();
+        double salesAvgQuotesMTD = (salesQuotesMTD!=null && salesQuotesMTD.getTotal()!=null?salesQuotesMTD.getTotal().doubleValue()/salesQuotesMTDList.size():0D);
+
+        modelAndView.addObject("salesAvgQuotesMTD",salesAvgQuotesMTD);
+        
+        modelAndView.addObject("salesQuotesDaily", salesQuotesDaily.getTotal().doubleValue());
+
+        modelAndView.addObject("salesQuotesTargetDaily", salesQuotesTargetDaily);
+
+        modelAndView.addObject("salesQuotesQtyDaily", (int) Math.round(salesQuotesQtyDaily));
+
+        modelAndView.addObject("salesQuotesTargetQtyDaily", (int) Math.round(salesQuotesTargetQtyDaily));
+
+        modelAndView.addObject("salesQuotesProfitTargetDaily",(salesQuotesProfitTargetDaily));
+                
+        modelAndView.addObject("salesQuotesProfitDaily",(salesQuotesProfitDaily));
+         
+
+        double targetAchievedQuotes = (salesQuotesTargetDaily > 0
+                ? (new BigDecimal((salesQuotesDaily.getTotal().doubleValue() / salesQuotesTargetDaily) * 100)).setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue()
+                : 0);
+        LOG.info("targetAchievedQuotes-->" + targetAchievedQuotes);
+        modelAndView.addObject("targetAchievedQuotes", targetAchievedQuotes);
+        double averageDailyQuotes = (salesQuotesQtyDaily > 0
+                ? (new BigDecimal((salesQuotesDaily.getTotal().doubleValue() / salesQuotesQtyDaily))).setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue()
+                : 0);
+        
+        modelAndView.addObject("averageDailyQuotes", averageDailyQuotes);
+        double averageDailyQuotesTarget = (salesQuotesTargetQtyDaily > 0
+                ? (new BigDecimal((salesQuotesTargetDaily / salesQuotesTargetQtyDaily)))
+                        .setScale(2, RoundingMode.HALF_UP).doubleValue()
+                : 0);
+        
+        modelAndView.addObject("averageDailyQuotesTarget", averageDailyQuotesTarget);
+        
+        double averageDailyQuotesProfitTarget = (salesQuotesTargetDaily>0?(new BigDecimal((salesQuotesProfitTargetDaily/salesQuotesTargetDaily)*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        modelAndView.addObject("averageDailyQuotesProfitTarget",averageDailyQuotesProfitTarget);
+        double averageDailyQuotesProfit = (salesQuotesDaily.getQuantity().doubleValue()>0?(new BigDecimal((salesQuotesProfitDaily/salesQuotesDaily.getTotal().doubleValue())*100)).setScale(2, RoundingMode.HALF_UP).doubleValue():0);
+        modelAndView.addObject("averageDailyQuotesProfit",averageDailyQuotesProfit);
+        List<SalesQuotesByDate> salesQuotesList = dashboardService.findMonthToDateSalesQuotes();
+        modelAndView.addObject("salesQuotesList",salesQuotesList);
+        LOG.info("salesQuotesList==>"+salesQuotesList.size());
+        List<SalesQuotesByDate> salesQuotes = dashboardService.getSalesQuoteTargetList(salesQuotesList);
+        List<SalesQuotesByDate> salesQuoteTargets = dashboardService.getSalesQuoteTargetListForEntireMonth(salesQuotes);
+        modelAndView.addObject("salesQuoteTargets",salesQuoteTargets);
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy");
+        modelAndView.addObject("lastUpdated", new Date());
+        modelAndView.addObject("toDay", sdf.format(new Date()));
+
+        modelAndView.setViewName("admin/chartTodayQuotes");
+        return modelAndView;
+    }
+
     @RequestMapping(value ={"/admin/chartMonthToDate","/screen/chartMonthToDate"}, method = RequestMethod.GET)
     public ModelAndView chartMonthToDate(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
